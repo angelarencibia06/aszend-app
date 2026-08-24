@@ -12,6 +12,9 @@ import Profile from './pages/Profile';
 import Onboarding from './pages/Onboarding';
 import Auth from './pages/Auth';
 import Control from './pages/Control';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import SubscriptionTerms from './pages/SubscriptionTerms';
 
 import './index.css';
 import './styles/App.css';
@@ -53,6 +56,9 @@ const AppContent = () => {
             <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
             <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
             <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+            <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+            <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+            <Route path="/sub-terms" element={<PageWrapper><SubscriptionTerms /></PageWrapper>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </AnimatePresence>
