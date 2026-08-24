@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@500;700&display=swap');
+
+  :root {
+    --bg-color: #050505;
+    --surface-color: rgba(20, 20, 25, 0.7);
+    --surface-solid: #15151a;
+    
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    
+    --accent-neon: #044eda;
+    --accent-neon-glow: rgba(4, 78, 218, 0.4);
+    --accent-neon-dark: rgba(4, 78, 218, 0.1);
+    
+    --border-color: rgba(255, 255, 255, 0.08);
+    --glass-border: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent body scroll, handle inside app */
+}
+
+h1, h2, h3, h4, h5, h6, .heading-font {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* App Container */
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 480px; 
+  margin: 0 auto;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 50px rgba(0,229,255,0.05); /* Slight blue ambient */
+  overflow: hidden;
+}
+
+/* Ultra core Glassmorphism Utility */
+.ultra-glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--glass-border), 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 24px;
+}
+
+/* Typography Utilities */
+.tracking-tight { letter-spacing: -0.04em; }
+.tracking-wide { letter-spacing: 0.1em; }
+.text-neon { color: var(--accent-neon); text-shadow: 0 0 10px var(--accent-neon-glow); }
+.text-dim { color: var(--text-secondary); }
+
+/* Ambient Background */
+.ambient-bg {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-neon-dark) 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+}

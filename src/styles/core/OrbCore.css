@@ -1,0 +1,95 @@
+.orb-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.orb-ambient-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, var(--accent-neon-glow) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.pulse-slow {
+  animation: pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.orb-svg {
+  position: absolute;
+  z-index: 1;
+  transform: rotate(-90deg); /* Start at top */
+  filter: drop-shadow(0 0 10px var(--accent-neon-dark));
+}
+
+.orb-track {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 4;
+  stroke-dasharray: 4 6; /* Dashed track like QUITTR */
+}
+
+.orb-progress {
+  fill: none;
+  stroke: var(--accent-neon);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.orb-progress-glow {
+  fill: none;
+  stroke: var(--accent-neon);
+  stroke-width: 12;
+  stroke-linecap: round;
+  filter: blur(8px);
+  opacity: 0.6;
+}
+
+.orb-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(20,20,20,0.6) 0%, rgba(5,5,5,0.9) 100%);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.orb-rank {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: -5px;
+}
+
+.orb-streak {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.orb-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-top: 5px;
+}

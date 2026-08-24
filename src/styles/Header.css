@@ -1,0 +1,52 @@
+.app-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding: 20px 30px 10px 30px;
+  background: var(--bg-color);
+  z-index: 50;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-logo-img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.5));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.header-logo-img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.8));
+}
+
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.fire-icon {
+  filter: drop-shadow(0 0 5px var(--accent-neon));
+  color: var(--accent-neon);
+}
+
+.streak-count {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent-neon);
+}

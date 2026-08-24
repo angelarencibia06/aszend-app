@@ -1,0 +1,266 @@
+.home-container {
+  padding: 20px;
+  padding-bottom: 160px; /* space for bottom nav + sticky button */
+  color: #ffffff;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.home-header {
+  margin-bottom: 25px;
+}
+
+.home-greeting {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.home-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.home-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 5px 0 0 0;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.risk-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.risk-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.risk-circle-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.risk-value {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.risk-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.risk-status-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-dark {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-blue {
+  flex: 1;
+  background: var(--accent-neon);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Chart */
+.chart-container {
+  height: 120px;
+  width: 100%;
+  margin: 10px 0 20px 0;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Habits */
+.habits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.habits-percent {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.habits-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.habits-progress-fill {
+  height: 100%;
+  background: var(--accent-neon);
+  transition: width 0.3s ease;
+}
+
+.habits-count {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.habit-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent-neon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.habit-checkbox.empty {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.habit-name {
+  font-size: 15px;
+  color: #fff;
+}
+
+.view-all-link {
+  display: block;
+  color: var(--accent-neon);
+  font-size: 14px;
+  margin-top: 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Protection */
+.protection-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.protection-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.protection-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(37, 99, 235, 0.1); /* Blue tint */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.protection-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 2px 0;
+}
+
+.protection-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.btn-manage {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
