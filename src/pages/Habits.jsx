@@ -349,11 +349,33 @@ const Habits = () => {
                 style={{ 
                   width: '100%', padding: '15px', borderRadius: '12px', 
                   background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', 
-                  color: '#fff', fontSize: '16px', marginBottom: '20px', outline: 'none' 
+                  color: '#fff', fontSize: '16px', marginBottom: '20px', outline: 'none',
+                  boxSizing: 'border-box'
                 }}
                 autoFocus
                 onKeyDown={(e) => e.key === 'Enter' && handleModalSubmit()}
               />
+
+              {modalState.type === 'add' && (
+                <div style={{ marginBottom: '20px' }}>
+                  <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '10px' }}>Sugerencias:</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {['Ducha fría', 'Meditar 10 min', 'Leer 10 páginas', 'Gimnasio', 'Salir a caminar'].map(sug => (
+                      <span 
+                        key={sug}
+                        onClick={() => setModalInputValue(sug)}
+                        style={{
+                          padding: '6px 12px', borderRadius: '20px', fontSize: '13px',
+                          background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                          cursor: 'pointer', color: 'var(--text-muted)'
+                        }}
+                      >
+                        {sug}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <button 
                 onClick={handleModalSubmit}

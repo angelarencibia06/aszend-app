@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Check, Flame, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -8,11 +8,17 @@ import { useAppContext } from '../context/AppContext';
 import '../styles/Home2.css';
 
 const Home = () => {
-  const { streak, dailyRisk, habits, habitLogs, setHabitsLogs, userProfile } = useAppContext();
+  const { streak, dailyRisk, lastCheckInDate, habits, habitLogs, setHabitsLogs, userProfile } = useAppContext();
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
 
   const todayStr = new Date().toLocaleDateString('sv-SE');
+  
+  useEffect(() => {
+    if (lastCheckInDate !== todayStr) {
+      setShowCheckIn(true);
+    }
+  }, [lastCheckInDate, todayStr]);
   
   const getRiskColor = (risk) => {
     if (risk === null) return '#10b981';
