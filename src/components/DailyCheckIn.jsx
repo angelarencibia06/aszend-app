@@ -127,7 +127,7 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
             
             {/* Q1 */}
             <div className="question-block">
-              <label>Cuanto has dormido?</label>
+              <label>¿Cuánto has dormido?</label>
               <div className="options-row">
                 {['<6h', '6-7h', '7-8h', '8h+'].map(opt => (
                   <button 
@@ -143,7 +143,7 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
 
             {/* Q2 */}
             <div className="question-block">
-              <label>Has entrenado hoy?</label>
+              <label>¿Has entrenado hoy?</label>
               <div className="options-row">
                 <button className={`opt-pill ${answers.training === 'si' ? 'active' : ''}`} onClick={() => handleSelect('training', 'si')}>Si</button>
                 <button className={`opt-pill ${answers.training === 'no' ? 'active' : ''}`} onClick={() => handleSelect('training', 'no')}>No</button>
@@ -152,7 +152,7 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
 
             {/* Q3 */}
             <div className="question-block">
-              <label>Has completado tu Deep Work?</label>
+              <label>¿Has completado tu Deep Work?</label>
               <div className="options-row">
                 <button className={`opt-pill ${answers.deepwork === 'si' ? 'active' : ''}`} onClick={() => handleSelect('deepwork', 'si')}>Si</button>
                 <button className={`opt-pill ${answers.deepwork === 'no' ? 'active' : ''}`} onClick={() => handleSelect('deepwork', 'no')}>No</button>
@@ -161,17 +161,17 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
 
             {/* Q4 */}
             <div className="question-block">
-              <label>Como te sientes hoy?</label>
+              <label>¿Cómo te sientes hoy?</label>
               <div className="options-row">
-                <button className={`opt-pill ${answers.mood === 'bajo' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'bajo')}>Bajo</button>
+                <button className={`opt-pill ${answers.mood === 'bajo' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'bajo')}>Mal</button>
                 <button className={`opt-pill ${answers.mood === 'normal' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'normal')}>Normal</button>
-                <button className={`opt-pill ${answers.mood === 'alto' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'alto')}>Alto</button>
+                <button className={`opt-pill ${answers.mood === 'alto' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'alto')}>Bien</button>
               </div>
             </div>
 
             {/* Q5 */}
             <div className="question-block">
-              <label>Has usado mucho las redes sociales?</label>
+              <label>¿Has usado mucho las redes sociales?</label>
               <div className="options-row">
                 <button className={`opt-pill ${answers.social === 'si' ? 'active' : ''}`} onClick={() => handleSelect('social', 'si')}>Si</button>
                 <button className={`opt-pill ${answers.social === 'no' ? 'active' : ''}`} onClick={() => handleSelect('social', 'no')}>No</button>
@@ -180,7 +180,7 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
 
             {/* Q6 */}
             <div className="question-block">
-              <label>Estas solo ahora mismo?</label>
+              <label>¿Estás solo ahora mismo?</label>
               <div className="options-row">
                 <button className={`opt-pill ${answers.alone === 'si' ? 'active' : ''}`} onClick={() => handleSelect('alone', 'si')}>Si</button>
                 <button className={`opt-pill ${answers.alone === 'no' ? 'active' : ''}`} onClick={() => handleSelect('alone', 'no')}>No</button>
