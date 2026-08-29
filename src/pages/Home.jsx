@@ -97,12 +97,22 @@ const Home = () => {
   const isCompleted = (habitId) => !!safeHabitLogs[todayStr]?.[habitId]?.completed;
 
   // Next rank logic
+  let highestUnlockedIndex = 0;
+  for (let i = 0; i < RANKS.length; i++) {
+    if (currentStreak >= RANKS[i].req) {
+      highestUnlockedIndex = i;
+    }
+  }
+
   const activeRankDef = RANKS[activeIndex];
   const isLocked = currentStreak < activeRankDef.req;
+  const isActualCurrentRank = activeIndex === highestUnlockedIndex;
+  
   let nextRankReq = null;
   let nextRankName = null;
   
-  if (!isLocked && activeIndex < RANKS.length - 1) {
+  // Only show progress bar if they are viewing their ACTUAL current rank
+  if (isActualCurrentRank && activeIndex < RANKS.length - 1) {
     nextRankReq = RANKS[activeIndex + 1].req;
     nextRankName = RANKS[activeIndex + 1].name;
   }
