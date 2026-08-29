@@ -275,7 +275,7 @@
 .carousel-container {
   width: 100%;
   position: relative;
-  height: 120px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,6 +299,7 @@
 .carousel-item.active {
   opacity: 1;
   transform: scale(1.1);
+  z-index: 10;
 }
 
 .sphere-wrapper {
