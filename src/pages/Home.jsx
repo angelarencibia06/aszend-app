@@ -1,16 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Check, Flame, Trophy } from 'lucide-react';
+import { Shield, Check, Trophy, Wind, Play, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
 import { useAppContext } from '../context/AppContext';
 import '../styles/Home2.css';
 
+const RANKS = [
+  { id: 1, name: 'CHISPA', number: '01', color1: '#60a5fa', color2: '#2563eb', shadow: 'rgba(59, 130, 246, 0.5)', req: 0 },
+  { id: 2, name: 'PULSO', number: '02', color1: '#c084fc', color2: '#7e22ce', shadow: 'rgba(168, 85, 247, 0.5)', req: 7 },
+  { id: 3, name: 'NÚCLEO', number: '03', color1: '#34d399', color2: '#059669', shadow: 'rgba(16, 185, 129, 0.5)', req: 21 },
+  { id: 4, name: 'CONVERGENCIA', number: '04', color1: '#fb923c', color2: '#ea580c', shadow: 'rgba(249, 115, 22, 0.5)', req: 90 },
+  { id: 5, name: 'ASCENSIÓN', number: '05', color1: '#93c5fd', color2: '#3b82f6', shadow: 'rgba(96, 165, 250, 0.5)', req: 365 },
+];
+
 const Home = () => {
   const { streak, dailyRisk, lastCheckInDate, habits, habitLogs, setHabitsLogs, userProfile } = useAppContext();
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
+  
+  const currentStreak = streak || 0;
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  const [showMeditate, setShowMeditate] = useState(false);
+  const [meditateTime, setMeditateTime] = useState(180);
+  const [isMeditating, setIsMeditating] = useState(false);
+
+  useEffect(() => {
+    let rankIdx = 0;
+    for (let i = 0; i < RANKS.length; i++) {
+      if (currentStreak >= RANKS[i].req) {
+        rankIdx = i;
+      }
+    }
+    setActiveIndex(rankIdx);
+  }, [currentStreak]);
 
   const todayStr = new Date().toLocaleDateString('sv-SE');
   
@@ -19,18 +44,35 @@ const Home = () => {
       setShowCheckIn(true);
     }
   }, [lastCheckInDate, todayStr]);
-  
+
+  useEffect(() => {
+    let interval;
+    if (isMeditating && meditateTime > 0) {
+      interval = setInterval(() => {
+        setMeditateTime(prev => prev - 1);
+      }, 1000);
+    } else if (meditateTime === 0) {
+      setIsMeditating(false);
+    }
+    return () => clearInterval(interval);
+  }, [isMeditating, meditateTime]);
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
   const getRiskColor = (risk) => {
     if (risk === null) return '#10b981';
-    if (risk < 30) return '#10b981'; // Green
-    if (risk < 70) return '#f59e0b'; // Orange
-    return '#ef4444'; // Red
+    if (risk < 30) return '#10b981';
+    if (risk < 70) return '#f59e0b';
+    return '#ef4444';
   };
 
   const riskColor = getRiskColor(dailyRisk);
-  const riskValue = dailyRisk !== null ? dailyRisk : 18; // Fake 18% if null for design
+  const riskValue = dailyRisk !== null ? dailyRisk : 18;
 
-  // Habit Logic
   const safeHabits = Array.isArray(habits) ? habits : [];
   const safeHabitLogs = habitLogs || {};
   const activeHabits = safeHabits.filter(h => h.active);
@@ -45,83 +87,105 @@ const Home = () => {
     setHabitsLogs(prev => ({ ...prev, [todayStr]: currentLogs }));
   };
 
-  const isCompleted = (habitId) => {
-    return !!safeHabitLogs[todayStr]?.[habitId]?.completed;
-  };
+  const isCompleted = (habitId) => !!safeHabitLogs[todayStr]?.[habitId]?.completed;
 
   return (
     <div className="home-container">
       
-      <div className="home-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '20px' }}>
+      <div className="home-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '10px' }}>
         <div>
           <p className="home-greeting">Buenas tardes,</p>
-          <h1 className="home-name" style={{ textTransform: 'uppercase' }}>{userProfile?.name || 'Brian'}.</h1>
-          <p className="home-subtitle">Centro de Mando personal</p>
+          <h1 className="home-name" style={{ textTransform: 'uppercase' }}>{userProfile?.name || 'Guerrero'}.</h1>
         </div>
         <img 
           src="/logo.png" 
           alt="Aszend" 
-          style={{ 
-            width: '65px', 
-            height: '65px', 
-            objectFit: 'contain', 
-            filter: 'drop-shadow(0 0 10px rgba(4, 78, 218, 0.5))' 
-          }} 
+          style={{ width: '45px', height: '45px', objectFit: 'contain', filter: 'drop-shadow(0 0 10px rgba(4, 78, 218, 0.5))' }} 
         />
       </div>
 
-      {/* RIESGO DE RECAIDA */}
-      <div className="glass-card">
-        <h2 className="card-title">RIESGO DE RECAIDA</h2>
+      {/* RANKS CAROUSEL SECTION */}
+      <div className="ranks-section">
+        <div className="carousel-container">
+          <div className="carousel-track" style={{ transform: `translateX(calc(50% - ${activeIndex * 120 + 60}px))` }}>
+            {RANKS.map((rank, i) => (
+              <div 
+                key={rank.id} 
+                className={`carousel-item ${i === activeIndex ? 'active' : ''}`}
+                onClick={() => setActiveIndex(i)}
+              >
+                <div className="sphere-wrapper">
+                  <div 
+                    className="sphere" 
+                    style={{ 
+                      background: `radial-gradient(circle at 35% 35%, ${rank.color1}, ${rank.color2})`,
+                      boxShadow: i === activeIndex ? `0 0 30px ${rank.shadow}, inset -10px -10px 20px rgba(0,0,0,0.5)` : `inset -5px -5px 10px rgba(0,0,0,0.5)`
+                    }}
+                  >
+                    <div className="orbital-ring"></div>
+                    <div className="highlight"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         
-        <div className="risk-layout">
-          <p className="risk-text">
-            Estimacion basada en habitos, actividad reciente y patrones registrados.
-          </p>
-          <div className="risk-circle-container">
-            <svg width="100" height="100" viewBox="0 0 100 100">
-              {/* Background circle */}
-              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
-              {/* Progress circle */}
-              <circle 
-                cx="50" cy="50" r="40" fill="none" stroke={riskColor} strokeWidth="8"
-                strokeDasharray={`${251.2 * (riskValue / 100)} 251.2`}
-                strokeLinecap="round"
-                transform="rotate(-90 50 50)"
-              />
-            </svg>
-            <div style={{ position: 'absolute', textAlign: 'center' }}>
-              <p className="risk-value">{riskValue}%</p>
-              <p className="risk-status" style={{ color: riskColor }}>
-                {riskValue < 30 ? 'BAJO' : riskValue < 70 ? 'MEDIO' : 'ALTO'}
-              </p>
+        <div className="rank-info" style={{ textAlign: 'center', marginTop: '24px', marginBottom: '32px' }}>
+          <h2 style={{ fontSize: '18px', fontWeight: 'bold', letterSpacing: '2px', color: '#fff', margin: '0 0 4px 0' }}>{RANKS[activeIndex].name}</h2>
+          <p style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace', margin: '0 0 16px 0' }}>{RANKS[activeIndex].number}</p>
+          
+          <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}>
+            <span style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '4px' }}>RACHA ACTUAL</span>
+            <div className="streak-badge" style={{ color: RANKS[activeIndex].color1, borderColor: RANKS[activeIndex].color2, background: `${RANKS[activeIndex].color2}15` }}>
+              <Trophy size={16} />
+              <span style={{ fontWeight: 'bold' }}>{currentStreak} DÍAS</span>
             </div>
           </div>
         </div>
-
-        <p className="risk-status-text">Tu riesgo esta bajo control.</p>
-
-        <div className="card-buttons">
-          <button className="btn-dark" onClick={() => setShowRiskAnalysis(true)}>Ver analisis</button>
-          <button className="btn-blue" onClick={() => setShowCheckIn(true)}>Check-in</button>
-        </div>
       </div>
 
+      {/* ACTION BUTTONS (LIKE QUITTR) */}
+      <div className="quick-actions" style={{ marginBottom: '32px' }}>
+        <button className="action-btn" onClick={() => setShowCheckIn(true)}>
+          <div className="action-icon"><Check size={20} /></div>
+          <span>Check-in</span>
+        </button>
+        <button className="action-btn" onClick={() => { setShowMeditate(true); setMeditateTime(180); setIsMeditating(false); }}>
+          <div className="action-icon"><Wind size={20} /></div>
+          <span>Meditar</span>
+        </button>
+      </div>
 
+      {/* RIESGO DE RECAIDA */}
+      <div className="glass-card" style={{ marginBottom: '24px' }}>
+        <h2 className="card-title">RIESGO DE RECAÍDA</h2>
+        <div className="risk-layout">
+          <p className="risk-text">Estimación basada en hábitos, actividad reciente y patrones registrados.</p>
+          <div className="risk-circle-container">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+              <circle cx="50" cy="50" r="40" fill="none" stroke={riskColor} strokeWidth="8"
+                strokeDasharray={`${251.2 * (riskValue / 100)} 251.2`} strokeLinecap="round" transform="rotate(-90 50 50)" />
+            </svg>
+            <div style={{ position: 'absolute', textAlign: 'center' }}>
+              <p className="risk-value">{riskValue}%</p>
+            </div>
+          </div>
+        </div>
+        <button className="btn-dark" style={{ width: '100%', marginTop: '16px' }} onClick={() => setShowRiskAnalysis(true)}>Ver análisis detallado</button>
+      </div>
 
       {/* HABITOS DE HOY */}
-      <div className="glass-card">
+      <div className="glass-card" style={{ marginBottom: '24px' }}>
         <div className="habits-header">
-          <h2 className="card-title" style={{ margin: 0 }}>HABITOS DE HOY</h2>
+          <h2 className="card-title" style={{ margin: 0 }}>HÁBITOS DE HOY</h2>
           <span className="habits-percent">{habitsPercent}%</span>
         </div>
-        
         <div className="habits-progress-bar">
           <div className="habits-progress-fill" style={{ width: `${habitsPercent}%` }} />
         </div>
-        <p className="habits-count">{completedHabitsCount}/{activeHabits.length} completados</p>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginTop: '15px' }}>
           {activeHabits.map(habit => (
             <div key={habit.id} className="habit-item" onClick={() => toggleHabit(habit.id)}>
               <div className={`habit-checkbox ${isCompleted(habit.id) ? '' : 'empty'}`}>
@@ -131,41 +195,52 @@ const Home = () => {
             </div>
           ))}
         </div>
-
-        <Link to="/habits" className="view-all-link">Ver todos los habitos &rarr;</Link>
       </div>
 
-      {/* PROTECCION */}
-      <div className="glass-card">
-        <h2 className="card-title">PROTECCION</h2>
-        <div className="protection-content">
-          <div className="protection-info">
-            <div className="protection-icon">
-              <Shield size={20} color="var(--accent-neon)" />
-            </div>
-            <div>
-              <p className="protection-title">Proteccion activa</p>
-              <p className="protection-desc">Tu entorno esta protegido</p>
-            </div>
-          </div>
-          <Link to="/control">
-            <button className="btn-manage">Gestionar</button>
-          </Link>
-        </div>
-      </div>
-
-      {showCheckIn && (
-        <DailyCheckIn 
-          onClose={() => setShowCheckIn(false)} 
-          onComplete={() => { setShowCheckIn(false); setShowRiskAnalysis(true); }} 
-        />
-      )}
-
+      {showCheckIn && <DailyCheckIn onClose={() => setShowCheckIn(false)} onComplete={() => setShowCheckIn(false)} />}
       <AnimatePresence>
-        {showRiskAnalysis && (
-          <RiskAnalysisModal onClose={() => setShowRiskAnalysis(false)} />
+        {showRiskAnalysis && <RiskAnalysisModal onClose={() => setShowRiskAnalysis(false)} />}
+      </AnimatePresence>
+
+      {/* MEDITATION MODAL */}
+      <AnimatePresence>
+        {showMeditate && (
+          <motion.div 
+            style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 50, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(10px)' }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          >
+            <button style={{ position: 'absolute', top: '32px', right: '32px', color: 'rgba(255,255,255,0.5)', background: 'transparent', border: 'none', cursor: 'pointer' }} onClick={() => setShowMeditate(false)}>
+              <X size={32} />
+            </button>
+            
+            <motion.div 
+              style={{ width: '192px', height: '192px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '32px', position: 'relative', background: 'radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(0,0,0,0) 70%)' }}
+              animate={{ scale: isMeditating ? [1, 1.1, 1] : 1 }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            >
+              <Wind size={64} color="#60a5fa" />
+            </motion.div>
+            
+            <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#fff', marginBottom: '8px' }}>Respiración Guiada</h3>
+            <p style={{ color: '#60a5fa', fontFamily: 'monospace', fontSize: '36px', marginBottom: '32px', letterSpacing: '4px' }}>{formatTime(meditateTime)}</p>
+            
+            {!isMeditating && meditateTime > 0 ? (
+              <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', color: '#000', padding: '12px 32px', borderRadius: '9999px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer' }} onClick={() => setIsMeditating(true)}>
+                <Play size={18} /> Iniciar
+              </button>
+            ) : meditateTime === 0 ? (
+              <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#2563eb', color: '#fff', padding: '12px 32px', borderRadius: '9999px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', border: 'none', cursor: 'pointer' }} onClick={() => setShowMeditate(false)}>
+                Completado
+              </button>
+            ) : (
+              <button style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'transparent', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)', padding: '12px 32px', borderRadius: '9999px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer' }} onClick={() => setIsMeditating(false)}>
+                Pausar
+              </button>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 };
