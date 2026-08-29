@@ -421,3 +421,99 @@
   opacity: 0.5;
   filter: grayscale(100%);
 }
+
+/* Progressive Orb Rings */
+.ring-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+}
+
+.ring-1 {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150%; height: 40%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+}
+
+.ring-2 {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150%; height: 40%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.ring-3 {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150%; height: 40%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+.ring-4 {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150%; height: 40%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+}
+
+.ring-halo {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 180%; height: 180%;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+.core-energy {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
+  border-radius: 50%;
+  filter: blur(6px);
+  z-index: 5;
+}
+
+/* Animations that don't overwrite each other's base transforms */
+@keyframes spinRing1 {
+  0% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(60deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(60deg) rotateY(360deg); }
+}
+
+@keyframes spinRing2 {
+  0% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(60deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(60deg) rotateY(360deg); }
+}
+
+@keyframes spinRing3 {
+  0% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(60deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(60deg) rotateY(360deg); }
+}
+
+@keyframes spinRing4 {
+  0% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(60deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(60deg) rotateY(360deg); }
+}
+
+@keyframes spinHalo {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.anim-ring-1 { animation: spinRing1 8s linear infinite; }
+.anim-ring-2 { animation: spinRing2 8s linear infinite; }
+.anim-ring-3 { animation: spinRing3 8s linear infinite; }
+.anim-ring-4 { animation: spinRing4 8s linear infinite; }
+.anim-halo { animation: spinHalo 20s linear infinite; }
+.pulsing-core { animation: pulseCore 2s ease-in-out infinite; }
