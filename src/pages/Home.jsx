@@ -149,23 +149,7 @@ const Home = () => {
                   onClick={() => setActiveIndex(i)}
                   style={{ width: '80px', flexShrink: 0 }}
                 >
-                  <div className="sphere-wrapper">
-                    <div 
-                      className={`sphere ${i === activeIndex ? 'animated-sphere' : ''}`} 
-                      style={{ 
-                        background: `radial-gradient(circle at 35% 35%, ${locked ? '#4b5563' : rank.color1}, ${locked ? '#1f2937' : rank.color2})`,
-                        boxShadow: (i === activeIndex && !locked) ? `0 0 35px ${rank.shadow}, inset -10px -10px 20px rgba(0,0,0,0.5)` : `inset -5px -5px 10px rgba(0,0,0,0.5)`
-                      }}
-                    >
-                      <div className={`orbital-ring ${i === activeIndex ? 'spinning-ring' : ''}`}></div>
-                      <div className="highlight"></div>
-                      {locked && (
-                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10, color: 'rgba(255,255,255,0.8)' }}>
-                          <Lock size={24} />
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <div className="sphere-wrapper" style={{ pointerEvents: "none" }}><EnergyOrb rankIndex={i} size={110} locked={locked} animated={i === activeIndex} /></div>
                 </div>
               );
             })}

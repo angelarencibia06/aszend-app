@@ -82,3 +82,24 @@ h1, h2, h3, h4, h5, h6, .heading-font {
   z-index: 0;
   pointer-events: none;
 }
+
+.orb-float { animation: orb-float 6s ease-in-out infinite; }
+.orb-pulse { animation: orb-pulse 4s ease-in-out infinite; }
+.orb-spin { animation: orb-spin 10s linear infinite; }
+.orb-spin-reverse { animation: orb-spin-reverse 15s linear infinite; }
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes orb-pulse {
+  0%, 100% { filter: brightness(1); transform: scale(1); }
+  50% { filter: brightness(1.2); transform: scale(1.02); }
+}
+@keyframes orb-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes orb-spin-reverse {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}

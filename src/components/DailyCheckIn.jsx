@@ -1,25 +1,33 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronLeft, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, Zap, ArrowRight, Check } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import '../styles/CheckIn.css';
+
+const QUESTIONS = [
+  { id: 'sleep', title: '¿Cuánto has dormido?', options: ['<6h', '6-7h', '7-8h', '8h+'] },
+  { id: 'training', title: '¿Has entrenado hoy?', options: ['Si', 'No'] },
+  { id: 'deepwork', title: '¿Has completado tu Deep Work?', options: ['Si', 'No'] },
+  { id: 'mood', title: '¿Cómo te sientes hoy?', options: ['Mal', 'Normal', 'Bien'] },
+  { id: 'social', title: '¿Has usado mucho las redes sociales?', options: ['Si', 'No'] },
+  { id: 'alone', title: '¿Estás solo ahora mismo?', options: ['Si', 'No'] }
+];
 
 const DailyCheckIn = ({ onClose, onComplete }) => {
   const { setDailyRisk, setRiskFactors, setLastCheckInDate, habits, habitLogs, setHabitsLogs } = useAppContext();
   
-  const [answers, setAnswers] = useState({
-    sleep: null,
-    training: null,
-    deepwork: null,
-    mood: null,
-    social: null,
-    alone: null
-  });
-
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({});
   const [isCalculating, setIsCalculating] = useState(false);
 
-  const handleSelect = (key, value) => {
-    setAnswers(prev => ({ ...prev, [key]: value }));
+  const handleSelect = (val) => {
+    const q = QUESTIONS[step];
+    setAnswers(prev => ({ ...prev, [q.id]: val }));
+    
+    // Auto advance after short delay
+    if (step < QUESTIONS.length - 1) {
+      setTimeout(() => setStep(s => s + 1), 350);
+    }
   };
 
   const calculateRisk = () => {
@@ -42,160 +50,111 @@ const DailyCheckIn = ({ onClose, onComplete }) => {
         if (name.includes('dormir') && (answers.sleep === '7-8h' || answers.sleep === '8h+')) {
           currentLogs[h.id] = { completed: true, source: 'sync' };
         }
-        if (name.includes('entrenar') && answers.training === 'si') {
+        if (name.includes('entrenar') && answers.training === 'Si') {
           currentLogs[h.id] = { completed: true, source: 'sync' };
         }
         if (name.includes('work') || name.includes('trabajo')) {
-          if (answers.deepwork === 'si') currentLogs[h.id] = { completed: true, source: 'sync' };
+          if (answers.deepwork === 'Si') currentLogs[h.id] = { completed: true, source: 'sync' };
         }
       });
 
-      if (answers.training === 'no') { risk += 15; factors.push({ text: 'Falta de entrenamiento', positive: false }); }
-      else { risk -= 5; factors.push({ text: 'Entrenaste hoy', positive: true }); }
+      // Mood
+      if (answers.mood === 'Mal') { risk += 20; factors.push({ text: 'Bajo estado de ánimo', positive: false }); }
+      else if (answers.mood === 'Bien') { risk -= 10; factors.push({ text: 'Buen estado de ánimo', positive: true }); }
 
-      if (answers.deepwork === 'no') { risk += 10; factors.push({ text: 'Procrastinación', positive: false }); }
-      else { risk -= 10; factors.push({ text: 'Deep Work completado', positive: true }); }
-
-      if (answers.mood === 'bajo') { risk += 20; factors.push({ text: 'Estado de ánimo bajo', positive: false }); }
-      else if (answers.mood === 'alto') { risk -= 5; factors.push({ text: 'Estado de ánimo estable', positive: true }); }
-
-      if (answers.social === 'si') { risk += 20; factors.push({ text: 'Alta exposición a dopamina', positive: false }); }
-      else { risk -= 5; factors.push({ text: 'Pocas distracciones digitales', positive: true }); }
-
-      if (answers.alone === 'si') { risk += 15; factors.push({ text: 'Aislamiento', positive: false }); }
+      // Social
+      if (answers.social === 'Si') { risk += 15; factors.push({ text: 'Alto consumo de redes', positive: false }); }
       
-      // Enforce bounds
-      if (risk < 0) risk = 5;
-      if (risk > 95) risk = 95;
+      // Alone
+      if (answers.alone === 'Si') { risk += 15; factors.push({ text: 'Aislamiento', positive: false }); }
+      else { risk -= 5; factors.push({ text: 'Entorno social activo', positive: true }); }
+
+      if (risk > 90) risk = 90;
+      if (risk < 5) risk = 5;
 
       setDailyRisk(risk);
       setRiskFactors(factors);
       setLastCheckInDate(todayStr);
-      setHabitsLogs(prev => ({ ...prev, [todayStr]: currentLogs }));
+      
+      setHabitsLogs(prev => ({
+        ...prev,
+        [todayStr]: currentLogs
+      }));
       
       setIsCalculating(false);
-      onComplete(); // This should trigger the RiskAnalysis view in the parent
-    }, 1500);
+      onComplete();
+    }, 1200);
   };
 
-  const isAllAnswered = Object.values(answers).every(val => val !== null);
-
-  const now = new Date();
-  const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-  if (isCalculating) {
-    return (
-      <div className="checkin-overlay">
-        <div className="checkin-full-modal">
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
-              <Zap size={64} color="var(--accent-neon)" />
-            </motion.div>
-            <h2 style={{ marginTop: '20px', fontFamily: 'Oswald' }}>Calculando...</h2>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const timeStr = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  const isLastStep = step === QUESTIONS.length - 1;
+  const currentQ = QUESTIONS[step];
 
   return (
     <div className="checkin-overlay">
       <motion.div 
         className="checkin-full-modal"
-        initial={{ y: '100%' }}
-        animate={{ y: 0 }}
-        exit={{ y: '100%' }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
       >
         <div className="checkin-header">
-          <button className="back-btn" onClick={onClose}><ChevronLeft size={24} /></button>
-          <h2 className="checkin-title">Check-in</h2>
-          <div style={{ width: 24 }}></div>
+          <button className="back-btn" onClick={() => step > 0 ? setStep(step - 1) : onClose()}>
+            <ChevronLeft size={20} />
+          </button>
+          <h2 className="checkin-title">Control</h2>
+          <div style={{ width: 36, textAlign: 'right', color: 'rgba(255,255,255,0.3)', fontSize: '12px', fontWeight: 'bold' }}>
+            {step + 1}/{QUESTIONS.length}
+          </div>
         </div>
 
-        <div className="checkin-scroll-content">
-          <p className="checkin-subtitle">Responde unas preguntas para actualizar tu riesgo estimado.</p>
+        <div className="checkin-scroll-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
           
           <div className="time-badge">
-            <Zap size={14} /> Hora actual: {timeStr}
+            <Zap size={14} /> {timeStr}
           </div>
 
-          <div className="questions-list">
-            
-            {/* Q1 */}
-            <div className="question-block">
-              <label>¿Cuánto has dormido?</label>
-              <div className="options-row">
-                {['<6h', '6-7h', '7-8h', '8h+'].map(opt => (
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={step}
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -20, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '30px' }}
+            >
+              <h3 style={{ fontSize: '22px', fontWeight: '800', textAlign: 'center', color: '#fff', margin: 0, lineHeight: '1.3' }}>
+                {currentQ.title}
+              </h3>
+              
+              <div className="options-row" style={{ flexDirection: currentQ.options.length > 2 ? 'column' : 'row' }}>
+                {currentQ.options.map(opt => (
                   <button 
                     key={opt} 
-                    className={`opt-pill ${answers.sleep === opt ? 'active' : ''}`}
-                    onClick={() => handleSelect('sleep', opt)}
+                    className={`opt-pill ${answers[currentQ.id] === opt ? 'active' : ''}`}
+                    onClick={() => handleSelect(opt)}
                   >
                     {opt}
                   </button>
                 ))}
               </div>
-            </div>
+            </motion.div>
+          </AnimatePresence>
 
-            {/* Q2 */}
-            <div className="question-block">
-              <label>¿Has entrenado hoy?</label>
-              <div className="options-row">
-                <button className={`opt-pill ${answers.training === 'si' ? 'active' : ''}`} onClick={() => handleSelect('training', 'si')}>Si</button>
-                <button className={`opt-pill ${answers.training === 'no' ? 'active' : ''}`} onClick={() => handleSelect('training', 'no')}>No</button>
-              </div>
-            </div>
+          {isLastStep && answers[currentQ.id] && (
+            <motion.button 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="calculate-btn" 
+              onClick={calculateRisk}
+              disabled={isCalculating}
+              style={{ marginTop: '40px' }}
+            >
+              {isCalculating ? 'SINCRONIZANDO...' : 'CALCULAR RIESGO'}
+            </motion.button>
+          )}
 
-            {/* Q3 */}
-            <div className="question-block">
-              <label>¿Has completado tu Deep Work?</label>
-              <div className="options-row">
-                <button className={`opt-pill ${answers.deepwork === 'si' ? 'active' : ''}`} onClick={() => handleSelect('deepwork', 'si')}>Si</button>
-                <button className={`opt-pill ${answers.deepwork === 'no' ? 'active' : ''}`} onClick={() => handleSelect('deepwork', 'no')}>No</button>
-              </div>
-            </div>
-
-            {/* Q4 */}
-            <div className="question-block">
-              <label>¿Cómo te sientes hoy?</label>
-              <div className="options-row">
-                <button className={`opt-pill ${answers.mood === 'bajo' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'bajo')}>Mal</button>
-                <button className={`opt-pill ${answers.mood === 'normal' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'normal')}>Normal</button>
-                <button className={`opt-pill ${answers.mood === 'alto' ? 'active' : ''}`} onClick={() => handleSelect('mood', 'alto')}>Bien</button>
-              </div>
-            </div>
-
-            {/* Q5 */}
-            <div className="question-block">
-              <label>¿Has usado mucho las redes sociales?</label>
-              <div className="options-row">
-                <button className={`opt-pill ${answers.social === 'si' ? 'active' : ''}`} onClick={() => handleSelect('social', 'si')}>Si</button>
-                <button className={`opt-pill ${answers.social === 'no' ? 'active' : ''}`} onClick={() => handleSelect('social', 'no')}>No</button>
-              </div>
-            </div>
-
-            {/* Q6 */}
-            <div className="question-block">
-              <label>¿Estás solo ahora mismo?</label>
-              <div className="options-row">
-                <button className={`opt-pill ${answers.alone === 'si' ? 'active' : ''}`} onClick={() => handleSelect('alone', 'si')}>Si</button>
-                <button className={`opt-pill ${answers.alone === 'no' ? 'active' : ''}`} onClick={() => handleSelect('alone', 'no')}>No</button>
-              </div>
-            </div>
-
-          </div>
-
-          <button 
-            className="calculate-btn pulse-btn"
-            disabled={!isAllAnswered}
-            onClick={calculateRisk}
-          >
-            Calcular mi riesgo
-          </button>
         </div>
       </motion.div>
     </div>
