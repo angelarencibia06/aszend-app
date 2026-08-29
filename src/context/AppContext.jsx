@@ -40,7 +40,14 @@ const DEFAULT_HABITS = [
 ];
 
 export const AppProvider = ({ children }) => {
-  const [streak, setStreak] = useLocalStorage('aszend_streak', 12);
+
+
+  const [streak, setStreak] = useLocalStorage('aszend_streak', 365);
+
+  // FORCE STREAK TO 365 OVERRIDING LOCAL STORAGE FOR TESTING
+  useEffect(() => {
+    setStreak(365);
+  }, []);
   const [rank, setRank] = useLocalStorage('aszend_rank', 1);
   const [activeMilestone, setActiveMilestone] = useState(null);
 

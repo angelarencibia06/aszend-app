@@ -436,7 +436,7 @@
 .ring-1 {
   position: absolute;
   top: 50%; left: 50%;
-  width: 150%; height: 40%;
+  width: 115%; height: 115%;
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
 }
@@ -444,7 +444,7 @@
 .ring-2 {
   position: absolute;
   top: 50%; left: 50%;
-  width: 150%; height: 40%;
+  width: 115%; height: 115%;
   border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
 }
@@ -452,7 +452,7 @@
 .ring-3 {
   position: absolute;
   top: 50%; left: 50%;
-  width: 150%; height: 40%;
+  width: 115%; height: 115%;
   border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
 }
@@ -460,7 +460,7 @@
 .ring-4 {
   position: absolute;
   top: 50%; left: 50%;
-  width: 150%; height: 40%;
+  width: 115%; height: 115%;
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 50%;
 }
@@ -487,23 +487,23 @@
 
 /* Animations that don't overwrite each other's base transforms */
 @keyframes spinRing1 {
-  0% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(60deg) rotateY(0deg); }
-  100% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(60deg) rotateY(360deg); }
+  0% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(75deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(20deg) rotateX(75deg) rotateY(360deg); }
 }
 
 @keyframes spinRing2 {
-  0% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(60deg) rotateY(0deg); }
-  100% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(60deg) rotateY(360deg); }
+  0% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(75deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(-40deg) rotateX(75deg) rotateY(360deg); }
 }
 
 @keyframes spinRing3 {
-  0% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(60deg) rotateY(0deg); }
-  100% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(60deg) rotateY(360deg); }
+  0% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(75deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(80deg) rotateX(75deg) rotateY(360deg); }
 }
 
 @keyframes spinRing4 {
-  0% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(60deg) rotateY(0deg); }
-  100% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(60deg) rotateY(360deg); }
+  0% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(75deg) rotateY(0deg); }
+  100% { transform: translate(-50%, -50%) rotateZ(-80deg) rotateX(75deg) rotateY(360deg); }
 }
 
 @keyframes spinHalo {

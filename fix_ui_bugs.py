@@ -1,4 +1,23 @@
+import os
+import re
 
+css_path = "../aszend_app/src/styles/Home2.css"
+if os.path.exists(css_path):
+    with open(css_path, "r", encoding="utf-8") as f:
+        css = f.read()
+
+    # Fix the ring base styles to be perfectly circular but smaller, and we rely on 3D rotation
+    css = re.sub(r'\.ring-[1-4] \{.*?width: 150%; height: 40%;.*?\}', lambda m: m.group(0).replace('width: 150%; height: 40%;', 'width: 115%; height: 115%;'), css, flags=re.DOTALL)
+    
+    # Change rotateX(60deg) to rotateX(75deg) in keyframes to make them look elliptical
+    css = css.replace("rotateX(60deg)", "rotateX(75deg)")
+    
+    with open(css_path, "w", encoding="utf-8") as f:
+        f.write(css)
+
+
+checkin_path = "../aszend_app/src/styles/CheckIn.css"
+new_checkin_css = """
 .checkin-overlay {
   position: fixed;
   top: 0;
@@ -186,3 +205,7 @@
   border-color: rgba(255,255,255,0.05);
   color: var(--text-muted);
 }
+"""
+
+with open(checkin_path, "w", encoding="utf-8") as f:
+    f.write(new_checkin_css)
