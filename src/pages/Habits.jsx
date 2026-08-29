@@ -5,16 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import '../styles/App.css';
 
-const dummyChartData = [
-  { name: '1', uv: 20 },
-  { name: '2', uv: 30 },
-  { name: '3', uv: 25 },
-  { name: '4', uv: 40 },
-  { name: '5', uv: 30 },
-  { name: '6', uv: 50 },
-  { name: '7', uv: 60 }
-];
-
 const Habits = () => {
   const { habits, setHabits, habitLogs, setHabitsLogs } = useAppContext();
   const [activeTab, setActiveTab] = useState('tracker'); // 'tracker' or 'stats'
@@ -90,41 +80,62 @@ const Habits = () => {
     setConfirmModal({ isOpen: false, habitId: null });
   };
 
-  // Stats Logic (simplified)
+  // Stats Logic - Robust & Professional
   const calculateStats = () => {
     let currentStreak = 0;
     let totalCompleted = 0;
     let totalPossible = 0;
     const habitStats = {};
+    const chartData = [];
     
-    habits.filter(h => h.active).forEach(h => {
-      habitStats[h.id] = { name: h.name, completed: 0, total: 30 }; 
+    // We only analyze the last 7 days for the chart, but 30 days for overall stats
+    const activeHabits = habits.filter(h => h.active);
+    activeHabits.forEach(h => {
+      habitStats[h.id] = { name: h.name, completed: 0, total: 0 }; 
     });
 
-    for(let i=0; i<30; i++) {
+    // 30 days lookback
+    for(let i=29; i>=0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const dStr = d.toLocaleDateString('sv-SE');
+      const endOfDayTs = d.setHours(23, 59, 59, 999);
+      const dStr = new Date(endOfDayTs).toLocaleDateString('sv-SE');
       const dayLogs = habitLogs[dStr] || {};
       
-      const dayCompleted = Object.values(dayLogs).filter(l => l.completed).length;
-      totalCompleted += dayCompleted;
-      totalPossible += habits.filter(h => h.active).length;
+      let dayPossible = 0;
+      let dayCompleted = 0;
 
-      Object.keys(dayLogs).forEach(hid => {
-        if (dayLogs[hid].completed && habitStats[hid]) {
-          habitStats[hid].completed++;
+      activeHabits.forEach(h => {
+        // Only count habit as possible if it existed on that day
+        const createdTs = h.created_at || 0; // Assume 0 if legacy
+        if (createdTs <= endOfDayTs) {
+          dayPossible++;
+          habitStats[h.id].total++;
+          if (dayLogs[h.id]?.completed) {
+            dayCompleted++;
+            habitStats[h.id].completed++;
+          }
         }
       });
+
+      totalCompleted += dayCompleted;
+      totalPossible += dayPossible;
+
+      // Collect last 7 days for the AreaChart
+      if (i < 7) {
+        const dayPct = dayPossible > 0 ? Math.round((dayCompleted / dayPossible) * 100) : 0;
+        chartData.push({ name: dStr.slice(-5), uv: dayPct });
+      }
     }
 
     const percentage = totalPossible === 0 ? 0 : Math.round((totalCompleted / totalPossible) * 100);
     const bestHabits = Object.values(habitStats)
+      .filter(h => h.total > 0)
       .map(h => ({ ...h, pct: Math.round((h.completed / h.total) * 100) }))
       .sort((a,b) => b.pct - a.pct)
       .slice(0, 3);
 
-    return { percentage, currentStreak, totalCompleted, bestHabits };
+    return { percentage, currentStreak, totalCompleted, bestHabits, chartData };
   };
 
   const stats = activeTab === 'stats' ? calculateStats() : null;
@@ -159,7 +170,7 @@ const Habits = () => {
                 onClick={() => setActiveTab('stats')}
                 style={{ background: 'none', border: 'none', color: 'var(--accent-neon)', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold', cursor: 'pointer' }}
               >
-                ESTADISTICAS
+                ESTADÍSTICAS
               </button>
             </div>
 
@@ -228,13 +239,13 @@ const Habits = () => {
           </button>
         </>
       ) : (
-        /* STATS VIEW (Accessible via the ESTADISTICAS button) */
+        /* STATS VIEW (Accessible via the ESTADÍSTICAS button) */
         <div className="stats-view animate-fade-in" style={{ padding: '10px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
             <button onClick={() => setActiveTab('tracker')} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', padding: 0 }}>
               <ChevronLeft size={24} />
             </button>
-            <h2 style={{ margin: '0 0 0 10px', fontSize: '20px', fontWeight: 'bold' }}>Estadisticas</h2>
+            <h2 style={{ margin: '0 0 0 10px', fontSize: '20px', fontWeight: 'bold' }}>Estadísticas</h2>
           </div>
 
           <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '20px', padding: '4px', marginBottom: '25px' }}>
@@ -259,7 +270,7 @@ const Habits = () => {
             <div style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '15px' }}>POR DIA</div>
             <div style={{ height: '140px', width: '100%', marginLeft: '-20px' }}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={dummyChartData}>
+                <AreaChart data={stats.chartData}>
                   <defs>
                     <linearGradient id="colorStatsUv" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="var(--accent-neon)" stopOpacity={0.4}/>
@@ -408,7 +419,7 @@ const Habits = () => {
               style={{ width: '100%', maxWidth: '400px', padding: '25px', borderRadius: '20px', textAlign: 'center' }}
             >
               <Trash2 size={40} color="#ef4444" style={{ margin: '0 auto 15px' }} />
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>¿Eliminar hábito?</h3>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>¿¿Eliminar hábito?</h3>
               <p style={{ margin: '0 0 20px 0', color: 'var(--text-secondary)', fontSize: '14px' }}>
                 Esto archivará el hábito. Tus datos históricos se mantendrán.
               </p>
@@ -432,7 +443,7 @@ const Habits = () => {
                     color: '#fff', fontSize: '15px', fontWeight: 'bold', cursor: 'pointer' 
                   }}
                 >
-                  Eliminar
+                  ¿Eliminar
                 </button>
               </div>
             </motion.div>
