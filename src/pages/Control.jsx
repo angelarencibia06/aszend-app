@@ -38,48 +38,7 @@ const Control = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [newSite, setNewSite] = useState('');
   
-  // Panic Button State
-  const [panicHoldProgress, setPanicHoldProgress] = useState(0);
-  const holdIntervalRef = useRef(null);
-  const [showPanicModal, setShowPanicModal] = useState(false);
-
-  const removeSite = (siteToRemove) => {
-    setSites(sites.filter(s => s !== siteToRemove));
-  };
-
-  const addSite = (e) => {
-    e.preventDefault();
-    if (newSite.trim() && !sites.includes(newSite.trim().toLowerCase())) {
-      setSites([newSite.trim().toLowerCase(), ...sites]);
-      setNewSite('');
-      setShowAddModal(false);
-    }
-  };
-
-  // Panic Button Logic
-  const startPanicHold = () => {
-    let progress = 0;
-    holdIntervalRef.current = setInterval(() => {
-      progress += 2;
-      setPanicHoldProgress(progress);
-      if (progress >= 100) {
-        clearInterval(holdIntervalRef.current);
-        setShowPanicModal(true);
-      }
-    }, 20); // 100% in 1 second
-  };
-
-  const stopPanicHold = () => {
-    clearInterval(holdIntervalRef.current);
-    if (panicHoldProgress < 100) {
-      setPanicHoldProgress(0);
-    }
-  };
-
-  useEffect(() => {
-    return () => clearInterval(holdIntervalRef.current);
-  }, []);
-
+  
   return (
     <div className="page-container control-page">
       
@@ -163,23 +122,7 @@ const Control = () => {
         </AnimatePresence>
       </div>
 
-      {/* Panic Button */}
-      <div className="panic-container">
-        <div 
-          className="panic-button"
-          onMouseDown={startPanicHold}
-          onMouseUp={stopPanicHold}
-          onMouseLeave={stopPanicHold}
-          onTouchStart={startPanicHold}
-          onTouchEnd={stopPanicHold}
-        >
-          <div className="panic-progress" style={{ width: `${panicHoldProgress}%` }} />
-          <span className="panic-text">
-            {panicHoldProgress > 0 ? 'MANTÉN PULSADO...' : 'PROTOCOLO DE PÁNICO'}
-          </span>
-        </div>
-        <p className="panic-hint">En caso de emergencia, mantén pulsado para bloqueo estricto.</p>
-      </div>
+      
 
       {/* Add Site Modal (Bottom Sheet style) */}
       <AnimatePresence>
@@ -224,31 +167,7 @@ const Control = () => {
         )}
       </AnimatePresence>
 
-      {/* Panic Modal */}
-      <AnimatePresence>
-        {showPanicModal && (
-          <motion.div 
-            className="panic-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="panic-modal-content">
-              <AlertTriangle size={64} color="#ef4444" style={{ marginBottom: 20 }} />
-              <h2 style={{ color: '#ef4444', marginBottom: 10, fontSize: 28, textTransform: 'uppercase', letterSpacing: 2 }}>Bloqueo Activado</h2>
-              <p style={{ color: '#fca5a5', fontSize: 16, textAlign: 'center', marginBottom: 30, lineHeight: 1.5 }}>
-                Tu dispositivo ha entrado en modo restrictivo de alta seguridad. Suelta el móvil y aléjate.
-              </p>
-              <button 
-                className="panic-disable-btn"
-                onClick={() => { setShowPanicModal(false); setPanicHoldProgress(0); }}
-              >
-                DESACTIVAR EMERGENCIA
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
       
     </div>
   );
