@@ -91,7 +91,7 @@ const Auth = () => {
                   placeholder="@tu_nombre"
                   value={formData.username}
                   onChange={handleChange}
-                  required={!isLogin}
+                  /* /* required - dev bypass */={!isLogin} - dev bypass */
                   style={{
                     width: '100%', padding: '15px', borderRadius: '12px',
                     background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)',
@@ -110,7 +110,7 @@ const Auth = () => {
               placeholder="tu@email.com"
               value={formData.email}
               onChange={handleChange}
-              required
+              /* required - dev bypass */
               style={{
                 width: '100%', padding: '15px', borderRadius: '12px',
                 background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)',
@@ -127,7 +127,7 @@ const Auth = () => {
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
-              required
+              /* required - dev bypass */
               style={{
                 width: '100%', padding: '15px', borderRadius: '12px',
                 background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)',

@@ -35,13 +35,17 @@ const PageWrapper = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isPanicRoomActive, isAuthenticated } = useAppContext();
+  const { isPanicRoomActive, isAuthenticated, hasCompletedOnboarding } = useAppContext();
   const location = useLocation();
 
   const isPublicRoute = location.pathname === '/auth' || location.pathname === '/onboarding';
 
-  // If not authenticated and trying to access a private route, redirect to auth
-  if (!isAuthenticated && !isPublicRoute) {
+  // Strict funnel: Onboarding -> Auth -> App
+  if (!hasCompletedOnboarding && location.pathname !== '/onboarding') {
+    return <Navigate to="/onboarding" replace />;
+  }
+  
+  if (hasCompletedOnboarding && !isAuthenticated && location.pathname !== '/auth') {
     return <Navigate to="/auth" replace />;
   }
 
