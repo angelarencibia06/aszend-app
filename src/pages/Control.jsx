@@ -59,7 +59,7 @@ const Control = () => {
       {/* Header */}
       <div className="control-header">
         <h1>CONTROL</h1>
-        <p>Tu entorno protegido (Android System)</p>
+        <p>Tu entorno protegido</p>
       </div>
 
       {/* Main Protection Card */}
@@ -89,13 +89,13 @@ const Control = () => {
 
         <p className="prot-desc">
           {isProtectionActive 
-            ? `Tu entorno está preparado. Android Accesibility bloqueando ${sites.length} sitios.`
+            ? `Tu entorno está preparado. Aszend está bloqueando ${sites.length} sitios.`
             : 'La protección está deshabilitada. Eres vulnerable a recaídas.'}
         </p>
 
         {!isProtectionActive && (
           <button className="android-permission-btn" onClick={() => setIsProtectionActive(true)}>
-            <AlertTriangle size={16} /> ACTIVAR PERMISOS DE ACCESIBILIDAD
+            <AlertTriangle size={16} /> ACTIVAR BLOQUEO
           </button>
         )}
       </div>

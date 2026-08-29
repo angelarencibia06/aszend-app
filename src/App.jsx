@@ -35,39 +35,57 @@ const PageWrapper = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isPanicRoomActive } = useAppContext();
+  const { isPanicRoomActive, isAuthenticated } = useAppContext();
   const location = useLocation();
 
-  // DEV BYPASS: No authentication barriers for now.
-  // We allow direct access to all routes to make testing easier.
+  const isPublicRoute = location.pathname === '/auth' || location.pathname === '/onboarding';
+
+  // If not authenticated and trying to access a private route, redirect to auth
+  if (!isAuthenticated && !isPublicRoute) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // If authenticated and trying to access auth/onboarding, redirect to home
+  if (isAuthenticated && isPublicRoute) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="app-container">
       {isPanicRoomActive && <PanicRoom />}
       
-      <MilestoneOverlay />
+      {isAuthenticated && <MilestoneOverlay />}
       
       <main className="main-content">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
-            <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
-            <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
-            <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
-            <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
-            <Route path="/sub-terms" element={<PageWrapper><SubscriptionTerms /></PageWrapper>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {!isAuthenticated ? (
+              <>
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/auth" element={<Auth />} />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
+                <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
+                <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+                <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+                <Route path="/sub-terms" element={<PageWrapper><SubscriptionTerms /></PageWrapper>} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </>
+            )}
           </Routes>
         </AnimatePresence>
       </main>
       
-      <div className="bottom-area">
-        <PanicButton />
-        <BottomNav />
-      </div>
+      {isAuthenticated && (
+        <div className="bottom-area">
+          <PanicButton />
+          <BottomNav />
+        </div>
+      )}
     </div>
   );
 };
