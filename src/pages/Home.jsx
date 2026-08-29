@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Check, Trophy, Wind, Play, X } from 'lucide-react';
+import { Shield, Check, Trophy, Wind, Play, X, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
@@ -10,7 +10,7 @@ import '../styles/Home2.css';
 const RANKS = [
   { id: 1, name: 'CHISPA', number: '01', color1: '#60a5fa', color2: '#2563eb', shadow: 'rgba(59, 130, 246, 0.5)', req: 0 },
   { id: 2, name: 'PULSO', number: '02', color1: '#c084fc', color2: '#7e22ce', shadow: 'rgba(168, 85, 247, 0.5)', req: 7 },
-  { id: 3, name: 'NÚCLEO', number: '03', color1: '#34d399', color2: '#059669', shadow: 'rgba(16, 185, 129, 0.5)', req: 21 },
+  { id: 3, name: 'NÚCLEO', number: '03', color1: '#34d399', color2: '#059669', shadow: 'rgba(16, 185, 129, 0.5)', req: 30 },
   { id: 4, name: 'CONVERGENCIA', number: '04', color1: '#fb923c', color2: '#ea580c', shadow: 'rgba(249, 115, 22, 0.5)', req: 90 },
   { id: 5, name: 'ASCENSIÓN', number: '05', color1: '#93c5fd', color2: '#3b82f6', shadow: 'rgba(96, 165, 250, 0.5)', req: 365 },
 ];
@@ -70,6 +70,13 @@ const Home = () => {
     return '#ef4444';
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return 'Buenos días,';
+    if (hour >= 12 && hour < 20) return 'Buenas tardes,';
+    return 'Buenas noches,';
+  };
+
   const riskColor = getRiskColor(dailyRisk);
   const riskValue = dailyRisk !== null ? dailyRisk : 18;
 
@@ -89,13 +96,27 @@ const Home = () => {
 
   const isCompleted = (habitId) => !!safeHabitLogs[todayStr]?.[habitId]?.completed;
 
+  // Next rank logic
+  const activeRankDef = RANKS[activeIndex];
+  const isLocked = currentStreak < activeRankDef.req;
+  let nextRankReq = null;
+  let nextRankName = null;
+  
+  if (!isLocked && activeIndex < RANKS.length - 1) {
+    nextRankReq = RANKS[activeIndex + 1].req;
+    nextRankName = RANKS[activeIndex + 1].name;
+  }
+
+  const daysToNext = nextRankReq ? nextRankReq - currentStreak : 0;
+  const progressPercent = nextRankReq ? Math.min(100, Math.max(0, ((currentStreak - activeRankDef.req) / (nextRankReq - activeRankDef.req)) * 100)) : 100;
+
   return (
     <div className="home-container">
       
       <div className="home-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: '10px' }}>
         <div>
-          <p className="home-greeting">Buenas tardes,</p>
-          <h1 className="home-name" style={{ textTransform: 'uppercase' }}>{userProfile?.name || 'Guerrero'}.</h1>
+          <p className="home-greeting">{getGreeting()}</p>
+          <h1 className="home-name" style={{ textTransform: 'uppercase' }}>{userProfile?.name || 'Usuario'}.</h1>
         </div>
         <img 
           src="/logo.png" 
@@ -107,45 +128,72 @@ const Home = () => {
       {/* RANKS CAROUSEL SECTION */}
       <div className="ranks-section">
         <div className="carousel-container">
-          <div className="carousel-track" style={{ transform: `translateX(calc(50% - ${activeIndex * 120 + 60}px))` }}>
-            {RANKS.map((rank, i) => (
-              <div 
-                key={rank.id} 
-                className={`carousel-item ${i === activeIndex ? 'active' : ''}`}
-                onClick={() => setActiveIndex(i)}
-              >
-                <div className="sphere-wrapper">
-                  <div 
-                    className="sphere" 
-                    style={{ 
-                      background: `radial-gradient(circle at 35% 35%, ${rank.color1}, ${rank.color2})`,
-                      boxShadow: i === activeIndex ? `0 0 30px ${rank.shadow}, inset -10px -10px 20px rgba(0,0,0,0.5)` : `inset -5px -5px 10px rgba(0,0,0,0.5)`
-                    }}
-                  >
-                    <div className="orbital-ring"></div>
-                    <div className="highlight"></div>
+          {/* calc(50% - (index * 120 + 40)px) ensures PERFECT centering. 80px width orb -> half is 40px */}
+          <div className="carousel-track" style={{ transform: `translateX(calc(50% - ${activeIndex * 120 + 40}px))` }}>
+            {RANKS.map((rank, i) => {
+              const locked = currentStreak < rank.req;
+              return (
+                <div 
+                  key={rank.id} 
+                  className={`carousel-item ${i === activeIndex ? 'active' : ''} ${locked ? 'locked' : ''}`}
+                  onClick={() => setActiveIndex(i)}
+                  style={{ width: '80px', flexShrink: 0 }}
+                >
+                  <div className="sphere-wrapper">
+                    <div 
+                      className={`sphere ${i === activeIndex ? 'animated-sphere' : ''}`} 
+                      style={{ 
+                        background: `radial-gradient(circle at 35% 35%, ${locked ? '#4b5563' : rank.color1}, ${locked ? '#1f2937' : rank.color2})`,
+                        boxShadow: (i === activeIndex && !locked) ? `0 0 35px ${rank.shadow}, inset -10px -10px 20px rgba(0,0,0,0.5)` : `inset -5px -5px 10px rgba(0,0,0,0.5)`
+                      }}
+                    >
+                      <div className={`orbital-ring ${i === activeIndex ? 'spinning-ring' : ''}`}></div>
+                      <div className="highlight"></div>
+                      {locked && (
+                        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10, color: 'rgba(255,255,255,0.8)' }}>
+                          <Lock size={24} />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
         
         <div className="rank-info" style={{ textAlign: 'center', marginTop: '24px', marginBottom: '32px' }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 'bold', letterSpacing: '2px', color: '#fff', margin: '0 0 4px 0' }}>{RANKS[activeIndex].name}</h2>
-          <p style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace', margin: '0 0 16px 0' }}>{RANKS[activeIndex].number}</p>
+          <h2 style={{ fontSize: '18px', fontWeight: 'bold', letterSpacing: '2px', color: isLocked ? '#9ca3af' : '#fff', margin: '0 0 4px 0' }}>
+            {isLocked ? `BLOQUEADO: ${activeRankDef.name}` : activeRankDef.name}
+          </h2>
+          <p style={{ fontSize: '12px', color: '#6b7280', fontFamily: 'monospace', margin: '0 0 16px 0' }}>
+            {activeRankDef.number} {isLocked ? `(Requiere ${activeRankDef.req} días)` : ''}
+          </p>
           
-          <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '4px' }}>RACHA ACTUAL</span>
-            <div className="streak-badge" style={{ color: RANKS[activeIndex].color1, borderColor: RANKS[activeIndex].color2, background: `${RANKS[activeIndex].color2}15` }}>
-              <Trophy size={16} />
-              <span style={{ fontWeight: 'bold' }}>{currentStreak} DÍAS</span>
+          {!isLocked && (
+            <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', width: '100%', padding: '0 20px' }}>
+              <div className="streak-badge" style={{ color: activeRankDef.color1, borderColor: activeRankDef.color2, background: `${activeRankDef.color2}15`, marginBottom: '10px' }}>
+                <Trophy size={16} />
+                <span style={{ fontWeight: 'bold' }}>{currentStreak} DÍAS</span>
+              </div>
+              
+              {nextRankReq && (
+                <div style={{ width: '100%', maxWidth: '200px', marginTop: '5px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#9ca3af', marginBottom: '4px' }}>
+                    <span>Progreso a {nextRankName}</span>
+                    <span>{daysToNext} días más</span>
+                  </div>
+                  <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', background: activeRankDef.color1, width: `${progressPercent}%`, transition: 'width 0.5s' }} />
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
 
-      {/* ACTION BUTTONS (LIKE QUITTR) */}
+      {/* ACTION BUTTONS */}
       <div className="quick-actions" style={{ marginBottom: '32px' }}>
         <button className="action-btn" onClick={() => setShowCheckIn(true)}>
           <div className="action-icon"><Check size={20} /></div>
