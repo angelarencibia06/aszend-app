@@ -30,12 +30,27 @@ function useLocalStorage(key, initialValue) {
 
 const Control = () => {
   const [isProtectionActive, setIsProtectionActive] = useLocalStorage('aszend_protection', true);
-  const [sites] = useLocalStorage('aszend_blocked_sites', [
+  const [sites, setSites] = useLocalStorage('aszend_blocked_sites', [
     'instagram.com', 'tiktok.com', 'twitter.com'
   ]);
   
   const [showAddModal, setShowAddModal] = useState(false);
   const [newSite, setNewSite] = useState('');
+
+  const addSite = (e) => {
+    e.preventDefault();
+    const cleanSite = newSite.trim().toLowerCase();
+    if (cleanSite && !sites.includes(cleanSite)) {
+      setSites([...sites, cleanSite]);
+      setNewSite('');
+      setShowAddModal(false);
+    }
+  };
+
+  const removeSite = (siteToRemove) => {
+    setSites(sites.filter(site => site !== siteToRemove));
+  };
+
   
   
   return (
