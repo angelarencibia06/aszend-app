@@ -5,7 +5,7 @@ import { useAppContext } from '../context/AppContext';
 import '../styles/PanicRoom2.css';
 
 const PanicRoom = () => {
-  const { setIsPanicRoomActive } = useAppContext();
+  const { closePanicRoom } = useAppContext();
   
   // Steps: 'phase1', 'assess1', 'phase2', 'assess2', 'phase3'
   const [step, setStep] = useState('phase1');
@@ -19,9 +19,6 @@ const PanicRoom = () => {
     return () => clearInterval(interval);
   }, [step, timerSeconds]);
 
-  const closePanicRoom = () => {
-    setIsPanicRoomActive(false);
-  };
 
   const startPhase2 = () => {
     setStep('phase2');
