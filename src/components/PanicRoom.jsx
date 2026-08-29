@@ -1,40 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Activity, MapPin, Phone, Lock, ChevronLeft, ShieldCheck, X } from 'lucide-react';
+import { ShieldAlert, Activity, MapPin, Lock, ChevronRight, X, AlertTriangle, CheckCircle, ShieldCheck } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import '../styles/PanicRoom2.css';
 
 const PanicRoom = () => {
   const { setIsPanicRoomActive } = useAppContext();
-  const [activeLevel, setActiveLevel] = useState(null);
+  
+  // Steps: 'phase1', 'assess1', 'phase2', 'assess2', 'phase3'
+  const [step, setStep] = useState('phase1');
   const [timerSeconds, setTimerSeconds] = useState(0);
   
-  // Timer logic
   useEffect(() => {
     let interval;
-    if (activeLevel === 2 || activeLevel === 4) {
-      if (timerSeconds > 0) {
-        interval = setInterval(() => setTimerSeconds(s => s - 1), 1000);
-      } else if (timerSeconds === 0 && activeLevel === 4) {
-        // Unlock automatically after Nivel 4 time
-        setIsPanicRoomActive(false);
-      }
+    if ((step === 'phase2' || step === 'phase3') && timerSeconds > 0) {
+      interval = setInterval(() => setTimerSeconds(s => s - 1), 1000);
     }
     return () => clearInterval(interval);
-  }, [activeLevel, timerSeconds]);
+  }, [step, timerSeconds]);
 
   const closePanicRoom = () => {
     setIsPanicRoomActive(false);
   };
 
-  const startLevel2 = () => {
-    setActiveLevel(2);
-    setTimerSeconds(600); // 10 minutes
+  const startPhase2 = () => {
+    setStep('phase2');
+    setTimerSeconds(300); // 5 minutes walking
   };
 
-  const startLevel4 = () => {
-    setActiveLevel(4);
-    setTimerSeconds(300); // 5 minutes lockdown
+  const startPhase3 = () => {
+    setStep('phase3');
+    setTimerSeconds(600); // 10 minutes lockdown
   };
 
   const formatTime = (totalSeconds) => {
@@ -53,73 +49,19 @@ const PanicRoom = () => {
     >
       <AnimatePresence mode="wait">
         
-        {/* MAIN MENU */}
-        {activeLevel === null && (
-          <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="panic-menu">
-            <div className="panic-header-alert">
-              <ShieldAlert size={40} color="#ef4444" className="pulse-alert" />
-              <h1>PROTOCOLO DE EMERGENCIA</h1>
-              <p>Tu cerebro está siendo secuestrado por dopamina artificial. Toma acción inmediata.</p>
-            </div>
-
-            <div className="panic-options">
-              <button className="panic-card" onClick={() => setActiveLevel(1)}>
-                <div className="panic-card-icon"><Activity size={24} color="#f97316" /></div>
-                <div className="panic-card-info">
-                  <h3>CHOQUE FÍSICO</h3>
-                  <p>20 Flexiones monitoreadas por IA para quemar la ansiedad al instante.</p>
-                </div>
-                <ChevronRightIcon />
-              </button>
-
-              <button className="panic-card" onClick={startLevel2}>
-                <div className="panic-card-icon"><MapPin size={24} color="#3b82f6" /></div>
-                <div className="panic-card-info">
-                  <h3>RESET AMBIENTAL</h3>
-                  <p>Obligado a salir de tu entorno actual durante 10 minutos.</p>
-                </div>
-                <ChevronRightIcon />
-              </button>
-
-              <button className="panic-card" onClick={() => setActiveLevel(3)}>
-                <div className="panic-card-icon"><Phone size={24} color="#10b981" /></div>
-                <div className="panic-card-info">
-                  <h3>APOYO SOCIAL</h3>
-                  <p>Abre el teléfono para llamar a tu contacto de emergencia/responsabilidad.</p>
-                </div>
-                <ChevronRightIcon />
-              </button>
-
-              <button className="panic-card danger-card" onClick={startLevel4}>
-                <div className="panic-card-icon"><Lock size={24} color="#ef4444" /></div>
-                <div className="panic-card-info">
-                  <h3 style={{ color: '#ef4444' }}>BLOQUEO TOTAL (ANDROID)</h3>
-                  <p style={{ color: 'rgba(239, 68, 68, 0.7)' }}>Bloqueo de apps del sistema por 5 min. Irreversible.</p>
-                </div>
-                <ChevronRightIcon />
-              </button>
-            </div>
-
-            <button className="panic-cancel-btn" onClick={closePanicRoom}>
-              <X size={20} />
-              <span>FALSA ALARMA (SALIR)</span>
-            </button>
-          </motion.div>
-        )}
-
-        {/* LEVEL 1: CHOQUE FISICO (MOCK UI) */}
-        {activeLevel === 1 && (
-          <motion.div key="l1" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} className="panic-view">
-            <button className="panic-back" onClick={() => setActiveLevel(null)}><ChevronLeft size={24} /> Volver</button>
-            <div className="panic-level-header">
-              <Activity size={32} color="#f97316" />
-              <h2>CHOQUE FÍSICO</h2>
-              <p>Coloca el móvil en el suelo. Haz flexiones. La cámara validará tu movimiento en local.</p>
+        {/* PHASE 1: CHOQUE FÍSICO */}
+        {step === 'phase1' && (
+          <motion.div key="p1" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, x: '-100%' }} className="panic-view">
+            <div className="panic-level-header" style={{ marginTop: '20px' }}>
+              <ShieldAlert size={48} color="#ef4444" className="pulse-alert" style={{ margin: '0 auto 20px' }} />
+              <h2 style={{ color: '#ef4444' }}>FASE 1: CHOQUE FÍSICO</h2>
+              <p style={{ color: '#fff', fontSize: '16px', fontWeight: 'bold' }}>Tira el móvil al suelo. Haz 20 flexiones INMEDIATAMENTE.</p>
+              <p style={{ color: '#9ca3af', fontSize: '13px' }}>Necesitamos desviar el flujo sanguíneo de tu cerebro a tus músculos para matar el impulso.</p>
             </div>
             
             <div className="camera-mockup">
               <div className="scanner-line"></div>
-              <div className="camera-overlay-text">INICIANDO RECONOCIMIENTO IA...</div>
+              <div className="camera-overlay-text">IA DETECTANDO POSTURA...</div>
             </div>
 
             <div className="rep-counter">
@@ -127,66 +69,123 @@ const PanicRoom = () => {
               <span className="rep-target">/ 20</span>
             </div>
             
-            <button className="btn-finish-level" onClick={closePanicRoom}>COMPLETADO MANUALMENTE</button>
+            <button className="btn-finish-level" onClick={() => setStep('assess1')}>
+              HE TERMINADO LAS FLEXIONES
+            </button>
           </motion.div>
         )}
 
-        {/* LEVEL 2: RESET AMBIENTAL */}
-        {activeLevel === 2 && (
-          <motion.div key="l2" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} className="panic-view">
-            {timerSeconds > 0 && <button className="panic-back" onClick={() => setActiveLevel(null)}><ChevronLeft size={24} /> Abortar</button>}
-            
+        {/* ASSESSMENT 1 */}
+        {step === 'assess1' && (
+          <motion.div key="a1" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ opacity: 0, x: '-100%' }} className="panic-view" style={{ justifyContent: 'center' }}>
+            <Activity size={64} color="#3b82f6" style={{ margin: '0 auto 30px' }} />
+            <h2 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '15px' }}>EVALUACIÓN DE ESTADO</h2>
+            <p style={{ textAlign: 'center', color: '#9ca3af', marginBottom: '50px', fontSize: '16px', lineHeight: '1.5' }}>
+              Has quemado la energía inicial de la ansiedad.<br/>Sé completamente honesto contigo mismo:<br/><br/>
+              <strong style={{ color: '#fff' }}>¿Sigues sintiendo una fuerte tentación de recaer?</strong>
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <button 
+                onClick={closePanicRoom}
+                style={{ padding: '20px', borderRadius: '16px', background: 'rgba(16, 185, 129, 0.1)', border: '2px solid #10b981', color: '#10b981', fontWeight: 'bold', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', cursor: 'pointer' }}
+              >
+                <CheckCircle size={24} /> YA TENGO EL CONTROL. SALIR.
+              </button>
+              
+              <button 
+                onClick={startPhase2}
+                style={{ padding: '20px', borderRadius: '16px', background: 'rgba(239, 68, 68, 0.1)', border: '2px solid #ef4444', color: '#ef4444', fontWeight: 'bold', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', cursor: 'pointer' }}
+              >
+                <AlertTriangle size={24} /> AÚN ESTOY MAL. NECESITO MÁS.
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* PHASE 2: RESET AMBIENTAL */}
+        {step === 'phase2' && (
+          <motion.div key="p2" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ opacity: 0, x: '-100%' }} className="panic-view">
             <div className="panic-level-header" style={{ marginTop: '40px' }}>
-              <MapPin size={48} color="#3b82f6" style={{ margin: '0 auto 20px' }} />
-              <h2>RESET AMBIENTAL</h2>
-              <p>Sal de donde estás. El entorno actual es un gatillo. Camina hasta que el temporizador termine.</p>
+              <MapPin size={56} color="#f59e0b" style={{ margin: '0 auto 20px' }} />
+              <h2 style={{ color: '#f59e0b' }}>FASE 2: RESET AMBIENTAL</h2>
+              <p style={{ color: '#fff', fontSize: '16px', fontWeight: 'bold' }}>El entorno en el que estás ahora mismo es el problema. SAL DE AHÍ.</p>
+              <p style={{ color: '#9ca3af', fontSize: '13px' }}>Ve al salón, a la calle, o date una ducha fría. Camina hasta que el contador llegue a cero.</p>
             </div>
             
-            <div className="countdown-timer" style={{ color: '#3b82f6', textShadow: '0 0 20px rgba(59, 130, 246, 0.5)' }}>
+            <div className="countdown-timer" style={{ color: '#f59e0b', textShadow: '0 0 30px rgba(245, 158, 11, 0.5)' }}>
               {formatTime(timerSeconds)}
             </div>
 
+            {/* Dev skip button */}
+            {timerSeconds > 0 && (
+              <button onClick={() => setTimerSeconds(0)} style={{ background: 'none', border: 'none', color: '#666', textDecoration: 'underline', marginTop: '20px', cursor: 'pointer' }}>
+                (Dev: Saltar tiempo)
+              </button>
+            )}
+
             {timerSeconds === 0 && (
-              <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} className="btn-finish-level" style={{ background: '#3b82f6', color: '#fff' }} onClick={closePanicRoom}>
-                HE VUELTO AL CONTROL
+              <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} className="btn-finish-level" style={{ background: '#f59e0b', color: '#000' }} onClick={() => setStep('assess2')}>
+                HE CAMBIADO DE ENTORNO
               </motion.button>
             )}
           </motion.div>
         )}
 
-        {/* LEVEL 3: APOYO SOCIAL */}
-        {activeLevel === 3 && (
-          <motion.div key="l3" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} className="panic-view">
-            <button className="panic-back" onClick={() => setActiveLevel(null)}><ChevronLeft size={24} /> Volver</button>
-            
-            <div className="panic-level-header" style={{ marginTop: '40px' }}>
-              <Phone size={48} color="#10b981" style={{ margin: '0 auto 20px' }} />
-              <h2>APOYO SOCIAL</h2>
-              <p>Verbalizar el problema destruye el impulso. Llama ahora a tu contacto de confianza.</p>
+        {/* ASSESSMENT 2 */}
+        {step === 'assess2' && (
+          <motion.div key="a2" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ opacity: 0, x: '-100%' }} className="panic-view" style={{ justifyContent: 'center' }}>
+            <ShieldCheck size={64} color="#10b981" style={{ margin: '0 auto 30px' }} />
+            <h2 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '15px' }}>ÚLTIMA EVALUACIÓN</h2>
+            <p style={{ textAlign: 'center', color: '#9ca3af', marginBottom: '50px', fontSize: '16px', lineHeight: '1.5' }}>
+              Has realizado un choque físico y un reset ambiental.<br/><br/>
+              <strong style={{ color: '#fff' }}>¿Estás listo para volver a usar tu dispositivo de forma segura?</strong>
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <button 
+                onClick={closePanicRoom}
+                style={{ padding: '20px', borderRadius: '16px', background: 'rgba(16, 185, 129, 0.1)', border: '2px solid #10b981', color: '#10b981', fontWeight: 'bold', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', cursor: 'pointer' }}
+              >
+                <CheckCircle size={24} /> SÍ, ESTOY A SALVO. SALIR.
+              </button>
+              
+              <button 
+                onClick={startPhase3}
+                style={{ padding: '20px', borderRadius: '16px', background: 'rgba(239, 68, 68, 0.1)', border: '2px solid #ef4444', color: '#ef4444', fontWeight: 'bold', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', cursor: 'pointer' }}
+              >
+                <Lock size={24} /> NO, ESTOY A PUNTO DE CAER.
+              </button>
             </div>
-            
-            <a href="tel:" className="btn-finish-level" style={{ textDecoration: 'none', background: '#10b981', color: '#000', display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '60px' }} onClick={closePanicRoom}>
-              <Phone size={20} /> ABRIR TELÉFONO
-            </a>
           </motion.div>
         )}
 
-        {/* LEVEL 4: BLOQUEO TOTAL */}
-        {activeLevel === 4 && (
-          <motion.div key="l4" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }} className="panic-view danger-view">
+        {/* PHASE 3: BLOQUEO TOTAL */}
+        {step === 'phase3' && (
+          <motion.div key="p3" initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ opacity: 0, x: '-100%' }} className="panic-view danger-view">
             <div className="panic-level-header" style={{ marginTop: '80px' }}>
-              <Lock size={64} color="#ef4444" style={{ margin: '0 auto 20px' }} />
-              <h2 style={{ color: '#ef4444' }}>BLOQUEO ACTIVO</h2>
-              <p style={{ color: '#fca5a5' }}>El dispositivo (simulado) está bloqueado por Overlay nativo. No puedes salir de esta pantalla.</p>
+              <Lock size={72} color="#ef4444" style={{ margin: '0 auto 20px' }} />
+              <h2 style={{ color: '#ef4444', fontSize: '32px' }}>BLOQUEO ACTIVO</h2>
+              <p style={{ color: '#fca5a5', fontSize: '16px' }}>Es hora de protegerte de ti mismo. Tu dispositivo acaba de ser bloqueado.</p>
+              <p style={{ color: '#9ca3af', marginTop: '10px' }}>No podrás acceder a ninguna aplicación hasta que termine el tiempo.</p>
             </div>
             
-            <div className="countdown-timer" style={{ color: '#ef4444', textShadow: '0 0 30px rgba(239, 68, 68, 0.8)' }}>
+            <div className="countdown-timer" style={{ color: '#ef4444', textShadow: '0 0 30px rgba(239, 68, 68, 0.8)', fontSize: '100px' }}>
               {formatTime(timerSeconds)}
             </div>
 
-            <div className="security-notice">
-              <ShieldCheck size={16} /> MODO HARDCORE (ANDROID USAGE STATS API)
-            </div>
+            {/* Dev skip button */}
+            {timerSeconds > 0 && (
+              <button onClick={() => setTimerSeconds(0)} style={{ background: 'none', border: 'none', color: '#666', textDecoration: 'underline', marginTop: '20px', cursor: 'pointer', zIndex: 10 }}>
+                (Dev: Forzar desbloqueo)
+              </button>
+            )}
+
+            {timerSeconds === 0 && (
+              <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} className="btn-finish-level" style={{ background: '#ef4444', color: '#fff', marginTop: '40px' }} onClick={closePanicRoom}>
+                DESBLOQUEAR DISPOSITIVO
+              </motion.button>
+            )}
           </motion.div>
         )}
 
@@ -194,11 +193,5 @@ const PanicRoom = () => {
     </motion.div>
   );
 };
-
-const ChevronRightIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 18l6-6-6-6" />
-  </svg>
-);
 
 export default PanicRoom;
