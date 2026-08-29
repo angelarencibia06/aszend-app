@@ -8,6 +8,7 @@ import '../styles/App.css';
 const Habits = () => {
   const { habits, setHabits, habitLogs, setHabitsLogs } = useAppContext();
   const [activeTab, setActiveTab] = useState('tracker'); // 'tracker' or 'stats'
+  const [timeFilter, setTimeFilter] = useState('Semana'); // 'Semana', 'Mes', 'Trimestre', 'Año'
   
   // Custom Modal State
   const [modalState, setModalState] = useState({ isOpen: false, type: 'add', habitId: null, initialValue: '' });
@@ -88,14 +89,17 @@ const Habits = () => {
     const habitStats = {};
     const chartData = [];
     
-    // We only analyze the last 7 days for the chart, but 30 days for overall stats
+    let lookbackDays = 7;
+    if (timeFilter === 'Mes') lookbackDays = 30;
+    if (timeFilter === 'Trimestre') lookbackDays = 90;
+    if (timeFilter === 'Año') lookbackDays = 365;
+
     const activeHabits = habits.filter(h => h.active);
     activeHabits.forEach(h => {
       habitStats[h.id] = { name: h.name, completed: 0, total: 0 }; 
     });
 
-    // 30 days lookback
-    for(let i=29; i>=0; i--) {
+    for(let i=lookbackDays-1; i>=0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
       const endOfDayTs = d.setHours(23, 59, 59, 999);
@@ -121,11 +125,10 @@ const Habits = () => {
       totalCompleted += dayCompleted;
       totalPossible += dayPossible;
 
-      // Collect last 7 days for the AreaChart
-      if (i < 7) {
-        const dayPct = dayPossible > 0 ? Math.round((dayCompleted / dayPossible) * 100) : 0;
-        chartData.push({ name: dStr.slice(-5), uv: dayPct });
-      }
+      const dayPct = dayPossible > 0 ? Math.round((dayCompleted / dayPossible) * 100) : 0;
+      // For large datasets, don't label every single point to avoid crowding
+      const label = (lookbackDays <= 30 || i % Math.ceil(lookbackDays / 10) === 0) ? dStr.slice(-5) : '';
+      chartData.push({ name: label, uv: dayPct });
     }
 
     const percentage = totalPossible === 0 ? 0 : Math.round((totalCompleted / totalPossible) * 100);
@@ -249,17 +252,33 @@ const Habits = () => {
           </div>
 
           <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '20px', padding: '4px', marginBottom: '25px' }}>
-            <div style={{ flex: 1, textAlign: 'center', padding: '8px', background: 'var(--accent-neon)', borderRadius: '16px', color: '#fff', fontSize: '13px', fontWeight: '600' }}>Semana</div>
-            <div style={{ flex: 1, textAlign: 'center', padding: '8px', color: 'var(--text-muted)', fontSize: '13px' }}>Mes</div>
-            <div style={{ flex: 1, textAlign: 'center', padding: '8px', color: 'var(--text-muted)', fontSize: '13px' }}>Trimestre</div>
-            <div style={{ flex: 1, textAlign: 'center', padding: '8px', color: 'var(--text-muted)', fontSize: '13px' }}>Año</div>
+            {['Semana', 'Mes', 'Trimestre', 'Año'].map(tf => (
+              <div 
+                key={tf}
+                onClick={() => setTimeFilter(tf)}
+                style={{ 
+                  flex: 1, textAlign: 'center', padding: '8px', 
+                  background: timeFilter === tf ? 'var(--accent-neon)' : 'transparent', 
+                  borderRadius: '16px', 
+                  color: timeFilter === tf ? '#fff' : 'var(--text-muted)', 
+                  fontSize: '13px', fontWeight: timeFilter === tf ? '600' : 'normal',
+                  cursor: 'pointer', transition: 'all 0.2s'
+                }}
+              >
+                {tf}
+              </div>
+            ))}
           </div>
 
           <div className="glass-panel" style={{ padding: '20px', borderRadius: '16px', marginBottom: '20px' }}>
             <div style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '5px' }}>CUMPLIMIENTO</div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '15px' }}>
               <span style={{ fontSize: '32px', fontWeight: 'bold' }}>{stats.percentage}%</span>
-              <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>esta semana</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '13px' }}>
+                {timeFilter === 'Semana' ? 'esta semana' : 
+                 timeFilter === 'Mes' ? 'este mes' : 
+                 timeFilter === 'Trimestre' ? 'este trimestre' : 'este año'}
+              </span>
             </div>
             <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
               <div style={{ width: `${stats.percentage}%`, height: '100%', background: 'var(--accent-neon)', borderRadius: '2px' }}></div>
