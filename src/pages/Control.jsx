@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Shield, Globe, Trash2, Plus, X, Lock, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAppContext } from '../context/AppContext';
 import '../styles/Control.css';
 
 // Local storage hook for the blocked sites
@@ -31,7 +30,7 @@ function useLocalStorage(key, initialValue) {
 
 const Control = () => {
   const [isProtectionActive, setIsProtectionActive] = useLocalStorage('aszend_protection', true);
-  const [sites, setSites] = useLocalStorage('aszend_blocked_sites', [
+  const [sites] = useLocalStorage('aszend_blocked_sites', [
     'instagram.com', 'tiktok.com', 'twitter.com'
   ]);
   

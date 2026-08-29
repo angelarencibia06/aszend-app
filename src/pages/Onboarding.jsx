@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Shield, TrendingUp, Zap, Star } from 'lucide-react';
+import {  Shield, TrendingUp, Zap } from 'lucide-react';
 import '../styles/App.css';
 
 const Onboarding = () => {

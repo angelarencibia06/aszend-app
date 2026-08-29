@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, Flame, Trophy, Calendar, CheckSquare, Swords, Medal, ChevronRight, ChevronLeft, Camera, Bell, Shield, LogOut, Lock, Star, Target, Crown, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
@@ -76,7 +76,7 @@ const Profile = () => {
           </div>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {RANKS.map((rank, i) => {
+            {RANKS.map((rank) => {
               const locked = currentStreak < rank.req;
               const isCurrent = rank.id === activeRankDef.id;
               

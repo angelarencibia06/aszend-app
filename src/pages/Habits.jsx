@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, TrendingUp, Flame, Award, ChevronLeft, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, ChevronLeft, X } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';

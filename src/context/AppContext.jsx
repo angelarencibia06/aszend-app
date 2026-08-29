@@ -25,13 +25,6 @@ function useLocalStorage(key, initialValue) {
   return [storedValue, setStoredValue];
 }
 
-export const getStreakData = (days) => {
-  if (days >= 365) return { color: '#eab308', title: 'RANGO: ASCENSIÓN' }; // Dorado
-  if (days >= 90) return { color: '#8b5cf6', title: 'RANGO: NIRVANA' }; // Morado
-  if (days >= 30) return { color: '#044eda', title: 'RANGO: PURIFICACIÓN' }; // Azul fuerte
-  if (days >= 10) return { color: '#ef4444', title: 'RANGO: DESPERTAR' }; // Rojo
-  return { color: '#e2e8f0', title: 'RANGO: NEÓFITO' }; // Plata/Blanco
-};
 
 const DEFAULT_HABITS = [
   { id: 'habit_sleep', name: 'Dormir ≥ 7 horas', linked_variable: 'sleep_hours', active: true, created_at: Date.now() },

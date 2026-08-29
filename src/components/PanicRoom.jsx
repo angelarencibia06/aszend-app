@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Activity, MapPin, Lock, ChevronRight, X, AlertTriangle, CheckCircle, ShieldCheck } from 'lucide-react';
+import { ShieldAlert, Activity, MapPin, Lock, AlertTriangle, CheckCircle, ShieldCheck } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import '../styles/PanicRoom2.css';
 

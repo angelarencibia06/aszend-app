@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Zap, ArrowRight, Check } from 'lucide-react';
+import { ChevronLeft, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import '../styles/CheckIn.css';
 
