@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Check, Wind, X, Play } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { Trophy, Check } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
@@ -16,11 +16,7 @@ const RANKS = [
   { id: 5, name: 'ASCENSIÓN', number: '05', core: '#f59e0b', mid: '#ea580c', outer: '#9a3412', req: 365, level: 5 },
 ];
 
-const formatTime = (seconds) => {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return \`\${m.toString().padStart(2, '0')}:\${s.toString().padStart(2, '0')}\`;
-};
+
 
 const Home = () => {
   const { 
@@ -112,7 +108,7 @@ const Home = () => {
         </div>
         
         <div style={{ textAlign: 'center', marginTop: '-20px', zIndex: 20, position: 'relative' }}>
-          <h1 style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '4px', color: '#fff', margin: '0', textShadow: \`0 0 20px \${rankDef.mid}80\` }}>
+          <h1 style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '4px', color: '#fff', margin: '0', textShadow: `0 0 20px ${rankDef.mid}80` }}>
             {rankDef.name}
           </h1>
           <p style={{ fontSize: '13px', color: '#6b7280', fontFamily: 'monospace', margin: '4px 0 16px 0', letterSpacing: '2px' }}>
@@ -122,11 +118,11 @@ const Home = () => {
           <div style={{ 
             display: 'inline-flex', alignItems: 'center', gap: '8px', 
             padding: '8px 20px', borderRadius: '99px', 
-            border: \`1px solid \${rankDef.mid}\`, 
+            border: `1px solid ${rankDef.mid}`, 
             backgroundColor: 'transparent',
             color: '#fff', 
             marginBottom: '24px',
-            boxShadow: \`0 0 10px \${rankDef.mid}30\`
+            boxShadow: `0 0 10px ${rankDef.mid}30`
           }}>
             <Trophy size={16} color={rankDef.core} />
             <span style={{ fontWeight: '800', fontSize: '14px', letterSpacing: '1px' }}>{currentStreak} DÍAS</span>
@@ -141,8 +137,8 @@ const Home = () => {
               <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
                 <div style={{ 
                   height: '100%', 
-                  background: \`linear-gradient(90deg, \${rankDef.mid}, \${rankDef.core})\`, 
-                  width: \`\${progressPercent}%\`, 
+                  background: `linear-gradient(90deg, ${rankDef.mid}, ${rankDef.core})`, 
+                  width: `${progressPercent}%`, 
                   transition: 'width 1s ease-out'
                 }} />
               </div>
@@ -164,7 +160,7 @@ const Home = () => {
             <svg width="90" height="90" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="40" fill="none" stroke="#1f2937" strokeWidth="8" />
               <circle cx="50" cy="50" r="40" fill="none" stroke={riskColor} strokeWidth="8"
-                strokeDasharray={\`\${251.2 * (riskValue / 100)} 251.2\`} strokeLinecap="round" transform="rotate(-90 50 50)" />
+                strokeDasharray={`${251.2 * (riskValue / 100)} 251.2`} strokeLinecap="round" transform="rotate(-90 50 50)" />
             </svg>
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#fff', lineHeight: 1 }}>{riskValue}%</span>
@@ -194,7 +190,7 @@ const Home = () => {
         
         {/* Progress Bar */}
         <div style={{ height: '6px', background: '#1f2937', borderRadius: '3px', width: '100%', marginBottom: '16px', overflow: 'hidden' }}>
-          <div style={{ height: '100%', background: '#3b82f6', width: \`\${habitsPercent}%\`, borderRadius: '3px', transition: 'width 0.5s ease-out' }} />
+          <div style={{ height: '100%', background: '#3b82f6', width: `${habitsPercent}%`, borderRadius: '3px', transition: 'width 0.5s ease-out' }} />
         </div>
         
         <p style={{ fontSize: '14px', color: '#9ca3af', margin: '0 0 20px 0' }}>
@@ -207,7 +203,7 @@ const Home = () => {
               <div style={{ 
                 width: '24px', height: '24px', borderRadius: '6px', 
                 background: isCompleted(habit.id) ? '#3b82f6' : 'transparent',
-                border: \`2px solid \${isCompleted(habit.id) ? '#3b82f6' : '#374151'}\`, 
+                border: `2px solid ${isCompleted(habit.id) ? '#3b82f6' : '#374151'}`, 
                 display: 'flex', alignItems: 'center', justifyContent: 'center' 
               }}>
                 {isCompleted(habit.id) && <Check size={16} color="#fff" strokeWidth={3} />}
