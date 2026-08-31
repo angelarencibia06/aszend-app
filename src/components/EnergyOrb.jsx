@@ -18,44 +18,47 @@ export function EnergyOrb({
   const center = size / 2;
   const id = `solar_system_perfect_${size}`;
 
-  // Adjusted 3D Perspective Radii for the 4 orbits to be nicely spaced
-  // Angles chosen to place one planet in each quadrant:
-  // Orbit 1 (Inner) - Éter: bottom-left (145 deg)
-  // Orbit 2 - Núcleo: bottom-right (35 deg)
-  // Orbit 3 - Aura: top-right (315 deg)
-  // Orbit 4 (Outer) - Pulso: top-left (215 deg)
-  const orbits = [
-    { rank: 3, rx: size * 0.18, ry: size * 0.07, angle: 145, size: 8 }, 
-    { rank: 2, rx: size * 0.27, ry: size * 0.11, angle: 35,  size: 8 }, 
-    { rank: 1, rx: size * 0.36, ry: size * 0.15, angle: 315, size: 8 }, 
-    { rank: 0, rx: size * 0.45, ry: size * 0.19, angle: 215, size: 8 }, 
-  ];
-
-  const getCoordsOnEllipse = (rx, ry, angleDeg) => {
-    const rad = angleDeg * (Math.PI / 180);
-    return {
-      cx: center + rx * Math.cos(rad),
-      cy: center + ry * Math.sin(rad)
-    };
+  // The path strings for the orbits
+  const getOrbitPath = (rx, ry) => {
+    // Draws a full ellipse starting from the rightmost point (0 degrees)
+    return `M ${center + rx},${center} a ${rx},${ry} 0 1,0 -${rx * 2},0 a ${rx},${ry} 0 1,0 ${rx * 2},0`;
   };
 
-  const renderPlanet = (rankIdx, rx, ry, angleDeg, pSize) => {
+  const orbits = [
+    { rank: 3, rx: size * 0.18, ry: size * 0.07, duration: '60s', delay: '-10s', size: 8 }, 
+    { rank: 2, rx: size * 0.27, ry: size * 0.11, duration: '80s', delay: '-40s', size: 8 }, 
+    { rank: 1, rx: size * 0.36, ry: size * 0.15, duration: '100s', delay: '-80s', size: 8 }, 
+    { rank: 0, rx: size * 0.45, ry: size * 0.19, duration: '120s', delay: '-60s', size: 8 }, 
+  ];
+
+  const renderPlanet = (orb) => {
+    const rankIdx = orb.rank;
     const isLocked = rankIdx > highestUnlockedIndex;
     const isSelected = rankIdx === viewIndex;
     const c = isLocked ? { core: '#4b5563', mid: '#374151', outer: '#1f2937' } : RANKS[rankIdx];
     
     const scale = isSelected ? 1.4 : 1;
-    const r = pSize * scale;
-    const pos = getCoordsOnEllipse(rx, ry, angleDeg);
+    const r = orb.size * scale;
 
     return (
       <g 
         key={`planet_${rankIdx}`}
-        transform={`translate(${pos.cx}, ${pos.cy})`}
         style={{ cursor: 'pointer' }}
         onClick={() => onSelectRank && onSelectRank(rankIdx)}
       >
-        <g style={{ transition: 'all 0.3s ease', animation: `floatPlanet 4s ease-in-out ${rankIdx * 0.7}s infinite alternate` }}>
+        {/* We use animateMotion to move the planet along the orbit path */}
+        <animateMotion 
+          dur={orb.duration} 
+          repeatCount="indefinite" 
+          path={getOrbitPath(orb.rx, orb.ry)} 
+          begin={orb.delay}
+        />
+        
+        {/* We no longer need translate(cx, cy) because animateMotion moves it relative to 0,0 
+            which is already mapped to the path! The path itself is centered on cx, cy. 
+            Wait, animateMotion applies to the origin. If the path is centered around `center`, 
+            then the element's 0,0 will follow the path exactly. */}
+        <g style={{ transition: 'all 0.3s ease' }}>
           <defs>
             <radialGradient id={`${id}_planet_${rankIdx}`} cx="35%" cy="35%" r="65%">
               <stop offset="0%"   stopColor="#ffffff" stopOpacity={isLocked ? "0.4" : "0.9"} />
@@ -70,7 +73,7 @@ export function EnergyOrb({
             <circle cx="0" cy="0" r={r * 2.5} fill={c.core} opacity={isSelected ? "0.5" : "0.2"} filter="blur(5px)" />
           )}
           
-          {/* Planet Core (Added subtle stroke to define the true edge) */}
+          {/* Planet Core */}
           <circle cx="0" cy="0" r={r} fill={`url(#${id}_planet_${rankIdx})`} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
 
           {/* Selection indicator */}
@@ -78,7 +81,7 @@ export function EnergyOrb({
             <circle cx="0" cy="0" r={r + 6} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="3 3" fill="none" style={{ animation: 'spinSlow 8s linear infinite' }} />
           )}
 
-          {/* Small Padlock (Mathematically centered) */}
+          {/* Small Padlock */}
           {isLocked && (
             <g transform={`scale(0.4) translate(-10.65, -14.65)`}>
               <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#d1d5db" strokeWidth="4" fill="none" strokeLinecap="round" />
@@ -150,10 +153,7 @@ export function EnergyOrb({
           />
         )}
 
-        {/* Render planets on orbits */}
-        {orbits.map(orb => renderPlanet(orb.rank, orb.rx, orb.ry, orb.angle, orb.size))}
-
-        {/* Massive Central Orb (Ascensión) */}
+        {/* Massive Central Orb (Ascensión) - Rendered BEFORE small planets so small planets always float in front */}
         <g 
           transform={`translate(${center}, ${center})`}
           style={{ cursor: 'pointer' }}
@@ -173,7 +173,7 @@ export function EnergyOrb({
               <circle cx="0" cy="0" r={sunRadius * sunScale + 14} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="3 4" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
             )}
 
-            {/* Padlock for Central Orb (Mathematically centered) */}
+            {/* Padlock for Central Orb */}
             {isSunLocked && (
               <g transform={`scale(1) translate(-10.65, -14.65)`}>
                 <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#d1d5db" strokeWidth="2.5" fill="none" strokeLinecap="round" />
@@ -181,6 +181,9 @@ export function EnergyOrb({
             )}
           </g>
         </g>
+
+        {/* Render planets on orbits (Rendered LAST so they are on top in z-index) */}
+        {orbits.map(orb => renderPlanet(orb))}
       </svg>
       
       <style dangerouslySetInnerHTML={{__html: `

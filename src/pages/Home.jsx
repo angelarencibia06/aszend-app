@@ -26,33 +26,24 @@ const Home = () => {
     triggerPanicRoom
   } = useAppContext();
 
-  // Streak logic
-  const [currentStreak, setCurrentStreak] = useState(0);
+  // Streak logic (Mocked to 365 for demo as requested by user)
+  const [currentStreak, setCurrentStreak] = useState(365);
   useEffect(() => {
+    // Keeping logic intact but state defaults to 365
     if (!lastCheckInDate) return;
     const last = new Date(lastCheckInDate);
     const now = new Date();
     const diff = Math.floor((now - last) / (1000 * 60 * 60 * 24));
-    if (diff === 0 || diff === 1) setCurrentStreak(1);
+    if (diff === 0 || diff === 1) {
+      // setCurrentStreak(1); // disabled to keep 365 demo
+    }
   }, [lastCheckInDate]);
 
   let highestUnlockedIndex = 0;
   for (let i = 0; i < RANKS.length; i++) {
     if (currentStreak >= RANKS[i].req) highestUnlockedIndex = i;
   }
-  const activeIndex = highestUnlockedIndex;
-  const rankDef = RANKS[activeIndex];
   
-  let nextRankReq = null;
-  let nextRankName = null;
-  if (activeIndex < RANKS.length - 1) {
-    nextRankReq = RANKS[activeIndex + 1].req;
-    nextRankName = RANKS[activeIndex + 1].name;
-  }
-
-  const daysToNext = nextRankReq ? nextRankReq - currentStreak : 0;
-  const progressPercent = nextRankReq ? Math.min(100, Math.max(0, ((currentStreak - rankDef.req) / (nextRankReq - rankDef.req)) * 100)) : 100;
-
   // Modals
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
@@ -62,6 +53,33 @@ const Home = () => {
 
   const viewRank = RANKS[viewIndex] || RANKS[0];
   const isViewLocked = viewIndex > highestUnlockedIndex;
+
+  // Smart progress logic
+  let displayNextName = '';
+  let displayDaysLeft = 0;
+  let displayProgress = 0;
+  let showProgress = false;
+
+  if (isViewLocked) {
+    // If they view an orb they haven't unlocked yet
+    displayNextName = viewRank.name;
+    displayDaysLeft = Math.max(0, viewRank.req - currentStreak);
+    const prevReq = viewIndex > 0 ? RANKS[viewIndex - 1].req : 0;
+    const progressRange = viewRank.req - prevReq;
+    const currentProgress = currentStreak - prevReq;
+    displayProgress = Math.min(100, Math.max(0, (currentProgress / progressRange) * 100));
+    showProgress = true;
+  } else if (viewIndex === highestUnlockedIndex && viewIndex < RANKS.length - 1) {
+    // If they view the current active orb, and there is a next orb
+    const nextRank = RANKS[viewIndex + 1];
+    displayNextName = nextRank.name;
+    displayDaysLeft = Math.max(0, nextRank.req - currentStreak);
+    const prevReq = viewRank.req;
+    const progressRange = nextRank.req - prevReq;
+    const currentProgress = currentStreak - prevReq;
+    displayProgress = Math.min(100, Math.max(0, (currentProgress / progressRange) * 100));
+    showProgress = true;
+  }
 
   // Habit Logic
   const todayStr = new Date().toISOString().split('T')[0];
@@ -139,16 +157,16 @@ const Home = () => {
           </div>
         )}
 
-        {nextRankReq && viewIndex === highestUnlockedIndex && (
+        {showProgress && (
           <div className="progress-container">
             <div className="progress-labels">
-              <span>Progreso a {nextRankName}</span>
-              <span>{daysToNext} días más</span>
+              <span>Progreso a {displayNextName}</span>
+              <span>{displayDaysLeft} días más</span>
             </div>
             <div className="progress-track">
               <div 
                 className="progress-fill" 
-                style={{ width: `${progressPercent}%`, background: rankDef.core, boxShadow: `0 0 10px ${rankDef.core}` }} 
+                style={{ width: `${displayProgress}%`, background: viewRank.core, boxShadow: `0 0 10px ${viewRank.core}` }} 
               />
             </div>
           </div>
