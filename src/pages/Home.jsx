@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Power, Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap } from 'lucide-react';
+import { Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
@@ -101,7 +101,7 @@ const Home = () => {
           <h1 className="premium-username">{userProfile?.name || 'USUARIO'}.</h1>
         </div>
         <button className="power-btn">
-          <Power size={20} strokeWidth={2.5} />
+          <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </button>
       </div>
 
