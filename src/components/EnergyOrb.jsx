@@ -70,7 +70,7 @@ export function EnergyOrb({
             <stop offset="85%"  stopColor={c.outer} stopOpacity="1" />
             <stop offset="100%" stopColor="#02040a" stopOpacity="1" />
           </radialGradient>
-        </g>
+        </defs>
         
         {/* Glow */}
         {!isLocked && (
