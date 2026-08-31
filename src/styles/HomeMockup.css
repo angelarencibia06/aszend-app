@@ -48,6 +48,14 @@
 }
 
 /* Orb Area */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .orb-section {
   display: flex;
   flex-direction: column;

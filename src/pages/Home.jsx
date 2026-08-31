@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap } from 'lucide-react';
+import { Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap, Lock } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
@@ -56,6 +56,32 @@ const Home = () => {
   // Modals
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
+  
+  // Carousel logic
+  const [viewIndex, setViewIndex] = useState(highestUnlockedIndex);
+  const orbScrollRef = React.useRef(null);
+  
+  // Initialize scroll position on mount
+  useEffect(() => {
+    if (orbScrollRef.current) {
+      orbScrollRef.current.scrollLeft = highestUnlockedIndex * orbScrollRef.current.clientWidth;
+    }
+  }, [highestUnlockedIndex]);
+
+  const handleOrbScroll = (e) => {
+    const container = e.target;
+    const scrollLeft = container.scrollLeft;
+    const width = container.clientWidth;
+    if (width > 0) {
+      const newIndex = Math.round(scrollLeft / width);
+      if (newIndex !== viewIndex && newIndex >= 0 && newIndex < RANKS.length) {
+        setViewIndex(newIndex);
+      }
+    }
+  };
+
+  const viewRank = RANKS[viewIndex] || RANKS[0];
+  const isViewLocked = viewIndex > highestUnlockedIndex;
 
   // Habit Logic
   const todayStr = new Date().toISOString().split('T')[0];
@@ -107,19 +133,62 @@ const Home = () => {
 
       {/* Orb Section */}
       <div className="orb-section">
-        <div style={{ pointerEvents: 'none', marginBottom: '10px' }}>
-          <EnergyOrb size={260} rankIndex={rankDef.id - 1} locked={false} animated={true} />
+        
+        {/* Carousel Container */}
+        <div 
+          ref={orbScrollRef}
+          onScroll={handleOrbScroll}
+          style={{ 
+            display: 'flex', 
+            width: '100%', 
+            overflowX: 'auto', 
+            scrollSnapType: 'x mandatory', 
+            scrollbarWidth: 'none', /* Firefox */
+            msOverflowStyle: 'none', /* IE and Edge */
+            marginBottom: '10px'
+          }}
+          className="hide-scrollbar"
+        >
+          {RANKS.map((rank, idx) => {
+            const isLocked = idx > highestUnlockedIndex;
+            return (
+              <div 
+                key={rank.id} 
+                style={{ 
+                  flex: '0 0 100%', 
+                  scrollSnapAlign: 'center', 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <EnergyOrb 
+                  size={260} 
+                  rankIndex={idx} 
+                  locked={isLocked} 
+                  animated={viewIndex === idx} 
+                />
+              </div>
+            );
+          })}
         </div>
         
-        <h1 className="rank-title">{rankDef.name}</h1>
-        <p className="rank-number">{rankDef.number}</p>
+        <h1 className="rank-title">{viewRank.name}</h1>
+        <p className="rank-number">{viewRank.number}</p>
         
-        <div className="streak-pill">
-          <Trophy size={16} />
-          {currentStreak} DÍAS
-        </div>
+        {isViewLocked ? (
+          <div className="streak-pill" style={{ color: '#9ca3af', borderColor: '#4b5563' }}>
+            <Lock size={16} />
+            BLOQUEADO
+          </div>
+        ) : (
+          <div className="streak-pill">
+            <Trophy size={16} />
+            {currentStreak} DÍAS
+          </div>
+        )}
 
-        {nextRankReq && (
+        {nextRankReq && viewIndex === highestUnlockedIndex && (
           <div className="progress-container">
             <div className="progress-labels">
               <span>Progreso a {nextRankName}</span>
