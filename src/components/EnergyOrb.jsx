@@ -35,16 +35,6 @@ export function EnergyOrb({
     };
   };
 
-  // Static stars background
-  const stars = useMemo(() => {
-    return Array.from({ length: 30 }).map((_, i) => ({
-      x: Math.random() * size,
-      y: Math.random() * size,
-      r: Math.random() * 1.5 + 0.5,
-      opacity: Math.random() * 0.6 + 0.1
-    }));
-  }, [size]);
-
   // Render a specific small planet
   const renderPlanet = (rankIdx, rx, ry, angleDeg, pSize) => {
     const isLocked = rankIdx > highestUnlockedIndex;
@@ -60,37 +50,39 @@ export function EnergyOrb({
       <g 
         key={`planet_${rankIdx}`}
         transform={`translate(${pos.cx}, ${pos.cy})`}
-        style={{ cursor: 'pointer', transition: 'all 0.3s ease', animation: `floatPlanet 4s ease-in-out ${rankIdx * 0.5}s infinite alternate` }}
+        style={{ cursor: 'pointer' }}
         onClick={() => onSelectRank && onSelectRank(rankIdx)}
       >
-        <defs>
-          <radialGradient id={`${id}_planet_${rankIdx}`} cx="35%" cy="35%" r="65%">
-            <stop offset="0%"   stopColor="#ffffff" stopOpacity={isLocked ? "0.3" : "0.9"} />
-            <stop offset="20%"  stopColor={c.core}  stopOpacity="1" />
-            <stop offset="85%"  stopColor={c.outer} stopOpacity="1" />
-            <stop offset="100%" stopColor="#02040a" stopOpacity="1" />
-          </radialGradient>
-        </defs>
-        
-        {/* Glow */}
-        {!isLocked && (
-          <circle r={r * 2.5} fill={c.core} opacity={isSelected ? "0.4" : "0.15"} filter="blur(6px)" />
-        )}
-        
-        {/* Planet Core */}
-        <circle r={r} fill={`url(#${id}_planet_${rankIdx})`} />
+        <g style={{ transition: 'all 0.3s ease', animation: `floatPlanet 4s ease-in-out ${rankIdx * 0.5}s infinite alternate` }}>
+          <defs>
+            <radialGradient id={`${id}_planet_${rankIdx}`} cx="35%" cy="35%" r="65%">
+              <stop offset="0%"   stopColor="#ffffff" stopOpacity={isLocked ? "0.3" : "0.9"} />
+              <stop offset="20%"  stopColor={c.core}  stopOpacity="1" />
+              <stop offset="85%"  stopColor={c.outer} stopOpacity="1" />
+              <stop offset="100%" stopColor="#02040a" stopOpacity="1" />
+            </radialGradient>
+          </defs>
+          
+          {/* Glow */}
+          {!isLocked && (
+            <circle r={r * 2.5} fill={c.core} opacity={isSelected ? "0.4" : "0.15"} filter="blur(6px)" />
+          )}
+          
+          {/* Planet Core */}
+          <circle r={r} fill={`url(#${id}_planet_${rankIdx})`} />
 
-        {/* Selection indicator */}
-        {isSelected && (
-          <circle r={r + 6} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="2 3" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
-        )}
+          {/* Selection indicator */}
+          {isSelected && (
+            <circle r={r + 6} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="2 3" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
+          )}
 
-        {/* Padlock for locked planets */}
-        {isLocked && (
-          <g transform={`translate(-5, -5) scale(0.4)`}>
-            <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#9ca3af" strokeWidth="4" fill="none" strokeLinecap="round" />
-          </g>
-        )}
+          {/* Padlock for locked planets */}
+          {isLocked && (
+            <g transform={`translate(-5, -5) scale(0.4)`}>
+              <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#9ca3af" strokeWidth="4" fill="none" strokeLinecap="round" />
+            </g>
+          )}
+        </g>
       </g>
     );
   };
@@ -137,13 +129,6 @@ export function EnergyOrb({
             </feMerge>
           </filter>
         </defs>
-
-        {/* Stars Background */}
-        <g>
-          {stars.map((star, i) => (
-            <circle key={i} cx={star.x} cy={star.y} r={star.r} fill="#ffffff" opacity={star.opacity} />
-          ))}
-        </g>
 
         {/* 3D Perspective Orbital Ellipses */}
         <g stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" fill="none">
