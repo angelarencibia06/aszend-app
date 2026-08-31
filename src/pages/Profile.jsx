@@ -190,94 +190,110 @@ const Profile = () => {
   };
 
   return (
-    <div className="page-container" style={{ color: '#fff', height: '100%', overflowY: 'auto', position: 'relative', background: '#02040a', paddingBottom: '120px' }}>
+    <div className="page-container" style={{ padding: '20px', paddingBottom: '160px', color: '#fff', height: '100%', overflowY: 'auto', position: 'relative' }}>
       
-      {/* Hero Header */}
-      <div style={{ position: 'relative', padding: '40px 20px 20px 20px', background: `linear-gradient(to bottom, ${activeRankDef.color2}22, transparent)`, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
+      {/* Subtle Background Glow */}
+      <div style={{ position: 'absolute', top: '-100px', right: '-50px', width: '300px', height: '300px', background: `radial-gradient(circle, ${activeRankDef.color1}22 0%, transparent 70%)`, filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '100px', left: '-50px', width: '250px', height: '250px', background: `radial-gradient(circle, ${activeRankDef.color2}15 0%, transparent 70%)`, filter: 'blur(40px)', zIndex: 0, pointerEvents: 'none' }} />
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+          <h1 style={{ fontSize: '28px', margin: 0, fontFamily: 'Oswald', textTransform: 'uppercase', letterSpacing: '1px' }}>MI PERFIL</h1>
+        </div>
+
+        {/* User Card - High End Glass */}
+        <div className="glass-panel" style={{ 
+          display: 'flex', alignItems: 'center', gap: '20px', padding: '24px', borderRadius: '24px', marginBottom: '30px',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)'
+        }}>
           <div 
             onClick={() => fileInputRef.current.click()}
             style={{ 
-              width: '85px', height: '85px', borderRadius: '16px', 
-              background: avatar ? `url(${avatar}) center/cover` : 'rgba(255,255,255,0.03)', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center', 
-              border: `1px solid ${activeRankDef.color1}44`,
-              boxShadow: `0 0 30px ${activeRankDef.color1}22`,
-              cursor: 'pointer', position: 'relative'
+              width: '80px', height: '80px', borderRadius: '20px', 
+              background: avatar ? `url(${avatar}) center/cover` : 'rgba(0,0,0,0.5)', 
+              display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', cursor: 'pointer', 
+              border: `1.5px solid ${activeRankDef.color1}`,
+              boxShadow: `0 0 20px ${activeRankDef.color1}40`
             }}
           >
-            {!avatar && <Camera size={28} color={activeRankDef.color1} opacity="0.5" />}
-            <div style={{ position: 'absolute', bottom: '-8px', right: '-8px', background: '#02040a', border: `1px solid ${activeRankDef.color1}44`, borderRadius: '8px', padding: '6px' }}>
-              <Camera size={14} color="#fff" />
+            {!avatar && <Camera size={28} color={activeRankDef.color1} opacity="0.8" />}
+            <div style={{ position: 'absolute', bottom: '-8px', right: '-8px', background: '#02040a', borderRadius: '8px', padding: '5px', border: `1px solid ${activeRankDef.color1}80` }}>
+              <Camera size={12} color="#fff" />
             </div>
           </div>
           <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }} />
           
           <div>
-            <h1 style={{ margin: '0 0 4px 0', fontSize: '32px', fontFamily: 'Oswald', textTransform: 'uppercase', letterSpacing: '1px', lineHeight: 1 }}>
-              {userProfile?.name || 'USUARIO'}
-            </h1>
-            <div style={{ display: 'inline-flex', alignItems: 'center', background: `${activeRankDef.color1}15`, border: `1px solid ${activeRankDef.color1}40`, padding: '4px 12px', borderRadius: '20px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: activeRankDef.color1, marginRight: '8px', boxShadow: `0 0 8px ${activeRankDef.color1}` }}></div>
-              <span style={{ color: activeRankDef.color1, fontSize: '11px', fontWeight: 'bold', letterSpacing: '1.5px' }}>
+            <h2 style={{ margin: '0 0 4px 0', fontSize: '26px', fontFamily: 'Oswald', textTransform: 'uppercase', letterSpacing: '1px' }}>{userProfile?.name || 'Usuario'}</h2>
+            <div style={{ display: 'inline-flex', alignItems: 'center', background: `linear-gradient(90deg, ${activeRankDef.color1}22, transparent)`, padding: '4px 12px 4px 6px', borderRadius: '4px', borderLeft: `2px solid ${activeRankDef.color1}` }}>
+              <p style={{ margin: 0, color: activeRankDef.color1, fontSize: '11px', fontWeight: 'bold', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
                 NIVEL {activeRankDef.level}: {activeRankDef.name}
-              </span>
+              </p>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Stats Data Strip */}
-      <div style={{ display: 'flex', background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ flex: 1, padding: '20px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
-          <span style={{ display: 'block', fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Racha Actual</span>
-          <span style={{ fontSize: '24px', fontFamily: 'Oswald' }}>{streak} <span style={{ fontSize: '14px', color: 'var(--text-muted)', fontFamily: 'Inter' }}>DÍAS</span></span>
-        </div>
-        <div style={{ flex: 1, padding: '20px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
-          <span style={{ display: 'block', fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Racha Máx</span>
-          <span style={{ fontSize: '24px', fontFamily: 'Oswald' }}>{Math.max(streak, 47)} <span style={{ fontSize: '14px', color: 'var(--text-muted)', fontFamily: 'Inter' }}>DÍAS</span></span>
-        </div>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <span style={{ display: 'block', fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Hábitos Hoy</span>
-          <span style={{ fontSize: '24px', fontFamily: 'Oswald' }}>{habitsPercent}<span style={{ fontSize: '14px', color: 'var(--text-muted)', fontFamily: 'Inter' }}>%</span></span>
-        </div>
-      </div>
-
-      {/* Minimalist Menu */}
-      <div style={{ padding: '30px 20px' }}>
-        <h3 style={{ fontSize: '12px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '15px' }}>Opciones del Sistema</h3>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div onClick={() => setActiveMenu('ranks')} className="profile-menu-row">
-            <div className="menu-icon-box"><Swords size={18} /></div>
-            <div style={{ flex: 1 }}>
-              <span className="menu-title">RANGOS DE ASCENSIÓN</span>
-              <span className="menu-subtitle">{unlockedRanksCount}/5 Desbloqueados</span>
+        {/* Stats Grid - Unified Color Scheme */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '35px' }}>
+          {[
+            { label: 'Racha Actual', value: `${streak} DÍAS`, icon: Flame },
+            { label: 'Mejor Racha', value: `${Math.max(streak, 47)} DÍAS`, icon: Trophy },
+            { label: 'Miembro Desde', value: '18 AGO 2025', icon: Calendar },
+            { label: 'Hábitos Hoy', value: `${habitsPercent}%`, icon: CheckSquare }
+          ].map((stat, i) => (
+            <div key={i} className="glass-panel" style={{ 
+              padding: '16px', borderRadius: '16px',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)',
+              display: 'flex', flexDirection: 'column', gap: '8px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <stat.icon size={14} color={activeRankDef.color1} opacity="0.8" />
+                <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>{stat.label}</span>
+              </div>
+              <p style={{ margin: 0, fontSize: '20px', fontFamily: 'Oswald', fontWeight: '500', letterSpacing: '0.5px' }}>{stat.value}</p>
             </div>
-            <ChevronRight size={18} color="#4b5563" />
+          ))}
+        </div>
+
+        {/* Menu List Items - Sleek Rows */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <h3 style={{ fontSize: '12px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 10px 4px' }}>Sistema y Configuración</h3>
+          
+          <div onClick={() => setActiveMenu('ranks')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Swords size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <div>
+                <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Rangos de Ascensión</p>
+                <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedRanksCount}/5 Desbloqueados</p>
+              </div>
+            </div>
+            <ChevronRight size={20} color="#4b5563" />
           </div>
 
-          <div onClick={() => setActiveMenu('badges')} className="profile-menu-row">
-            <div className="menu-icon-box"><Medal size={18} /></div>
-            <div style={{ flex: 1 }}>
-              <span className="menu-title">INSIGNIAS DE HONOR</span>
-              <span className="menu-subtitle">{unlockedBadgesCount}/{BADGES.length} Adquiridas</span>
+          <div onClick={() => setActiveMenu('badges')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Medal size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <div>
+                <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Insignias y Logros</p>
+                <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedBadgesCount}/{BADGES.length} Adquiridas</p>
+              </div>
             </div>
-            <ChevronRight size={18} color="#4b5563" />
+            <ChevronRight size={20} color="#4b5563" />
           </div>
 
-          <div onClick={() => setActiveMenu('settings')} className="profile-menu-row">
-            <div className="menu-icon-box"><Settings size={18} /></div>
-            <div style={{ flex: 1 }}>
-              <span className="menu-title">CONFIGURACIÓN</span>
-              <span className="menu-subtitle">Sistema y Privacidad</span>
+          <div onClick={() => setActiveMenu('settings')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Settings size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <div>
+                <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Configuración</p>
+                <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>Cuenta, Privacidad y Alertas</p>
+              </div>
             </div>
-            <ChevronRight size={18} color="#4b5563" />
+            <ChevronRight size={20} color="#4b5563" />
           </div>
-        </div>
-        
-        <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center' }}>
-          <span style={{ fontSize: '10px', color: 'var(--text-muted)', letterSpacing: '1px', textTransform: 'uppercase' }}>ASZEND OS v2.0.4 • ID: {userProfile?.name?.toUpperCase() || 'USR-01'}</span>
         </div>
       </div>
 

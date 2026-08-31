@@ -387,47 +387,8 @@
 }
 
 
-.profile-menu-row {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.profile-menu-row:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-.menu-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #9ca3af;
-  transition: all 0.2s ease;
-}
-.profile-menu-row:hover .menu-icon-box {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-}
-.menu-title {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: #fff;
-  margin-bottom: 2px;
-}
-.menu-subtitle {
-  display: block;
-  font-size: 11px;
-  color: #6b7280;
+.profile-menu-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
