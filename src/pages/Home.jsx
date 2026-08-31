@@ -5,9 +5,16 @@ import { useAppContext } from '../context/AppContext';
 import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
-import { getStreakData } from '../utils/constants';
 import '../styles/Home2.css';
 import '../styles/App.css';
+
+const RANKS = [
+  { id: 1, name: 'PULSO', number: '01', core: '#3b82f6', mid: '#2563eb', outer: '#1d4ed8', req: 0, level: 1 },
+  { id: 2, name: 'AURA', number: '02', core: '#8b5cf6', mid: '#7c3aed', outer: '#5b21b6', req: 7, level: 2 },
+  { id: 3, name: 'NÚCLEO', number: '03', core: '#10b981', mid: '#059669', outer: '#047857', req: 30, level: 3 },
+  { id: 4, name: 'ÉTER', number: '04', core: '#f59e0b', mid: '#d97706', outer: '#b45309', req: 90, level: 4 },
+  { id: 5, name: 'ASCENSIÓN', number: '05', core: '#f59e0b', mid: '#ea580c', outer: '#9a3412', req: 365, level: 5 },
+];
 
 const formatTime = (seconds) => {
   const m = Math.floor(seconds / 60);
@@ -17,7 +24,6 @@ const formatTime = (seconds) => {
 
 const Home = () => {
   const { 
-    streak, 
     dailyRisk, 
     lastCheckInDate, 
     habits, 
@@ -35,7 +41,22 @@ const Home = () => {
     if (diff === 0 || diff === 1) setCurrentStreak(1);
   }, [lastCheckInDate]);
 
-  const { rankDef, progressPercent, nextRankReq, nextRankName, daysToNext } = getStreakData(currentStreak);
+  let highestUnlockedIndex = 0;
+  for (let i = 0; i < RANKS.length; i++) {
+    if (currentStreak >= RANKS[i].req) highestUnlockedIndex = i;
+  }
+  const activeIndex = highestUnlockedIndex;
+  const rankDef = RANKS[activeIndex];
+  
+  let nextRankReq = null;
+  let nextRankName = null;
+  if (activeIndex < RANKS.length - 1) {
+    nextRankReq = RANKS[activeIndex + 1].req;
+    nextRankName = RANKS[activeIndex + 1].name;
+  }
+
+  const daysToNext = nextRankReq ? nextRankReq - currentStreak : 0;
+  const progressPercent = nextRankReq ? Math.min(100, Math.max(0, ((currentStreak - rankDef.req) / (nextRankReq - rankDef.req)) * 100)) : 100;
 
   // Other state
   const [showCheckIn, setShowCheckIn] = useState(false);
