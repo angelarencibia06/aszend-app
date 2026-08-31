@@ -17,11 +17,12 @@ const formatTime = (seconds) => {
 
 const Home = () => {
   const { 
+    streak, 
+    dailyRisk, 
     lastCheckInDate, 
-    riskFactors, 
+    habits, 
     habitLogs, 
-    activeHabits, 
-    toggleHabit
+    setHabitsLogs 
   } = useAppContext();
 
   // Streak logic
@@ -53,24 +54,26 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [isMeditating, meditateTime]);
 
-  // Derived calculations
-  let baseRisk = 20;
-  const daysSinceCheckin = lastCheckInDate ? Math.floor((new Date() - new Date(lastCheckInDate)) / (1000*60*60*24)) : 3;
-  baseRisk += (daysSinceCheckin * 5);
-  if (riskFactors.sleep === 'malo') baseRisk += 15;
-  if (riskFactors.stress === 'alto') baseRisk += 20;
-  
+  // Habit Logic
   const todayStr = new Date().toISOString().split('T')[0];
-  const todayLogs = habitLogs[todayStr] || [];
+  const safeHabits = Array.isArray(habits) ? habits : [];
+  const safeHabitLogs = habitLogs || {};
+  const activeHabits = safeHabits.filter(h => h.active);
+  const todayLogs = safeHabitLogs[todayStr] || {};
+  const completedHabitsCount = Object.values(todayLogs).filter(l => l.completed).length;
+  const habitsPercent = activeHabits.length > 0 ? Math.round((completedHabitsCount / activeHabits.length) * 100) : 0;
   
-  const isCompleted = (id) => todayLogs.includes(id);
+  const toggleHabit = (habitId) => {
+    const currentLogs = { ...(safeHabitLogs[todayStr] || {}) };
+    const isCompleted = currentLogs[habitId]?.completed || false;
+    currentLogs[habitId] = { completed: !isCompleted, source: 'manual' };
+    setHabitsLogs(prev => ({ ...prev, [todayStr]: currentLogs }));
+  };
   
-  const habitsCompleted = activeHabits.filter(h => isCompleted(h.id)).length;
-  const habitsPercent = activeHabits.length > 0 ? Math.round((habitsCompleted / activeHabits.length) * 100) : 0;
-  baseRisk -= (habitsPercent * 0.3);
-  
-  const riskValue = Math.max(0, Math.min(100, Math.round(baseRisk)));
-  
+  const isCompleted = (habitId) => !!safeHabitLogs[todayStr]?.[habitId]?.completed;
+
+  // Risk Logic
+  const riskValue = dailyRisk !== null ? dailyRisk : 18;
   let riskColor = '#10b981';
   if (riskValue > 40) riskColor = '#f59e0b';
   if (riskValue > 70) riskColor = '#ef4444';
