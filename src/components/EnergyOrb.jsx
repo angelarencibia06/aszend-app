@@ -72,6 +72,29 @@ export function EnergyOrb({
           {!isLocked && (
             <circle cx="0" cy="0" r={r * 2.5} fill={c.core} opacity={isSelected ? "0.5" : "0.2"} filter="blur(5px)" />
           )}
+
+          {/* Planet Signature Rings */}
+          {!isLocked && (
+            <g stroke={c.core} strokeOpacity="0.8" strokeWidth="0.8" fill="none">
+              {rankIdx === 1 && (
+                <ellipse rx={r * 2} ry={r * 0.5} transform="rotate(-20)" />
+              )}
+              {rankIdx === 2 && (
+                <>
+                  <ellipse rx={r * 2} ry={r * 0.5} transform="rotate(-30)" />
+                  <ellipse rx={r * 2} ry={r * 0.5} transform="rotate(30)" />
+                </>
+              )}
+              {rankIdx === 3 && (
+                <>
+                  <ellipse rx={r * 1.8} ry={r * 0.4} transform="rotate(0)" />
+                  <ellipse rx={r * 1.8} ry={r * 0.4} transform="rotate(60)" />
+                  <ellipse rx={r * 1.8} ry={r * 0.4} transform="rotate(120)" />
+                  <circle r={r * 2.2} strokeDasharray="1 2" strokeOpacity="0.4" />
+                </>
+              )}
+            </g>
+          )}
           
           {/* Planet Core */}
           <circle cx="0" cy="0" r={r} fill={`url(#${id}_planet_${rankIdx})`} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
@@ -163,6 +186,17 @@ export function EnergyOrb({
             {/* Ambient Glow */}
             {!isSunLocked && (
               <circle cx="0" cy="0" r={sunRadius * 2.2} fill={sunColor.core} opacity="0.3" filter="url(#softGlow)" />
+            )}
+
+            {/* Sun Signature Rings */}
+            {!isSunLocked && (
+              <g stroke={sunColor.core} strokeOpacity="0.8" strokeWidth="1.5" fill="none">
+                <ellipse rx={sunRadius * 1.8 * sunScale} ry={sunRadius * 0.4 * sunScale} transform="rotate(0)" />
+                <ellipse rx={sunRadius * 1.8 * sunScale} ry={sunRadius * 0.4 * sunScale} transform="rotate(45)" />
+                <ellipse rx={sunRadius * 1.8 * sunScale} ry={sunRadius * 0.4 * sunScale} transform="rotate(90)" />
+                <ellipse rx={sunRadius * 1.8 * sunScale} ry={sunRadius * 0.4 * sunScale} transform="rotate(135)" />
+                <circle r={sunRadius * 2.1 * sunScale} strokeDasharray="2 4" strokeOpacity="0.5" />
+              </g>
             )}
 
             {/* Central Orb Core */}
