@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import os
+
+new_home = """import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Check, Wind, X, Play, Power, Info, ChevronRight, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
@@ -311,3 +313,7 @@ const Home = () => {
 };
 
 export default Home;
+"""
+
+with open("../aszend_app/src/pages/Home.jsx", "w", encoding="utf-8") as f:
+    f.write(new_home)
