@@ -22,16 +22,16 @@ export function EnergyOrb({
   
   const id = `orb_${rankIndex}_${size}`;
   const center = size / 2;
-  const orbRadius = size * 0.25; 
+  const orbRadius = size * 0.22; // Slightly smaller for premium look
 
-  // Planet definitions (x, y relative to center, color, size, delay)
+  // Planet definitions with rich colors
   const planets = [
-    { id: 'p1', cx: 30, cy: 70, r: 4, color: '#a78bfa', glow: '#8b5cf6' },
-    { id: 'p2', cx: 120, cy: 30, r: 6, color: '#fcd34d', glow: '#f59e0b' },
-    { id: 'p3', cx: 270, cy: 90, r: 5, color: '#6ee7b7', glow: '#10b981' },
-    { id: 'p4', cx: 240, cy: 220, r: 5, color: '#fdba74', glow: '#ea580c' },
-    { id: 'p5', cx: 50, cy: 180, r: 6, color: '#fca5a5', glow: '#ef4444' },
-    { id: 'p6', cx: 210, cy: 50, r: 5, color: '#9ca3af', glow: '#6b7280' },
+    { id: 'p1', cx: center - 90, cy: center - 50, r: 4, color: '#a78bfa', glow: '#8b5cf6' },
+    { id: 'p2', cx: center + 70, cy: center - 80, r: 6, color: '#fcd34d', glow: '#f59e0b' },
+    { id: 'p3', cx: center + 120, cy: center - 20, r: 5, color: '#6ee7b7', glow: '#10b981' },
+    { id: 'p4', cx: center + 100, cy: center + 60, r: 5, color: '#fdba74', glow: '#ea580c' },
+    { id: 'p5', cx: center - 80, cy: center + 40, r: 6, color: '#fca5a5', glow: '#ef4444' },
+    { id: 'p6', cx: center + 30, cy: center - 90, r: 4, color: '#9ca3af', glow: '#6b7280' },
   ];
 
   return (
@@ -39,20 +39,6 @@ export function EnergyOrb({
       className={`relative flex items-center justify-center select-none ${className}`}
       style={{ width: size, height: size, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      {/* Background ambient glow */}
-      <div
-        className="absolute rounded-full pointer-events-none"
-        style={{
-          width: size,
-          height: size,
-          background: `radial-gradient(circle, ${c.mid}33 0%, transparent 60%)`,
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-          position: 'absolute'
-        }}
-      />
-      
       <svg
         width={size}
         height={size}
@@ -61,23 +47,35 @@ export function EnergyOrb({
         style={{ position: 'relative', zIndex: 10, overflow: 'visible' }}
       >
         <defs>
-          <radialGradient id={`${id}g`} cx="40%" cy="30%" r="60%">
-            <stop offset="0%"   stopColor="#93c5fd" stopOpacity="1" />
-            <stop offset="20%"  stopColor={c.core}  stopOpacity="0.95" />
-            <stop offset="70%"  stopColor={c.mid}   stopOpacity="0.9" />
-            <stop offset="100%" stopColor={c.outer} stopOpacity="0.8" />
+          {/* Main Orb 3D Gradient */}
+          <radialGradient id={`${id}_core`} cx="35%" cy="35%" r="65%">
+            <stop offset="0%"   stopColor="#ffffff" stopOpacity="0.9" />
+            <stop offset="25%"  stopColor="#93c5fd" stopOpacity="1" />
+            <stop offset="60%"  stopColor={c.core}  stopOpacity="1" />
+            <stop offset="85%"  stopColor={c.mid}   stopOpacity="1" />
+            <stop offset="100%" stopColor="#02040a" stopOpacity="1" />
           </radialGradient>
-          
-          <filter id={`${id}f`} x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
+
+          {/* Volumetric Light Beam */}
+          <linearGradient id={`${id}_beam`} x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stopColor={c.core} stopOpacity="0.4" />
+            <stop offset="40%" stopColor={c.mid} stopOpacity="0.1" />
+            <stop offset="100%" stopColor={c.outer} stopOpacity="0" />
+          </linearGradient>
+
+          {/* Planet Glow Filter */}
+          <filter id="planetGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur1" />
+            <feGaussianBlur stdDeviation="8" result="blur2" />
             <feMerge>
-              <feMergeNode in="blur" />
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-
-          <filter id="planetGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+          
+          <filter id="ringGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="1" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -85,46 +83,68 @@ export function EnergyOrb({
           </filter>
         </defs>
 
-        <g className={animated && !locked ? "orb-slow-spin" : ""} style={{ transformOrigin: `${center}px ${center}px` }}>
-          {/* Orbital Rings */}
-          <ellipse cx={center} cy={center} rx={size * 0.45} ry={size * 0.15} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" transform={`rotate(15 ${center} ${center})`} />
-          <ellipse cx={center} cy={center} rx={size * 0.38} ry={size * 0.2} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" transform={`rotate(-20 ${center} ${center})`} />
-          <ellipse cx={center} cy={center} rx={size * 0.42} ry={size * 0.12} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" transform={`rotate(45 ${center} ${center})`} />
-          
-          {/* Planets */}
-          {!locked && planets.map((p) => (
-            <g key={p.id}>
-              {/* Glow */}
-              <circle cx={p.cx} cy={p.cy} r={p.r * 2} fill={p.glow} opacity="0.4" filter="url(#planetGlow)" />
-              {/* Planet Core */}
-              <circle cx={p.cx} cy={p.cy} r={p.r} fill={p.color} />
-              {/* Planet Highlight */}
-              <circle cx={p.cx - p.r * 0.3} cy={p.cy - p.r * 0.3} r={p.r * 0.3} fill="#fff" opacity="0.8" />
-            </g>
-          ))}
+        {/* Ambient Glow */}
+        <circle cx={center} cy={center} r={orbRadius * 2.5} fill={`url(#${id}_beam)`} opacity="0.3" filter="blur(20px)" />
+
+        {/* Volumetric Light Beam (below the orb) */}
+        <polygon 
+          points={`${center - 40},${center} ${center + 40},${center} ${center + 120},${size} ${center - 120},${size}`} 
+          fill={`url(#${id}_beam)`} 
+        />
+
+        {/* Orbital Rings */}
+        <g stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" fill="none" filter="url(#ringGlow)">
+          <ellipse cx={center} cy={center} rx={size * 0.38} ry={size * 0.12} transform={`rotate(-15 ${center} ${center})`} />
+          <ellipse cx={center} cy={center} rx={size * 0.45} ry={size * 0.18} transform={`rotate(10 ${center} ${center})`} />
+          <ellipse cx={center} cy={center} rx={size * 0.3} ry={size * 0.25} transform={`rotate(-45 ${center} ${center})`} />
         </g>
 
         {/* Main Central Orb */}
         <circle 
-          cx={center} cy={center} r={orbRadius}
-          fill={`url(#${id}g)`}
-          filter={`url(#${id}f)`}
-          className={animated && !locked ? "orb-pulse" : ""}
-          style={{ transformOrigin: `${center}px ${center}px` }}
+          cx={center} 
+          cy={center} 
+          r={orbRadius} 
+          fill={`url(#${id}_core)`} 
+          filter={animated ? "drop-shadow(0 0 30px rgba(59, 130, 246, 0.5))" : "none"}
         />
 
-        {/* Glossy Highlights for 3D effect */}
-        <ellipse cx={center - orbRadius * 0.3} cy={center - orbRadius * 0.4} rx={orbRadius * 0.4} ry={orbRadius * 0.25} fill="white" fillOpacity="0.2" transform={`rotate(-30 ${center - orbRadius * 0.3} ${center - orbRadius * 0.4})`} />
-        <circle cx={center - orbRadius * 0.45} cy={center - orbRadius * 0.55} r={orbRadius * 0.1} fill="white" fillOpacity="0.4" />
-        
-        {/* Core shadow for depth */}
-        <path d={`M ${center - orbRadius} ${center} A ${orbRadius} ${orbRadius} 0 0 0 ${center + orbRadius} ${center} A ${orbRadius} ${orbRadius * 0.6} 0 0 1 ${center - orbRadius} ${center}`} fill="#000" opacity="0.3" />
-
+        {/* Planets */}
+        {planets.map((p, i) => {
+          const delay = i * 0.5;
+          return (
+            <g key={p.id}>
+              {animated ? (
+                <g style={{ animation: `float 6s ease-in-out ${delay}s infinite` }}>
+                  <circle 
+                    cx={p.cx} cy={p.cy} r={p.r} 
+                    fill={p.color} 
+                    filter="url(#planetGlow)" 
+                    style={{ 
+                      transformBox: 'fill-box', 
+                      transformOrigin: 'center',
+                      animation: `pulseGlow 3s ease-in-out ${delay}s infinite alternate` 
+                    }}
+                  />
+                </g>
+              ) : (
+                <circle cx={p.cx} cy={p.cy} r={p.r} fill={p.color} filter="url(#planetGlow)" />
+              )}
+            </g>
+          );
+        })}
       </svg>
       
-      {/* Light ray from bottom */}
-      {!locked && (
-        <div style={{ position: 'absolute', bottom: '15%', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '80px', background: 'linear-gradient(to top, transparent, rgba(59, 130, 246, 0.6))', filter: 'blur(1px)' }} />
+      {animated && (
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes float { 
+            0%, 100% { transform: translateY(0px); } 
+            50% { transform: translateY(-8px); } 
+          }
+          @keyframes pulseGlow {
+            0% { opacity: 0.6; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+          }
+        `}} />
       )}
     </div>
   );
