@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AppProvider, useAppContext } from './context/AppContext';
-import PanicButton from './components/PanicButton';
 import BottomNav from './components/BottomNav';
 import MilestoneOverlay from './components/MilestoneOverlay';
 import PanicRoom from './components/PanicRoom';
@@ -83,7 +82,6 @@ const AppContent = () => {
       {/* Show bottom nav everywhere for dev bypass except onboarding/auth */}
       {!isPublicRoute && (
         <div className="bottom-area">
-          <PanicButton />
           <BottomNav />
         </div>
       )}
