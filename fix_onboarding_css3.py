@@ -1,0 +1,265 @@
+import os
+import re
+
+app_css_path = "../aszend_app/src/styles/App.css"
+with open(app_css_path, "r", encoding="utf-8") as f:
+    css = f.read()
+
+# Delete old onboarding css
+css = re.sub(r'/\* ONBOARDING 2\.0 \*/.*', '', css, flags=re.DOTALL)
+
+new_onboarding_css = """
+/* ONBOARDING 3.0 PREMIUM */
+.onboarding-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px 24px;
+  max-width: 450px;
+  margin: 0 auto;
+}
+.onboarding-content.center-all {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.onboarding-content.scrollable {
+  overflow-y: auto;
+  padding-bottom: 50px;
+}
+.hero-icon-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.hero-icon-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  filter: blur(25px);
+  opacity: 0.3;
+  z-index: 1;
+}
+.onboarding-heading {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
+}
+.onboarding-subtext {
+  font-size: 16px;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin: 0 0 30px 0;
+}
+.onboarding-btn-primary {
+  width: 100%;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 18px;
+  border-radius: 16px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.2s, background 0.2s;
+}
+.onboarding-btn-primary:active {
+  transform: scale(0.97);
+}
+.progress-bar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  z-index: 10;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #3b82f6;
+  transition: width 0.4s ease;
+}
+.step-indicator {
+  font-size: 12px;
+  font-weight: 700;
+  color: #3b82f6;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.option-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  font-size: 15px;
+}
+.option-card:hover {
+  background: rgba(255,255,255,0.05);
+}
+.option-card.selected {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.spinner-outer {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid rgba(59,130,246,0.2);
+  border-top-color: #3b82f6;
+  margin-bottom: 30px;
+}
+.analyzing-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+.analyzing-text {
+  font-size: 15px;
+  color: #9ca3af;
+  min-height: 40px;
+}
+
+.science-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.science-item {
+  display: flex;
+  gap: 16px;
+}
+.sci-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sci-text h3 {
+  margin: 0 0 6px 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.sci-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.solution-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.sol-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.sol-row span {
+  font-size: 15px;
+  color: #d1d5db;
+  line-height: 1.5;
+}
+.sol-row strong {
+  color: #fff;
+}
+
+.pricing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.price-card-v2 {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+.price-card-v2.highlight {
+  background: rgba(139, 92, 246, 0.05);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+.price-card-v2.selected {
+  border-color: #8b5cf6;
+}
+.badge-best-value {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #8b5cf6;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+.pc-content h4 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.pc-price {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.pc-price span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+.pc-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+"""
+
+with open(app_css_path, "w", encoding="utf-8") as f:
+    f.write(css + new_onboarding_css)

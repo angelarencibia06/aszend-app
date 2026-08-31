@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Brain, Activity, Target, Zap, ShieldAlert, CheckCircle2, ChevronRight, Lock, Unlock, ArrowRight } from 'lucide-react';
+import { Brain, Activity, Target, Zap, Lock, Unlock } from 'lucide-react';
 import '../styles/App.css';
 
 const Onboarding = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({ freq: null, impact: null });
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisText, setAnalysisText] = useState('Analizando patrones de consumo...');
   const [selectedPlan, setSelectedPlan] = useState('anual');
   const navigate = useNavigate();

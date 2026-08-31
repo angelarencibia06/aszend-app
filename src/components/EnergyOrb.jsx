@@ -92,7 +92,7 @@ export function EnergyOrb({
           <ellipse cx={center} cy={center} rx={size * 0.42} ry={size * 0.12} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" transform={`rotate(45 ${center} ${center})`} />
           
           {/* Planets */}
-          {!locked && planets.map((p, i) => (
+          {!locked && planets.map((p) => (
             <g key={p.id}>
               {/* Glow */}
               <circle cx={p.cx} cy={p.cy} r={p.r * 2} fill={p.glow} opacity="0.4" filter="url(#planetGlow)" />

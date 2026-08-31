@@ -35,7 +35,7 @@ const PageWrapper = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isPanicRoomActive, isAuthenticated, hasCompletedOnboarding } = useAppContext();
+  const { isPanicRoomActive } = useAppContext();
   const location = useLocation();
 
   const isPublicRoute = location.pathname === '/auth' || location.pathname === '/onboarding';
