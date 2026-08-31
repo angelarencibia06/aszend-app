@@ -1,15 +1,15 @@
 import React from 'react';
 
 const RANKS = [
-  { id: 1, name: 'PULSO', number: '01', core: '#93c5fd', mid: '#2563eb', outer: '#1e3a8a', req: 0, level: 1 },
-  { id: 2, name: 'AURA', number: '02', core: '#c4b5fd', mid: '#7c3aed', outer: '#4c1d95', req: 7, level: 2 },
-  { id: 3, name: 'NÚCLEO', number: '03', core: '#6ee7b7', mid: '#059669', outer: '#065f46', req: 30, level: 3 },
-  { id: 4, name: 'ÉTER', number: '04', core: '#fdba74', mid: '#ea580c', outer: '#9a3412', req: 90, level: 4 },
-  { id: 5, name: 'ASCENSIÓN', number: '05', core: '#fde68a', mid: '#d97706', outer: '#92400e', req: 365, level: 5 },
+  { id: 1, name: 'PULSO', number: '01', core: '#3b82f6', mid: '#2563eb', outer: '#1d4ed8', req: 0, level: 1 },
+  { id: 2, name: 'AURA', number: '02', core: '#8b5cf6', mid: '#7c3aed', outer: '#5b21b6', req: 7, level: 2 },
+  { id: 3, name: 'NÚCLEO', number: '03', core: '#10b981', mid: '#059669', outer: '#047857', req: 30, level: 3 },
+  { id: 4, name: 'ÉTER', number: '04', core: '#f59e0b', mid: '#d97706', outer: '#b45309', req: 90, level: 4 },
+  { id: 5, name: 'ASCENSIÓN', number: '05', core: '#f59e0b', mid: '#ea580c', outer: '#9a3412', req: 365, level: 5 },
 ];
 
 export function EnergyOrb({
-  size = 280,
+  size = 320,
   rankIndex = 0,
   animated = true,
   className = "",
@@ -17,106 +17,115 @@ export function EnergyOrb({
 }) {
   const baseRank = RANKS[rankIndex] ?? RANKS[0];
   const c = locked 
-    ? { core: '#6b7280', mid: '#374151', outer: '#111827', level: baseRank.level }
+    ? { core: '#4b5563', mid: '#374151', outer: '#1f2937', level: 1 }
     : baseRank;
   
-  const id = `o${rankIndex}x${size}`;
+  const id = `orb_${rankIndex}_${size}`;
+  const center = size / 2;
+  const orbRadius = size * 0.25; 
+
+  // Planet definitions (x, y relative to center, color, size, delay)
+  const planets = [
+    { id: 'p1', cx: 30, cy: 70, r: 4, color: '#a78bfa', glow: '#8b5cf6' },
+    { id: 'p2', cx: 120, cy: 30, r: 6, color: '#fcd34d', glow: '#f59e0b' },
+    { id: 'p3', cx: 270, cy: 90, r: 5, color: '#6ee7b7', glow: '#10b981' },
+    { id: 'p4', cx: 240, cy: 220, r: 5, color: '#fdba74', glow: '#ea580c' },
+    { id: 'p5', cx: 50, cy: 180, r: 6, color: '#fca5a5', glow: '#ef4444' },
+    { id: 'p6', cx: 210, cy: 50, r: 5, color: '#9ca3af', glow: '#6b7280' },
+  ];
 
   return (
     <div
       className={`relative flex items-center justify-center select-none ${className}`}
       style={{ width: size, height: size, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
+      {/* Background ambient glow */}
       <div
         className="absolute rounded-full pointer-events-none"
         style={{
-          width: size * 1.7,
-          height: size * 1.7,
-          background: `radial-gradient(circle, ${c.mid}22 0%, transparent 68%)`,
+          width: size,
+          height: size,
+          background: `radial-gradient(circle, ${c.mid}33 0%, transparent 60%)`,
           top: "50%",
           left: "50%",
           transform: "translate(-50%,-50%)",
           position: 'absolute'
         }}
       />
+      
       <svg
         width={size}
         height={size}
-        viewBox="0 0 280 280"
-        className={`relative z-10 ${animated && !locked ? "orb-float" : ""}`}
+        viewBox={`0 0 ${size} ${size}`}
+        className="relative z-10"
         style={{ position: 'relative', zIndex: 10, overflow: 'visible' }}
       >
         <defs>
-          <radialGradient id={`${id}g`} cx="38%" cy="32%" r="65%">
-            <stop offset="0%"   stopColor={c.core}  stopOpacity="1" />
-            <stop offset="55%"  stopColor={c.mid}   stopOpacity="0.95" />
-            <stop offset="100%" stopColor={c.outer}  stopOpacity="0.75" />
+          <radialGradient id={`${id}g`} cx="40%" cy="30%" r="60%">
+            <stop offset="0%"   stopColor="#93c5fd" stopOpacity="1" />
+            <stop offset="20%"  stopColor={c.core}  stopOpacity="0.95" />
+            <stop offset="70%"  stopColor={c.mid}   stopOpacity="0.9" />
+            <stop offset="100%" stopColor={c.outer} stopOpacity="0.8" />
           </radialGradient>
+          
           <filter id={`${id}f`} x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="10" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
-          <filter id={`${id}h`} x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="18" />
+
+          <filter id="planetGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
         </defs>
 
-        {!locked && (
-          <>
-            {/* LEVEL 2 */}
-            {c.level === 2 && <ellipse cx="140" cy="140" rx="120" ry="30" fill="none" stroke={c.mid} strokeWidth="2" strokeOpacity="0.7" transform="rotate(20 140 140)" />}
-            
-            {/* LEVEL 3 */}
-            {c.level === 3 && (
-              <>
-                <ellipse cx="140" cy="140" rx="120" ry="25" fill="none" stroke={c.mid} strokeWidth="2" strokeOpacity="0.8" transform="rotate(35 140 140)" />
-                <ellipse cx="140" cy="140" rx="120" ry="25" fill="none" stroke={c.mid} strokeWidth="2" strokeOpacity="0.8" transform="rotate(-35 140 140)" />
-              </>
-            )}
+        <g className={animated && !locked ? "orb-slow-spin" : ""} style={{ transformOrigin: `${center}px ${center}px` }}>
+          {/* Orbital Rings */}
+          <ellipse cx={center} cy={center} rx={size * 0.45} ry={size * 0.15} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" transform={`rotate(15 ${center} ${center})`} />
+          <ellipse cx={center} cy={center} rx={size * 0.38} ry={size * 0.2} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" transform={`rotate(-20 ${center} ${center})`} />
+          <ellipse cx={center} cy={center} rx={size * 0.42} ry={size * 0.12} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" transform={`rotate(45 ${center} ${center})`} />
+          
+          {/* Planets */}
+          {!locked && planets.map((p, i) => (
+            <g key={p.id}>
+              {/* Glow */}
+              <circle cx={p.cx} cy={p.cy} r={p.r * 2} fill={p.glow} opacity="0.4" filter="url(#planetGlow)" />
+              {/* Planet Core */}
+              <circle cx={p.cx} cy={p.cy} r={p.r} fill={p.color} />
+              {/* Planet Highlight */}
+              <circle cx={p.cx - p.r * 0.3} cy={p.cy - p.r * 0.3} r={p.r * 0.3} fill="#fff" opacity="0.8" />
+            </g>
+          ))}
+        </g>
 
-            {/* LEVEL 4 */}
-            {c.level === 4 && (
-              <>
-                <ellipse cx="140" cy="140" rx="115" ry="20" fill="none" stroke={c.mid} strokeWidth="2.5" strokeOpacity="0.9" transform="rotate(0 140 140)" />
-                <ellipse cx="140" cy="140" rx="115" ry="20" fill="none" stroke={c.mid} strokeWidth="2.5" strokeOpacity="0.9" transform="rotate(60 140 140)" />
-                <ellipse cx="140" cy="140" rx="115" ry="20" fill="none" stroke={c.mid} strokeWidth="2.5" strokeOpacity="0.9" transform="rotate(120 140 140)" />
-                <circle cx="140" cy="140" r="130" fill="none" stroke={c.core} strokeWidth="1" strokeOpacity="0.5" strokeDasharray="5 15" className={animated ? "orb-spin" : ""} style={{ transformOrigin: '140px 140px' }} />
-              </>
-            )}
-
-            {/* LEVEL 5 */}
-            {c.level === 5 && (
-              <>
-                <ellipse cx="140" cy="140" rx="125" ry="15" fill="none" stroke={c.core} strokeWidth="3" strokeOpacity="1" transform="rotate(0 140 140)" />
-                <ellipse cx="140" cy="140" rx="125" ry="15" fill="none" stroke={c.core} strokeWidth="3" strokeOpacity="1" transform="rotate(45 140 140)" />
-                <ellipse cx="140" cy="140" rx="125" ry="15" fill="none" stroke={c.core} strokeWidth="3" strokeOpacity="1" transform="rotate(90 140 140)" />
-                <ellipse cx="140" cy="140" rx="125" ry="15" fill="none" stroke={c.core} strokeWidth="3" strokeOpacity="1" transform="rotate(135 140 140)" />
-                <circle cx="140" cy="140" r="135" fill="none" stroke={c.mid} strokeWidth="2" strokeOpacity="0.6" strokeDasharray="10 20" className={animated ? "orb-spin-reverse" : ""} style={{ transformOrigin: '140px 140px' }} />
-                <circle cx="140" cy="140" r="105" fill={c.core} fillOpacity="0.4" filter={`url(#${id}h)`} />
-              </>
-            )}
-          </>
-        )}
-
-        <circle cx="140" cy="140" r="80" fill={c.mid} fillOpacity={c.level >= 4 && !locked ? 0.35 : 0.15} filter={`url(#${id}h)`} />
-
-        <circle cx="140" cy="140" r="75"
+        {/* Main Central Orb */}
+        <circle 
+          cx={center} cy={center} r={orbRadius}
           fill={`url(#${id}g)`}
           filter={`url(#${id}f)`}
           className={animated && !locked ? "orb-pulse" : ""}
-          style={{ transformOrigin: "140px 140px" }}
+          style={{ transformOrigin: `${center}px ${center}px` }}
         />
 
-        <ellipse cx="113" cy="111" rx="22" ry="14" fill="white" fillOpacity="0.18" />
-        <ellipse cx="104" cy="104" rx="8"  ry="5"  fill="white" fillOpacity="0.28" />
+        {/* Glossy Highlights for 3D effect */}
+        <ellipse cx={center - orbRadius * 0.3} cy={center - orbRadius * 0.4} rx={orbRadius * 0.4} ry={orbRadius * 0.25} fill="white" fillOpacity="0.2" transform={`rotate(-30 ${center - orbRadius * 0.3} ${center - orbRadius * 0.4})`} />
+        <circle cx={center - orbRadius * 0.45} cy={center - orbRadius * 0.55} r={orbRadius * 0.1} fill="white" fillOpacity="0.4" />
         
-        {locked && (
-          <g transform="translate(128, 128) scale(1)">
-            <path d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M7 11V7C7 5.67392 7.52678 4.40215 8.46447 3.46447C9.40215 2.52678 10.6739 2 12 2C13.3261 2 14.5979 2.52678 15.5355 3.46447C16.4732 4.40215 17 5.67392 17 7V11" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </g>
-        )}
+        {/* Core shadow for depth */}
+        <path d={`M ${center - orbRadius} ${center} A ${orbRadius} ${orbRadius} 0 0 0 ${center + orbRadius} ${center} A ${orbRadius} ${orbRadius * 0.6} 0 0 1 ${center - orbRadius} ${center}`} fill="#000" opacity="0.3" />
+
       </svg>
+      
+      {/* Light ray from bottom */}
+      {!locked && (
+        <div style={{ position: 'absolute', bottom: '15%', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '80px', background: 'linear-gradient(to top, transparent, rgba(59, 130, 246, 0.6))', filter: 'blur(1px)' }} />
+      )}
     </div>
   );
 }
