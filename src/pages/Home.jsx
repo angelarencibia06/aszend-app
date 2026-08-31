@@ -228,7 +228,7 @@ const Home = () => {
           <span style={{ fontSize: '18px', fontWeight: '800', color: '#fff' }}>{habitsPercent}%</span>
         </div>
         
-        <div>
+        <div className="habits-list-container">
           {displayHabits.map(habit => (
             <div key={habit.id} className="habit-item" onClick={() => toggleHabit(habit.id)}>
               <div className={`habit-checkbox ${isCompleted(habit.id) ? 'checked' : ''}`}>
