@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Lock } from 'lucide-react';
 
 const RANKS = [
   { id: 1, name: 'PULSO', number: '01', core: '#3b82f6', mid: '#2563eb', outer: '#1d4ed8', req: 0, level: 1 },
@@ -17,27 +16,24 @@ export function EnergyOrb({
   className = ""
 }) {
   const center = size / 2;
-  const id = `solar_system_3d_${size}`;
-  const centralRank = RANKS[viewIndex] || RANKS[0];
-  const isCentralLocked = viewIndex > highestUnlockedIndex;
+  const id = `solar_system_static_${size}`;
 
-  // 3D Perspective Radii for the orbits
-  const innerRx = size * 0.35;
-  const innerRy = size * 0.12;
-  
-  const outerRx = size * 0.45;
-  const outerRy = size * 0.18;
-
-  // The 4 other ranks that will be orbiting
-  const orbitingRanks = RANKS.map((r, i) => ({ ...r, originalIndex: i })).filter(r => r.originalIndex !== viewIndex);
-
-  // Hardcoded positions on the 2 ellipses for the 4 planets to look like 3D depth
-  const planetPositions = [
-    { cx: center - innerRx, cy: center, size: 8, delay: 0 },                                  // Left, Inner
-    { cx: center + innerRx, cy: center, size: 8, delay: 0.5 },                                // Right, Inner
-    { cx: center - outerRx * 0.7, cy: center + outerRy * 0.7, size: 12, delay: 0.2 },         // Bottom-Left, Outer (Closer = bigger)
-    { cx: center + outerRx * 0.7, cy: center - outerRy * 0.7, size: 6, delay: 0.7 },          // Top-Right, Outer (Further = smaller)
+  // 3D Perspective Radii for the 4 orbits
+  const orbits = [
+    { rank: 3, rx: size * 0.16, ry: size * 0.05, angle: 135, size: 8 },  // Orbit 1 (Inner): Éter
+    { rank: 2, rx: size * 0.26, ry: size * 0.09, angle: 0, size: 8 },    // Orbit 2: Núcleo
+    { rank: 1, rx: size * 0.36, ry: size * 0.13, angle: 315, size: 8 },  // Orbit 3: Aura
+    { rank: 0, rx: size * 0.46, ry: size * 0.18, angle: 180, size: 8 },  // Orbit 4 (Outer): Pulso
   ];
+
+  // Helper to get coordinates on an ellipse based on an angle
+  const getCoordsOnEllipse = (rx, ry, angleDeg) => {
+    const rad = angleDeg * (Math.PI / 180);
+    return {
+      cx: center + rx * Math.cos(rad),
+      cy: center + ry * Math.sin(rad)
+    };
+  };
 
   // Static stars background
   const stars = useMemo(() => {
@@ -50,20 +46,25 @@ export function EnergyOrb({
   }, [size]);
 
   // Render a specific small planet
-  const renderPlanet = (rankData, pos, index) => {
-    const isLocked = rankData.originalIndex > highestUnlockedIndex;
-    const c = isLocked ? { core: '#374151', mid: '#1f2937', outer: '#111827' } : rankData;
-    const r = pos.size;
+  const renderPlanet = (rankIdx, rx, ry, angleDeg, pSize) => {
+    const isLocked = rankIdx > highestUnlockedIndex;
+    const isSelected = rankIdx === viewIndex;
+    const c = isLocked ? { core: '#374151', mid: '#1f2937', outer: '#111827' } : RANKS[rankIdx];
+    
+    // Scale up if selected
+    const scale = isSelected ? 1.4 : 1;
+    const r = pSize * scale;
+    const pos = getCoordsOnEllipse(rx, ry, angleDeg);
 
     return (
       <g 
-        key={`planet_${rankData.originalIndex}`}
+        key={`planet_${rankIdx}`}
         transform={`translate(${pos.cx}, ${pos.cy})`}
-        style={{ cursor: 'pointer', transition: 'all 0.3s ease', animation: `floatPlanet 4s ease-in-out ${pos.delay}s infinite alternate` }}
-        onClick={() => onSelectRank && onSelectRank(rankData.originalIndex)}
+        style={{ cursor: 'pointer', transition: 'all 0.3s ease', animation: `floatPlanet 4s ease-in-out ${rankIdx * 0.5}s infinite alternate` }}
+        onClick={() => onSelectRank && onSelectRank(rankIdx)}
       >
         <defs>
-          <radialGradient id={`${id}_planet_${rankData.originalIndex}`} cx="35%" cy="35%" r="65%">
+          <radialGradient id={`${id}_planet_${rankIdx}`} cx="35%" cy="35%" r="65%">
             <stop offset="0%"   stopColor="#ffffff" stopOpacity={isLocked ? "0.3" : "0.9"} />
             <stop offset="20%"  stopColor={c.core}  stopOpacity="1" />
             <stop offset="85%"  stopColor={c.outer} stopOpacity="1" />
@@ -73,13 +74,18 @@ export function EnergyOrb({
         
         {/* Glow */}
         {!isLocked && (
-          <circle r={r * 2.5} fill={c.core} opacity="0.3" filter="blur(6px)" />
+          <circle r={r * 2.5} fill={c.core} opacity={isSelected ? "0.4" : "0.15"} filter="blur(6px)" />
         )}
         
         {/* Planet Core */}
-        <circle r={r} fill={`url(#${id}_planet_${rankData.originalIndex})`} />
+        <circle r={r} fill={`url(#${id}_planet_${rankIdx})`} />
 
-        {/* Small Padlock for locked planets */}
+        {/* Selection indicator */}
+        {isSelected && (
+          <circle r={r + 6} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="2 3" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
+        )}
+
+        {/* Padlock for locked planets */}
         {isLocked && (
           <g transform={`translate(-5, -5) scale(0.4)`}>
             <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#9ca3af" strokeWidth="4" fill="none" strokeLinecap="round" />
@@ -89,8 +95,12 @@ export function EnergyOrb({
     );
   };
 
-  const centerColor = isCentralLocked ? { core: '#374151', mid: '#1f2937', outer: '#111827' } : centralRank;
-  const centerRadius = size * 0.18;
+  // Center Sun (Ascensión - Rank 4)
+  const isSunLocked = 4 > highestUnlockedIndex;
+  const isSunSelected = viewIndex === 4;
+  const sunColor = isSunLocked ? { core: '#374151', mid: '#1f2937', outer: '#111827' } : RANKS[4];
+  const sunRadius = size * 0.16;
+  const sunScale = isSunSelected ? 1.1 : 1;
 
   return (
     <div
@@ -105,18 +115,18 @@ export function EnergyOrb({
         style={{ position: 'relative', zIndex: 10, overflow: 'visible' }}
       >
         <defs>
-          <radialGradient id={`${id}_center_core`} cx="35%" cy="35%" r="65%">
-            <stop offset="0%"   stopColor="#ffffff" stopOpacity={isCentralLocked ? "0.3" : "0.95"} />
-            <stop offset="25%"  stopColor={centerColor.core}  stopOpacity="1" />
-            <stop offset="70%"  stopColor={centerColor.mid}   stopOpacity="1" />
+          <radialGradient id={`${id}_sun_core`} cx="35%" cy="35%" r="65%">
+            <stop offset="0%"   stopColor="#ffffff" stopOpacity={isSunLocked ? "0.3" : "0.95"} />
+            <stop offset="25%"  stopColor={sunColor.core}  stopOpacity="1" />
+            <stop offset="70%"  stopColor={sunColor.mid}   stopOpacity="1" />
             <stop offset="100%" stopColor="#02040a" stopOpacity="1" />
           </radialGradient>
 
           {/* Volumetric Light Beam for Central Orb */}
           <linearGradient id={`${id}_beam`} x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" stopColor={centerColor.core} stopOpacity={isCentralLocked ? "0.1" : "0.5"} />
-            <stop offset="40%" stopColor={centerColor.mid} stopOpacity={isCentralLocked ? "0.05" : "0.15"} />
-            <stop offset="100%" stopColor={centerColor.outer} stopOpacity="0" />
+            <stop offset="0%" stopColor={sunColor.core} stopOpacity={isSunLocked ? "0.15" : "0.5"} />
+            <stop offset="40%" stopColor={sunColor.mid} stopOpacity={isSunLocked ? "0.05" : "0.15"} />
+            <stop offset="100%" stopColor={sunColor.outer} stopOpacity="0" />
           </linearGradient>
 
           <filter id="centerGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -137,39 +147,44 @@ export function EnergyOrb({
 
         {/* 3D Perspective Orbital Ellipses */}
         <g stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" fill="none">
-          <ellipse cx={center} cy={center} rx={innerRx} ry={innerRy} />
-          <ellipse cx={center} cy={center} rx={outerRx} ry={outerRy} />
+          {orbits.map((orb, i) => (
+            <ellipse key={`orbit_path_${i}`} cx={center} cy={center} rx={orb.rx} ry={orb.ry} />
+          ))}
         </g>
 
         {/* Volumetric Light Beam (below the orb) */}
-        {!isCentralLocked && (
-          <polygon 
-            points={`${center - 25},${center} ${center + 25},${center} ${center + 80},${size} ${center - 80},${size}`} 
-            fill={`url(#${id}_beam)`} 
-            style={{ animation: 'pulseBeam 4s infinite alternate' }}
-          />
-        )}
+        <polygon 
+          points={`${center - 25},${center} ${center + 25},${center} ${center + 80},${size} ${center - 80},${size}`} 
+          fill={`url(#${id}_beam)`} 
+          style={{ animation: 'pulseBeam 4s infinite alternate' }}
+        />
 
         {/* Render planets on orbits */}
-        {orbitingRanks.map((rankData, i) => renderPlanet(rankData, planetPositions[i], i))}
+        {orbits.map(orb => renderPlanet(orb.rank, orb.rx, orb.ry, orb.angle, orb.size))}
 
-        {/* Massive Central Orb */}
+        {/* Massive Central Orb (Ascensión) */}
         <g 
           transform={`translate(${center}, ${center})`}
-          style={{ cursor: 'default' }}
+          style={{ cursor: 'pointer', transition: 'all 0.3s ease' }}
+          onClick={() => onSelectRank && onSelectRank(4)}
         >
           {/* Ambient Glow */}
-          {!isCentralLocked && (
-            <circle r={centerRadius * 2} fill={centerColor.core} opacity="0.25" filter="url(#centerGlow)" />
+          {!isSunLocked && (
+            <circle r={sunRadius * 2} fill={sunColor.core} opacity="0.25" filter="url(#centerGlow)" />
           )}
 
           {/* Central Orb Core */}
-          <circle r={centerRadius} fill={`url(#${id}_center_core)`} style={{ animation: 'floatCenter 6s ease-in-out infinite alternate' }} />
+          <circle r={sunRadius * sunScale} fill={`url(#${id}_sun_core)`} style={{ animation: 'floatCenter 6s ease-in-out infinite alternate' }} />
+
+          {/* Sun Selection indicator */}
+          {isSunSelected && (
+            <circle r={sunRadius * sunScale + 12} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="3 4" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
+          )}
 
           {/* Padlock for Central Orb */}
-          {isCentralLocked && (
-            <g transform={`translate(-16, -16) scale(1.3)`}>
-              <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#9ca3af" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          {isSunLocked && (
+            <g transform={`translate(-12, -12) scale(1)`}>
+              <path d="M15.3 19.3V12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7v7.3m-13.3 0h9.3c1.8 0 3.3 1.5 3.3 3.3v10.7c0 1.8-1.5 3.3-3.3 3.3H16c-1.8 0-3.3-1.5-3.3-3.3V22.7c0-1.8 1.5-3.3 3.3-3.3z" stroke="#9ca3af" strokeWidth="3" fill="none" strokeLinecap="round" />
             </g>
           )}
         </g>
@@ -188,6 +203,7 @@ export function EnergyOrb({
           0% { opacity: 0.7; }
           100% { opacity: 1; }
         }
+        @keyframes spinSlow { 100% { transform: rotate(360deg); } }
       `}} />
     </div>
   );
