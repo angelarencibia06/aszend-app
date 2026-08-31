@@ -99,10 +99,7 @@ export function EnergyOrb({
           {/* Planet Core */}
           <circle cx="0" cy="0" r={r} fill={`url(#${id}_planet_${rankIdx})`} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
 
-          {/* Selection indicator */}
-          {isSelected && (
-            <circle cx="0" cy="0" r={r + 6} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="3 3" fill="none" style={{ animation: 'spinSlow 8s linear infinite' }} />
-          )}
+          {/* Selection indicator removed to reduce visual clutter, scaling is enough */}
 
           {/* Small Padlock */}
           {isLocked && (
@@ -199,10 +196,7 @@ export function EnergyOrb({
             {/* Central Orb Core */}
             <circle cx="0" cy="0" r={sunRadius * sunScale} fill={`url(#${id}_sun_core)`} stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
 
-            {/* Sun Selection indicator */}
-            {isSunSelected && (
-              <circle cx="0" cy="0" r={sunRadius * sunScale + 14} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="3 4" fill="none" style={{ animation: 'spinSlow 10s linear infinite' }} />
-            )}
+            {/* Sun Selection indicator removed to reduce visual clutter */}
 
             {/* Padlock for Central Orb */}
             {isSunLocked && (
