@@ -183,10 +183,7 @@ export function EnergyOrb({
           onClick={() => onSelectRank && onSelectRank(4)}
         >
           <g style={{ transition: 'all 0.3s ease', animation: 'floatCenter 6s ease-in-out infinite alternate' }}>
-            {/* Ambient Glow */}
-            {!isSunLocked && (
-              <circle cx="0" cy="0" r={sunRadius * 2.2} fill={sunColor.core} opacity="0.3" filter="url(#softGlow)" />
-            )}
+            {/* Ambient Glow Removed as requested by user to keep it clean */}
 
             {/* Sun Signature Rings */}
             {!isSunLocked && (
