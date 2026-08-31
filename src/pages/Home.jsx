@@ -57,28 +57,8 @@ const Home = () => {
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
   
-  // Carousel logic
+  // Solar System selection logic
   const [viewIndex, setViewIndex] = useState(highestUnlockedIndex);
-  const orbScrollRef = React.useRef(null);
-  
-  // Initialize scroll position on mount
-  useEffect(() => {
-    if (orbScrollRef.current) {
-      orbScrollRef.current.scrollLeft = highestUnlockedIndex * orbScrollRef.current.clientWidth;
-    }
-  }, [highestUnlockedIndex]);
-
-  const handleOrbScroll = (e) => {
-    const container = e.target;
-    const scrollLeft = container.scrollLeft;
-    const width = container.clientWidth;
-    if (width > 0) {
-      const newIndex = Math.round(scrollLeft / width);
-      if (newIndex !== viewIndex && newIndex >= 0 && newIndex < RANKS.length) {
-        setViewIndex(newIndex);
-      }
-    }
-  };
 
   const viewRank = RANKS[viewIndex] || RANKS[0];
   const isViewLocked = viewIndex > highestUnlockedIndex;
@@ -134,43 +114,14 @@ const Home = () => {
       {/* Orb Section */}
       <div className="orb-section">
         
-        {/* Carousel Container */}
-        <div 
-          ref={orbScrollRef}
-          onScroll={handleOrbScroll}
-          style={{ 
-            display: 'flex', 
-            width: '100%', 
-            overflowX: 'auto', 
-            scrollSnapType: 'x mandatory', 
-            scrollbarWidth: 'none', /* Firefox */
-            msOverflowStyle: 'none', /* IE and Edge */
-            marginBottom: '10px'
-          }}
-          className="hide-scrollbar"
-        >
-          {RANKS.map((rank, idx) => {
-            const isLocked = idx > highestUnlockedIndex;
-            return (
-              <div 
-                key={rank.id} 
-                style={{ 
-                  flex: '0 0 100%', 
-                  scrollSnapAlign: 'center', 
-                  display: 'flex', 
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <EnergyOrb 
-                  size={260} 
-                  rankIndex={idx} 
-                  locked={isLocked} 
-                  animated={viewIndex === idx} 
-                />
-              </div>
-            );
-          })}
+        {/* Solar System View */}
+        <div style={{ marginBottom: '20px' }}>
+          <EnergyOrb 
+            size={340} 
+            viewIndex={viewIndex}
+            highestUnlockedIndex={highestUnlockedIndex}
+            onSelectRank={(idx) => setViewIndex(idx)}
+          />
         </div>
         
         <h1 className="rank-title">{viewRank.name}</h1>
