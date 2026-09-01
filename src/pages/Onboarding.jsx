@@ -387,7 +387,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     /* 15 — RISK RESULT */
     if (step === 15) return (
       <div className="flex flex-col min-h-full px-5 pb-6 pt-2">
-        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
+        <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-4 py-4 ob-d0">
             <EnergyOrb size={88} intensity={orbIntensity} />
             <div className="px-4 py-2 rounded-full font-bold text-[11px] tracking-[0.16em] uppercase"
@@ -541,7 +541,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     /* 29 — SUMMARY */
     if (step === 29) return (
       <div className="flex flex-col min-h-full px-5 pb-8 pt-2">
-        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-5 pb-3">
+        <div className="flex-1 flex flex-col gap-5 pb-3">
           <div className="flex flex-col items-center gap-3 pt-3 ob-d0">
             <EnergyOrb size={76} intensity={1} floating />
             <h2 className="text-[19px] font-extrabold text-white uppercase leading-tight text-center" style={SF}>Este es tu punto de partida.</h2>
@@ -593,7 +593,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     /* 30 — 7-DAY ROADMAP */
     if (step === 30) return (
       <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
-        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
+        <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="shrink-0 ob-d0">
             <p className="text-[10px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-1">Primer reto</p>
             <h2 className="text-2xl font-extrabold text-white uppercase leading-tight" style={SF}>Tus primeros 7 días</h2>
@@ -632,7 +632,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     /* 31 — PRICING */
     if (step === 31) return (
       <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
-        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
+        <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-3 pt-2 ob-d0">
             <EnergyOrb size={80} intensity={1} floating />
             <h2 className="text-[20px] font-extrabold text-white uppercase text-center leading-tight" style={SF}>Tu ascensión comienza ahora.</h2>
