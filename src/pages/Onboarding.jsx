@@ -60,24 +60,15 @@ const OB_DAYS7 = [
 
 /* ─── Energy Orb ─────────────────────────────────────────────────────────── */
 function EnergyOrb({ size = 120, intensity = 0.7, floating = false }) {
-  const core = size * 0.52;
   const wrapStyle = {
     width: size, height: size, position: "relative",
-    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-    animation: floating ? "orb-float 4s ease-in-out infinite" : undefined,
+    display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0
   };
   return (
     <div style={wrapStyle}>
-      <div style={{ position: "absolute", inset: -size * 0.18, borderRadius: "50%", background: `radial-gradient(circle, rgba(37,99,235,${intensity * 0.13}) 0%, transparent 60%)`, animation: "orb-pulse 4s ease-in-out infinite" }} />
-      <div style={{ position: "absolute", width: size * 0.92, height: size * 0.92, borderRadius: "50%", border: `1px solid rgba(37,99,235,${intensity * 0.22})`, animation: "orb-pulse 4s ease-in-out infinite 1.2s" }} />
-      <div style={{ position: "absolute", width: size * 0.75, height: size * 0.75, borderRadius: "50%", border: `1px solid rgba(37,99,235,${intensity * 0.38})`, animation: "orb-pulse 3.5s ease-in-out infinite 0.6s" }} />
-      <div style={{ position: "absolute", width: size * 0.84, height: size * 0.84, borderRadius: "50%", border: `1px dashed rgba(37,99,235,${intensity * 0.18})`, animation: "orb-spin-ring 12s linear infinite" }} />
-      
-      {/* LOGO INSTEAD OF THE GLOWING CORE */}
       <img src="/logo.png" alt="Aszend Logo" style={{
-        width: core * 1.3, height: core * 1.3, objectFit: 'contain', 
-        animation: "orb-glow 3.5s ease-in-out infinite", 
-        filter: `drop-shadow(0 0 ${size * 0.25}px rgba(37,99,235,${intensity * 0.7})) drop-shadow(0 0 ${size * 0.5}px rgba(37,99,235,${intensity * 0.25}))`,
+        width: size * 0.9, height: size * 0.9, objectFit: 'contain', 
+        mixBlendMode: 'screen',
         zIndex: 10
       }} />
     </div>
@@ -163,7 +154,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: done ? "#2563EB" : "transparent", border: done ? "none" : "1px solid rgba(255,255,255,0.15)", boxShadow: done ? "0 0 10px rgba(37,99,235,0.5)" : "none" }}>
               {done && <Check size={10} className="text-white" strokeWidth={3} />}
             </div>
-            <span className={`text-xs font-medium ${done ? "text-white" : "text-white/35"}`}>{h}</span>
+            <span className={`text-sm font-medium ${done ? "text-white" : "text-white/35"}`}>{h}</span>
             {done && <span className="ml-auto text-[9px] text-[#10B981] font-bold">✓</span>}
           </div>
         ))}
@@ -246,31 +237,31 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 1 — WELCOME */
     if (step === 1) return (
-      <div className="flex flex-col h-full px-6 pb-6 pt-10 relative overflow-hidden">
+      <div className="flex flex-col min-h-full px-8 pb-8 pt-12 relative">
         <div style={{ position: "absolute", top: 0, left: "30%", right: "30%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.6), transparent)" }} />
         <div className="flex justify-center mb-7 ob-d0">
           <EnergyOrb size={90} intensity={0.55} floating />
         </div>
         <div className="flex-1 ob-d1">
-          <h1 className="text-[22px] font-extrabold text-white leading-tight mb-5 uppercase" style={SF}>
+          <h1 className="text-3xl leading-tight font-extrabold text-white leading-tight mb-5 uppercase" style={SF}>
             Empecemos por averiguar si tienes un problema.
           </h1>
-          <p className="text-sm text-white/40 leading-relaxed mb-5">
+          <p className="text-base text-white/50 leading-relaxed mb-5">
             Responde con sinceridad. No estamos aquí para juzgarte, sino para ayudarte a entender tus hábitos.
           </p>
-          <div className="flex items-start gap-2.5 p-3.5 rounded-xl" style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.18)" }}>
+          <div className="flex items-start gap-4 p-5 rounded-xl" style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.18)" }}>
             <Zap size={14} className="text-[#2563EB] mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-[#93C5FD] font-medium leading-relaxed">
+            <p className="text-base text-[#93C5FD] font-medium leading-relaxed">
               Comencemos evaluando tu relación con la pornografía.
             </p>
           </div>
         </div>
         <div className="flex flex-col gap-3 mt-6 ob-d2">
-          <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest transition-all active:scale-[0.98]"
+          <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest transition-all active:scale-[0.98]"
             style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
             INICIAR CUESTIONARIO
           </button>
-          <button onClick={onLogin} className="w-full py-3.5 rounded-2xl text-sm font-semibold text-white/50 uppercase tracking-widest transition-all border border-white/[0.08] active:bg-white/[0.04]"
+          <button onClick={onLogin} className="w-full py-4 rounded-full text-base font-bold text-white/50 uppercase tracking-widest transition-all border border-white/[0.08] active:bg-white/[0.04]"
             style={{ background: "rgba(255,255,255,0.03)" }}>
             YA TENGO UNA CUENTA
           </button>
@@ -281,20 +272,20 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 2 — START CHALLENGE */
     if (step === 2) return (
-      <div className="flex flex-col h-full px-6 pb-8 pt-6 relative overflow-hidden">
+      <div className="flex flex-col min-h-full px-8 pb-8 pt-6 relative">
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, background: "radial-gradient(ellipse at 50% 30%, rgba(37,99,235,0.1) 0%, transparent 60%)", pointerEvents: "none" }} />
         <div className="flex-1 flex flex-col items-center justify-center gap-6 text-center">
-          <div className="ob-d0"><EnergyOrb size={110} intensity={0.5} floating /></div>
-          <div className="ob-d1 w-full">
+          <div className="shrink-0 ob-d0"><EnergyOrb size={110} intensity={0.5} floating /></div>
+          <div className="shrink-0 ob-d1 w-full">
             <div className="rounded-2xl p-6 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
               <div style={{ position: "absolute", top: 0, left: "20%", right: "20%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.6), transparent)" }} />
               <p className="text-7xl font-extrabold text-white mb-3" style={{ ...RJ, letterSpacing: "0.04em", textShadow: "0 0 40px rgba(255,255,255,0.1)" }}>0 DÍAS</p>
-              <p className="text-sm text-white/40 leading-relaxed">Hoy vas a tomar una decisión que podría cambiar la forma en la que vives.</p>
+              <p className="text-base text-white/50 leading-relaxed">Hoy vas a tomar una decisión que podría cambiar la forma en la que vives.</p>
             </div>
           </div>
-          <p className="ob-d2 text-[11px] text-[#2563EB] font-bold tracking-[0.2em] uppercase">Tu transformación empieza aquí.</p>
+          <p className="shrink-0 ob-d2 text-[11px] text-[#2563EB] font-bold tracking-[0.2em] uppercase">Tu transformación empieza aquí.</p>
         </div>
-        <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest ob-d3"
+        <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest ob-d3"
           style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.5), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
           COMENZAR
         </button>
@@ -305,21 +296,21 @@ function OnboardingScreen({ onDone, onLogin }) {
     if (isQStep) {
       const q = OB_QUESTIONS[qIdx];
       return (
-        <div className="flex flex-col h-full px-5 pb-6 pt-2 gap-4">
+        <div className="flex flex-col min-h-full px-5 pb-6 pt-2 gap-4">
           <div className="flex-1 flex flex-col justify-center gap-5">
-            <div className="ob-d0">
+            <div className="shrink-0 ob-d0">
               <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg mb-4" style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)" }}>
                 <div className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" style={{ boxShadow: "0 0 6px #2563EB" }} />
                 <span className="text-[9px] text-[#2563EB] font-bold tracking-widest uppercase">Pregunta {qIdx + 1} de {OB_QUESTIONS.length}</span>
               </div>
               <h2 className="text-[19px] font-bold text-white leading-snug" style={SF}>{q.q}</h2>
             </div>
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-4">
               {q.opts.map((opt, i) => {
                 const sel = answers[qIdx] === i;
                 return (
                   <button key={i} onClick={() => answerQ(qIdx, i)}
-                    className={`ob-d${i + 1} w-full px-4 py-3.5 rounded-xl text-sm font-semibold text-left transition-all`}
+                    className={`shrink-0 ob-d${i + 1} w-full px-4 py-3.5 rounded-xl text-base font-semibold text-left transition-all`}
                     style={{
                       background: sel ? "linear-gradient(135deg, rgba(37,99,235,0.25), rgba(29,78,216,0.15))" : "rgba(255,255,255,0.03)",
                       border: sel ? "1px solid rgba(37,99,235,0.55)" : "1px solid rgba(255,255,255,0.07)",
@@ -336,7 +327,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             </div>
           </div>
           {answers[qIdx] !== undefined && (
-            <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+            <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
               style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45)" }}>
               CONTINUAR
             </button>
@@ -347,23 +338,23 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 13 — KNOW YOU */
     if (step === 13) return (
-      <div className="flex flex-col h-full px-5 pb-8 pt-4">
+      <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
         <div className="flex-1 flex flex-col justify-center gap-6">
-          <div className="ob-d0">
+          <div className="shrink-0 ob-d0">
             <p className="text-[10px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-2">Casi listo</p>
             <h2 className="text-2xl font-extrabold text-white uppercase leading-tight" style={SF}>Ahora queremos conocerte.</h2>
           </div>
-          <div className="ob-d1">
+          <div className="shrink-0 ob-d1">
             <label className="text-[10px] text-white/35 font-bold uppercase tracking-widest mb-2.5 block">¿Cómo te llamas?</label>
             <input value={obName} onChange={(e) => setObName(e.target.value)} placeholder="Tu nombre"
-              className="w-full px-4 py-4 text-white text-sm placeholder-white/20 outline-none transition-all rounded-xl"
+              className="w-full px-4 py-4 text-white text-base placeholder-white/20 outline-none transition-all rounded-xl"
               style={{ ...SF, background: "rgba(255,255,255,0.04)", border: `1px solid ${obName ? "rgba(37,99,235,0.5)" : "rgba(255,255,255,0.08)"}`, boxShadow: obName ? "0 0 0 1px rgba(37,99,235,0.2), 0 4px 16px rgba(37,99,235,0.1)" : "none" }} />
           </div>
-          <div className="ob-d2">
+          <div className="shrink-0 ob-d2">
             <label className="text-[10px] text-white/35 font-bold uppercase tracking-widest mb-2.5 block">Tu rango de edad</label>
             <div className="grid grid-cols-3 gap-2">
               {["14-17", "18-21", "22-25", "26-30", "30+"].map((a) => (
-                <button key={a} onClick={() => setObAge(a)} className="py-3 rounded-xl text-sm font-bold transition-all"
+                <button key={a} onClick={() => setObAge(a)} className="py-3 rounded-xl text-base font-bold transition-all"
                   style={{ background: obAge === a ? "linear-gradient(135deg,rgba(37,99,235,0.3),rgba(29,78,216,0.2))" : "rgba(255,255,255,0.04)", border: obAge === a ? "1px solid rgba(37,99,235,0.5)" : "1px solid rgba(255,255,255,0.08)", color: obAge === a ? "#fff" : "rgba(255,255,255,0.45)", boxShadow: obAge === a ? "0 0 16px rgba(37,99,235,0.25)" : "none" }}>
                   {a}
                 </button>
@@ -372,7 +363,7 @@ function OnboardingScreen({ onDone, onLogin }) {
           </div>
         </div>
         <button onClick={next} disabled={!obName.trim() || !obAge}
-          className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest transition-all ob-d3"
+          className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest transition-all ob-d3"
           style={{ background: (!obName.trim() || !obAge) ? "rgba(37,99,235,0.2)" : "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: (!obName.trim() || !obAge) ? "none" : "0 4px 20px rgba(37,99,235,0.45)", color: (!obName.trim() || !obAge) ? "rgba(255,255,255,0.3)" : "#fff" }}>
           CONTINUAR
         </button>
@@ -381,7 +372,7 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 14 — ANALYZING */
     if (step === 14) return (
-      <div className="flex flex-col h-full items-center justify-center px-6 gap-8 text-center relative overflow-hidden"
+      <div className="flex flex-col min-h-full items-center justify-center px-8 gap-8 text-center relative overflow-hidden"
         style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(37,99,235,0.14) 0%, transparent 65%)" }}>
         <div style={{ position: "absolute", width: 260, height: 260, borderRadius: "50%", border: "1px solid rgba(37,99,235,0.18)", animation: "ob-ring-expand 2.8s ease-out infinite" }} />
         <div style={{ position: "absolute", width: 260, height: 260, borderRadius: "50%", border: "1px solid rgba(37,99,235,0.14)", animation: "ob-ring-expand 2.8s ease-out 0.9s infinite" }} />
@@ -400,7 +391,7 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 15 — RISK RESULT */
     if (step === 15) return (
-      <div className="flex flex-col h-full px-5 pb-6 pt-2">
+      <div className="flex flex-col min-h-full px-5 pb-6 pt-2">
         <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-4 py-4 ob-d0">
             <EnergyOrb size={88} intensity={orbIntensity} />
@@ -409,12 +400,12 @@ function OnboardingScreen({ onDone, onLogin }) {
               NIVEL DE RIESGO: {riskLevel}
             </div>
           </div>
-          <div className="ob-d1 rounded-2xl p-4 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
+          <div className="shrink-0 ob-d1 rounded-2xl p-4 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${riskColor}50, transparent)` }} />
-            <h3 className="text-sm font-bold text-white mb-2.5 leading-snug uppercase" style={SF}>Tu relación con este hábito presenta señales de riesgo.</h3>
-            <p className="text-xs text-white/40 leading-relaxed">Tus respuestas muestran patrones que podrían estar afectando a tu control, tus hábitos y tus objetivos. Esto no es un diagnóstico, es información para ayudarte.</p>
+            <h3 className="text-base font-bold text-white mb-2.5 leading-snug uppercase" style={SF}>Tu relación con este hábito presenta señales de riesgo.</h3>
+            <p className="text-sm text-white/40 leading-relaxed">Tus respuestas muestran patrones que podrían estar afectando a tu control, tus hábitos y tus objetivos. Esto no es un diagnóstico, es información para ayudarte.</p>
           </div>
-          <div className="ob-d2 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="shrink-0 ob-d2 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
             <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest mb-3">¿Cuáles de estos aspectos reconoces en ti?</p>
             <div className="flex flex-col gap-2">
               {OB_SYMPTOMS.map((sym, si) => {
@@ -427,14 +418,14 @@ function OnboardingScreen({ onDone, onLogin }) {
                       style={{ background: sel ? "#2563EB" : "transparent", border: sel ? "none" : "1px solid rgba(255,255,255,0.18)", boxShadow: sel ? "0 0 8px rgba(37,99,235,0.5)" : "none" }}>
                       {sel && <Check size={9} className="text-white" strokeWidth={3} />}
                     </div>
-                    <span className="text-xs font-medium" style={{ color: sel ? "#fff" : "rgba(255,255,255,0.5)" }}>{sym}</span>
+                    <span className="text-sm font-medium" style={{ color: sel ? "#fff" : "rgba(255,255,255,0.5)" }}>{sym}</span>
                   </button>
                 );
               })}
             </div>
           </div>
         </div>
-        <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+        <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
           style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.5)" }}>
           REINICIAR MI CEREBRO
         </button>
@@ -446,20 +437,20 @@ function OnboardingScreen({ onDone, onLogin }) {
       const slide = OB_EDU[eduIdx];
       const IconComponent = slide.icon;
       return (
-        <div className="flex flex-col h-full px-6 pb-8 pt-6 relative overflow-hidden"
+        <div className="flex flex-col min-h-full px-8 pb-8 pt-6 relative"
           style={{ background: "radial-gradient(ellipse at 50% 35%, rgba(37,99,235,0.08) 0%, transparent 60%)" }}>
           <div style={{ position: "absolute", top: 0, left: "25%", right: "25%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.4), transparent)" }} />
           <div className="flex-1 flex flex-col items-center justify-center gap-7 text-center">
-            <div className="ob-d0 w-20 h-20 rounded-2xl flex items-center justify-center text-4xl"
+            <div className="shrink-0 ob-d0 w-20 h-20 rounded-2xl flex items-center justify-center text-4xl"
               style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", boxShadow: "0 0 30px rgba(37,99,235,0.15), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
               <IconComponent size={36} className="text-[#3B82F6]" />
             </div>
-            <div className="ob-d1">
+            <div className="shrink-0 ob-d1">
               <h2 className="text-[20px] font-extrabold text-white leading-tight mb-4 uppercase whitespace-pre-line" style={SF}>{slide.title}</h2>
-              <p className="text-sm text-white/38 leading-relaxed">{slide.body}</p>
+              <p className="text-base text-white/38 leading-relaxed">{slide.body}</p>
             </div>
           </div>
-          <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest ob-d2"
+          <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest ob-d2"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45)" }}>
             {eduIdx < OB_EDU.length - 1 ? "SIGUIENTE" : "CONTINUAR"}
           </button>
@@ -472,7 +463,7 @@ function OnboardingScreen({ onDone, onLogin }) {
       const feat = OB_FEATURES[featIdx];
       const IconComp = feat.icon;
       return (
-        <div className="flex flex-col h-full px-6 pb-8 pt-6">
+        <div className="flex flex-col min-h-full px-8 pb-8 pt-6">
           <div className="flex-1 flex flex-col justify-center gap-6">
             <div className="text-center ob-d0">
               <p className="text-[9px] tracking-[0.22em] font-bold uppercase mb-5" style={{ color: "#2563EB" }}>AHORA CONSTRUYAMOS TU NUEVA REALIDAD.</p>
@@ -483,9 +474,9 @@ function OnboardingScreen({ onDone, onLogin }) {
               <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: "rgba(255,255,255,0.3)" }}>{feat.tag}</p>
               <h2 className="text-[16px] font-bold text-white leading-snug" style={SF}>{feat.desc}</h2>
             </div>
-            <div className="ob-d1">{previews[feat.preview]}</div>
+            <div className="shrink-0 ob-d1">{previews[feat.preview]}</div>
           </div>
-          <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest ob-d2"
+          <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest ob-d2"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45)" }}>
             {featIdx < OB_FEATURES.length - 1 ? "SIGUIENTE" : "CONTINUAR"}
           </button>
@@ -495,9 +486,9 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 27 — GOALS */
     if (step === 27) return (
-      <div className="flex flex-col h-full px-5 pb-8 pt-4">
+      <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
         <div className="flex-1 flex flex-col justify-center gap-4">
-          <div className="ob-d0">
+          <div className="shrink-0 ob-d0">
             <p className="text-[10px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-2">Tu motivación</p>
             <h2 className="text-2xl font-extrabold text-white uppercase leading-tight" style={SF}>¿Qué quieres conseguir?</h2>
           </div>
@@ -512,14 +503,14 @@ function OnboardingScreen({ onDone, onLogin }) {
                     style={{ background: sel ? "#2563EB" : "transparent", border: sel ? "none" : "1px solid rgba(255,255,255,0.18)", boxShadow: sel ? "0 0 8px rgba(37,99,235,0.5)" : "none" }}>
                     {sel && <Check size={9} className="text-white" strokeWidth={3} />}
                   </div>
-                  <span className="text-sm font-medium" style={{ color: sel ? "#fff" : "rgba(255,255,255,0.5)" }}>{g}</span>
+                  <span className="text-base font-medium" style={{ color: sel ? "#fff" : "rgba(255,255,255,0.5)" }}>{g}</span>
                 </button>
               );
             })}
           </div>
         </div>
         <button onClick={next} disabled={obGoals.length === 0}
-          className="w-full py-4 rounded-2xl text-sm font-bold uppercase tracking-widest transition-all"
+          className="w-full py-5 rounded-full text-base font-extrabold uppercase tracking-widest transition-all"
           style={{ background: obGoals.length === 0 ? "rgba(37,99,235,0.15)" : "linear-gradient(135deg,#2563EB,#1D4ED8)", color: obGoals.length === 0 ? "rgba(255,255,255,0.25)" : "#fff", boxShadow: obGoals.length === 0 ? "none" : "0 4px 20px rgba(37,99,235,0.45)" }}>
           CONTINUAR
         </button>
@@ -528,7 +519,7 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 28 — NOTIFICATIONS */
     if (step === 28) return (
-      <div className="flex flex-col h-full px-6 pb-8 pt-6">
+      <div className="flex flex-col min-h-full px-8 pb-8 pt-6">
         <div className="flex-1 flex flex-col items-center justify-center gap-7 text-center">
           <div className="relative ob-d0">
             <div style={{ position: "absolute", inset: -14, borderRadius: "50%", border: "1px solid rgba(37,99,235,0.35)", animation: "ob-ping 2s ease-out infinite" }} />
@@ -537,67 +528,67 @@ function OnboardingScreen({ onDone, onLogin }) {
               <Bell size={36} className="text-[#2563EB]" style={{ filter: "drop-shadow(0 0 10px rgba(37,99,235,0.7))" }} />
             </div>
           </div>
-          <div className="ob-d1">
+          <div className="shrink-0 ob-d1">
             <h2 className="text-[20px] font-extrabold text-white mb-3 uppercase leading-tight" style={SF}>¿Quieres que ASZEND te acompañe?</h2>
-            <p className="text-sm text-white/38 leading-relaxed">Podemos enviarte recordatorios, consejos y avisos importantes para ayudarte a mantener el rumbo.</p>
+            <p className="text-base text-white/38 leading-relaxed">Podemos enviarte recordatorios, consejos y avisos importantes para ayudarte a mantener el rumbo.</p>
           </div>
         </div>
         <div className="flex flex-col gap-3 ob-d2">
-          <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+          <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.5)" }}>
             ACTIVAR NOTIFICACIONES
           </button>
-          <button onClick={next} className="text-sm text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ahora no</button>
+          <button onClick={next} className="text-base text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ahora no</button>
         </div>
       </div>
     );
 
     /* 29 — SUMMARY */
     if (step === 29) return (
-      <div className="flex flex-col h-full px-5 pb-8 pt-2">
-        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-3.5 pb-3">
+      <div className="flex flex-col min-h-full px-5 pb-8 pt-2">
+        <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-5 pb-3">
           <div className="flex flex-col items-center gap-3 pt-3 ob-d0">
             <EnergyOrb size={76} intensity={1} floating />
             <h2 className="text-[19px] font-extrabold text-white uppercase leading-tight text-center" style={SF}>Este es tu punto de partida.</h2>
             <p className="text-[11px] text-white/28">Hoy empieza tu transformación.</p>
           </div>
-          <div className="ob-d1 rounded-2xl overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
+          <div className="shrink-0 ob-d1 rounded-2xl overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
             {[
               { label: "Nombre", value: obName || "No indicado", color: "" },
               { label: "Edad", value: obAge || "No indicado", color: "" },
               { label: "Nivel de riesgo", value: riskLevel, color: riskColor },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] last:border-0">
-                <span className="text-xs text-white/32">{row.label}</span>
-                <span className="text-xs font-bold" style={{ color: row.color || "#FAFAFA", textShadow: row.color ? `0 0 12px ${row.color}60` : "none" }}>{row.value}</span>
+                <span className="text-sm text-white/32">{row.label}</span>
+                <span className="text-sm font-bold" style={{ color: row.color || "#FAFAFA", textShadow: row.color ? `0 0 12px ${row.color}60` : "none" }}>{row.value}</span>
               </div>
             ))}
           </div>
           {obSymptoms.length > 0 && (
-            <div className="ob-d2 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div className="shrink-0 ob-d2 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
               <p className="text-[9px] text-white/28 uppercase tracking-widest mb-2.5">Aspectos identificados</p>
               <div className="flex flex-wrap gap-1.5">{obSymptoms.map((s) => <span key={s} className="text-[10px] px-2.5 py-1 rounded-lg" style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.45)", border: "1px solid rgba(255,255,255,0.07)" }}>{s}</span>)}</div>
             </div>
           )}
           {obGoals.length > 0 && (
-            <div className="ob-d3 rounded-2xl p-4" style={{ background: "rgba(37,99,235,0.05)", border: "1px solid rgba(37,99,235,0.15)" }}>
+            <div className="shrink-0 ob-d3 rounded-2xl p-4" style={{ background: "rgba(37,99,235,0.05)", border: "1px solid rgba(37,99,235,0.15)" }}>
               <p className="text-[9px] text-[#2563EB]/60 uppercase tracking-widest mb-2.5">Tus objetivos</p>
               <div className="flex flex-wrap gap-1.5">{obGoals.map((g) => <span key={g} className="text-[10px] px-2.5 py-1 rounded-lg" style={{ background: "rgba(37,99,235,0.12)", color: "#93C5FD", border: "1px solid rgba(37,99,235,0.25)" }}>{g}</span>)}</div>
             </div>
           )}
-          <div className="ob-d4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div className="shrink-0 ob-d4 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
             <p className="text-[9px] text-white/28 uppercase tracking-widest mb-2.5">Hábitos iniciales</p>
             {["Dormir 7 horas", "Entrenar", "Deep Work 4h"].map((h) => (
-              <div key={h} className="flex items-center gap-2.5 py-2">
+              <div key={h} className="flex items-center gap-4 py-2">
                 <div className="w-4 h-4 rounded flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 8px rgba(37,99,235,0.2)" }}>
                   <Check size={8} className="text-[#60A5FA]" strokeWidth={3} />
                 </div>
-                <span className="text-xs text-white/50">{h}</span>
+                <span className="text-sm text-white/50">{h}</span>
               </div>
             ))}
           </div>
         </div>
-        <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+        <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
           style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.5)" }}>
           COMENZAR MI ASCENSIÓN
         </button>
@@ -606,20 +597,20 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 30 — 7-DAY ROADMAP */
     if (step === 30) return (
-      <div className="flex flex-col h-full px-5 pb-8 pt-4">
+      <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
         <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
-          <div className="ob-d0">
+          <div className="shrink-0 ob-d0">
             <p className="text-[10px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-1">Primer reto</p>
             <h2 className="text-2xl font-extrabold text-white uppercase leading-tight" style={SF}>Tus primeros 7 días</h2>
             <p className="text-[11px] text-white/30 mt-1.5">Un punto de partida, no el final del camino.</p>
           </div>
           <div className="flex flex-col mt-1">
             {OB_DAYS7.map((d, i) => (
-              <div key={d.day} className={`flex gap-3.5 ob-d${Math.min(i, 7)}`}>
+              <div key={d.day} className={`flex gap-5 ob-d${Math.min(i, 7)}`}>
                 <div className="flex flex-col items-center" style={{ width: 38 }}>
                   <div className="relative">
                     {i === 0 && <div style={{ position: "absolute", inset: -5, borderRadius: "50%", border: "1px solid rgba(37,99,235,0.35)", animation: "ob-ring-expand 2.4s ease-out infinite" }} />}
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
                       style={{ background: i === 0 ? "linear-gradient(135deg,#3B82F6,#1D4ED8)" : "rgba(255,255,255,0.04)", border: i === 0 ? "none" : "1px solid rgba(255,255,255,0.07)", color: i === 0 ? "#fff" : "rgba(255,255,255,0.25)", boxShadow: i === 0 ? "0 0 18px rgba(37,99,235,0.5)" : "none" }}>
                       {d.day}
                     </div>
@@ -636,7 +627,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             ))}
           </div>
         </div>
-        <button onClick={next} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+        <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
           style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45)" }}>
           CONTINUAR
         </button>
@@ -645,13 +636,13 @@ function OnboardingScreen({ onDone, onLogin }) {
 
     /* 31 — PRICING */
     if (step === 31) return (
-      <div className="flex flex-col h-full px-5 pb-6 pt-4">
+      <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
         <div className="flex-1 hide-scroll overflow-y-auto flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-3 pt-2 ob-d0">
             <EnergyOrb size={80} intensity={1} floating />
             <h2 className="text-[20px] font-extrabold text-white uppercase text-center leading-tight" style={SF}>Tu ascensión comienza ahora.</h2>
           </div>
-          <div className="ob-d1 rounded-2xl p-5 relative overflow-hidden"
+          <div className="shrink-0 ob-d1 rounded-2xl p-5 relative overflow-hidden"
             style={{ background: "linear-gradient(145deg, rgba(37,99,235,0.08) 0%, rgba(0,0,0,0.6) 100%)", animation: "ob-border-glow 3s ease-in-out infinite" }}>
             <div style={{ position: "absolute", top: 0, left: "15%", right: "15%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.8), transparent)" }} />
             <div className="flex items-start justify-between mb-5">
@@ -673,18 +664,18 @@ function OnboardingScreen({ onDone, onLogin }) {
                   <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 8px rgba(37,99,235,0.2)" }}>
                     <Check size={10} className="text-[#60A5FA]" strokeWidth={3} />
                   </div>
-                  <span className="text-xs text-white/55">{f}</span>
+                  <span className="text-sm text-white/55">{f}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-3 ob-d2">
-          <button onClick={() => onDone(obName)} className="w-full py-4 rounded-2xl text-sm font-bold text-white uppercase tracking-widest"
+          <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
             EMPEZAR CON ASZEND
           </button>
-          <button onClick={onLogin} className="text-xs text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
+          <button onClick={onLogin} className="text-sm text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
         </div>
       </div>
     );
