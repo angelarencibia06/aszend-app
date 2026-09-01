@@ -75,7 +75,7 @@ Retenemos la información personal solo durante el tiempo que sea razonablemente
 Dependiendo de tu ubicación, puedes tener derecho a solicitar acceso, corrección o eliminación de tu información personal, o restringir ciertas actividades de procesamiento. Puedes ejercer estos derechos contactándonos en support@aszend.com.
 
 ### 8. RESTRICCIONES DE EDAD
-La App está destinada a usuarios de al menos 16 años (o la edad de consentimiento digital en tu jurisdicción). No recopilamos a sabiendas información de menores que no cumplen este umbral.
+La App está destinada a usuarios de al menos 14 años (o la edad de consentimiento digital en tu jurisdicción). No recopilamos a sabiendas información de menores que no cumplen este umbral.
 
 ### 9. ELIMINACIÓN DE CUENTA
 Los usuarios pueden eliminar su cuenta a través de la configuración de la App o contactando a support@aszend.com.

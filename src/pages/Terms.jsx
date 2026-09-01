@@ -41,7 +41,7 @@ Reconoces y aceptas que:
 Si experimentas angustia severa, problemas de comportamiento compulsivo o síntomas de adicción, debes buscar ayuda de un profesional de la salud calificado.
 
 ### 1. Elegibilidad
-Debes tener al menos 16 años o la edad de consentimiento digital en tu jurisdicción para usar la App. Si eres menor de 18 años, declaras que: (i) un padre o tutor ha revisado estos Términos y (ii) tu uso de la App es supervisado cuando lo exija la ley. Aszend se reserva el derecho de suspender o cancelar cuentas que no cumplan con los requisitos de edad.
+Debes tener al menos 14 años o la edad de consentimiento digital en tu jurisdicción para usar la App. Si eres menor de 18 años, declaras que: (i) un padre o tutor ha revisado estos Términos y (ii) tu uso de la App es supervisado cuando lo exija la ley. Aszend se reserva el derecho de suspender o cancelar cuentas que no cumplan con los requisitos de edad.
 
 ### 2. Registro de Cuenta y Seguridad
 Para acceder a ciertas funciones, es posible que debas crear una cuenta. Aceptas: proporcionar información precisa; mantener la seguridad de tus credenciales; y notificarnos de inmediato sobre accesos no autorizados. Eres el único responsable de toda la actividad que ocurra bajo tu cuenta. Aszend no es responsable de las pérdidas causadas por el acceso no autorizado a la cuenta.

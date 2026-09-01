@@ -227,7 +227,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 160, background: "linear-gradient(transparent, rgba(9,9,11,0.95))", pointerEvents: "none" }} />
         <EnergyOrb size={180} intensity={1} floating />
         <div className="text-center mt-10 relative z-10">
-          <h1 style={{ ...SF, animation: "ob-wordmark 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s both", fontSize: 38, fontWeight: 800, letterSpacing: "0.22em", color: "#fff" }}>ASZEND</h1>
+          <h1 style={{ ...SF, animation: "ob-wordmark 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s both", fontSize: 38, fontWeight: 800, letterSpacing: "0.22em", color: "#fff" }}>Aszend</h1>
           <p style={{ animation: "ob-slide-up 0.7s cubic-bezier(0.22,1,0.36,1) 0.9s both", fontSize: 11, letterSpacing: "0.3em", color: "#2563EB", fontWeight: 600, textTransform: "uppercase", marginTop: 10 }}>
             TRANSMUTA TU ENERGÍA.
           </p>
@@ -529,7 +529,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             </div>
           </div>
           <div className="shrink-0 ob-d1">
-            <h2 className="text-[20px] font-extrabold text-white mb-3 uppercase leading-tight" style={SF}>¿Quieres que ASZEND te acompañe?</h2>
+            <h2 className="text-[20px] font-extrabold text-white mb-3  leading-tight" style={SF}>¿QUIERES QUE Aszend TE ACOMPAÑE?</h2>
             <p className="text-base text-white/38 leading-relaxed">Podemos enviarte recordatorios, consejos y avisos importantes para ayudarte a mantener el rumbo.</p>
           </div>
         </div>
@@ -648,7 +648,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             <div className="flex items-start justify-between mb-5">
               <div>
                 <p className="text-[9px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-1">Plan Premium</p>
-                <h3 className="text-xl font-extrabold text-white tracking-wide">ASZEND PRO</h3>
+                <h3 className="text-xl font-extrabold text-white tracking-wide"><span className="normal-case">Aszend</span> PRO</h3>
               </div>
               <div className="text-right">
                 <p className="text-4xl font-extrabold leading-none" style={{ ...RJ, color: "#fff", textShadow: "0 0 20px rgba(255,255,255,0.1)" }}>
@@ -673,7 +673,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         <div className="flex flex-col gap-3 ob-d2">
           <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
-            EMPEZAR CON ASZEND
+            EMPEZAR CON <span className="normal-case">Aszend</span>
           </button>
           <button onClick={onLogin} className="text-sm text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
         </div>

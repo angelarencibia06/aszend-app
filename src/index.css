@@ -37,7 +37,7 @@ body {
 
 h1, h2, h3, h4, h5, h6, .heading-font {
   font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 0.05em;
 }
 

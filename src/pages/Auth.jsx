@@ -38,7 +38,7 @@ const Auth = () => {
         
         {/* Header / Logo */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1 style={{ color: 'var(--accent-neon)', fontFamily: 'Oswald', fontSize: '24px', letterSpacing: '2px', margin: '0 0 10px 0' }}>ASZEND</h1>
+          <h1 style={{ color: 'var(--accent-neon)', fontFamily: 'Oswald', fontSize: '24px', letterSpacing: '2px', margin: '0 0 10px 0' }}>Aszend</h1>
           <h2 style={{ fontSize: '28px', margin: '0 0 8px 0', fontWeight: 'bold' }}>
             {isLogin ? 'Bienvenido de nuevo' : 'Crea tu cuenta'}
           </h2>
