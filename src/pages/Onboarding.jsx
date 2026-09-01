@@ -326,12 +326,7 @@ function OnboardingScreen({ onDone, onLogin }) {
               })}
             </div>
           </div>
-          {answers[qIdx] !== undefined && (
-            <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
-              style={{ background: "linear-gradient(135deg, #2563EB, #1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.45)" }}>
-              CONTINUAR
-            </button>
-          )}
+          
         </div>
       );
     }
