@@ -390,7 +390,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-4 py-4 ob-d0">
             <EnergyOrb size={88} intensity={orbIntensity} />
-            <div className="px-4 py-2 rounded-full font-bold text-[11px] tracking-[0.16em] uppercase"
+            <div className="px-6 py-2.5 rounded-full font-bold text-[11px] tracking-[0.16em] uppercase whitespace-nowrap flex-shrink-0 text-center w-fit"
               style={{ color: riskColor, background: `${riskColor}12`, border: `1px solid ${riskColor}40`, boxShadow: `0 0 20px ${riskColor}25`, animation: "ob-glow-pulse 2s ease-in-out infinite" }}>
               NIVEL DE RIESGO: {riskLevel}
             </div>
