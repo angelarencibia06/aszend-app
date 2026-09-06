@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, Flame, Trophy, Calendar, CheckSquare, Swords, Medal, ChevronRight, ChevronLeft, Camera, Bell, Shield, LogOut, Lock, Star, Target, Crown, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { EnergyOrb } from '../components/EnergyOrb';
 import '../styles/Home2.css';
 
 const RANKS = [
@@ -262,7 +263,7 @@ const Profile = () => {
           
           <div onClick={() => setActiveMenu('ranks')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <img src={`/ranks/rank${activeRankDef.level}.png`} alt={activeRankDef.name} style={{ width: 24, height: 24, objectFit: "contain" }} onError={(e) => { e.target.style.display="none"; e.target.nextSibling.style.display="block"; }} /><Swords size={22} color={activeRankDef.color1} style={{ opacity: 0.7, display: "none" }} />
+              <div style={{ width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", transform: "scale(0.5)", transformOrigin: "center" }}><EnergyOrb size={56} rankIndex={activeRankDef.level - 1} animated={false} /></div>
               <div>
                 <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Rangos de Ascensión</p>
                 <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedRanksCount}/5 Desbloqueados</p>
