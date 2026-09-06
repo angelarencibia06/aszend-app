@@ -26,10 +26,10 @@ export function EnergyOrb({
 
   // Render rings based on rank
   const renderRings = () => {
-    if (locked) return null; // No rings if locked
     
-    const ringColor = c.core;
-    const ringOpacity = 0.6;
+    
+    const ringColor = locked ? '#6b7280' : c.core;
+    const ringOpacity = locked ? 0.4 : 0.6;
     
     return (
       <g stroke={ringColor} strokeOpacity={ringOpacity} strokeWidth="2" fill="none">
@@ -67,7 +67,7 @@ export function EnergyOrb({
             {/* Outer dashed circle */}
             <circle cx={center} cy={center} r={size * 0.45} strokeDasharray="6 6" strokeWidth="2" strokeOpacity="0.5" />
             {/* Intense glow ray for sun */}
-            <circle cx={center} cy={center} r={size * 0.3} fill={`url(#${id}_beam)`} opacity="0.5" stroke="none" filter="url(#glowFilter)" />
+            {!locked && <circle cx={center} cy={center} r={size * 0.3} fill={`url(#${id}_beam)`} opacity="0.5" stroke="none" filter="url(#glowFilter)" />}
           </>
         )}
       </g>
