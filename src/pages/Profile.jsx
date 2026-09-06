@@ -220,9 +220,7 @@ const Profile = () => {
             }}
           >
             {!avatar && <Camera size={28} color={activeRankDef.color1} opacity="0.8" />}
-            <div style={{ position: 'absolute', bottom: '-8px', right: '-8px', background: '#02040a', borderRadius: '8px', padding: '5px', border: `1px solid ${activeRankDef.color1}80` }}>
-              <Camera size={12} color="#fff" />
-            </div>
+            
           </div>
           <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }} />
           
