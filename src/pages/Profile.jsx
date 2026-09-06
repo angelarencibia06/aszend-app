@@ -264,7 +264,7 @@ const Profile = () => {
           
           <div onClick={() => setActiveMenu('ranks')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Swords size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <img src={`/ranks/rank${activeRankDef.level}.png`} alt={activeRankDef.name} style={{ width: 24, height: 24, objectFit: "contain" }} onError={(e) => { e.target.style.display="none"; e.target.nextSibling.style.display="block"; }} /><Swords size={22} color={activeRankDef.color1} style={{ opacity: 0.7, display: "none" }} />
               <div>
                 <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Rangos de Ascensión</p>
                 <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedRanksCount}/5 Desbloqueados</p>
@@ -275,7 +275,7 @@ const Profile = () => {
 
           <div onClick={() => setActiveMenu('badges')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Medal size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <Medal size={22} color="#FBBF24" style={{ opacity: 1 }} />
               <div>
                 <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Insignias y Logros</p>
                 <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedBadgesCount}/{BADGES.length} Adquiridas</p>
@@ -286,7 +286,7 @@ const Profile = () => {
 
           <div onClick={() => setActiveMenu('settings')} className="glass-panel profile-menu-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px', borderRadius: '16px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.03)', transition: 'all 0.2s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <Settings size={22} color={activeRankDef.color1} style={{ opacity: 0.7 }} />
+              <Settings size={22} color="#9ca3af" style={{ opacity: 1 }} />
               <div>
                 <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Configuración</p>
                 <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>Cuenta, Privacidad y Alertas</p>

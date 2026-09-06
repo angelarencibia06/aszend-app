@@ -172,21 +172,17 @@ const Home = () => {
           </div>
         )}
 
+        
         {/* Action Buttons */}
-        <div className="action-buttons-row">
-          <div className="action-btn-wrapper">
-            <button className="circle-btn" onClick={() => setShowCheckIn(true)}>
-              <Check size={24} strokeWidth={1.5} />
-            </button>
-            <span className="action-label">Check-in</span>
-          </div>
-          <div className="action-btn-wrapper">
-            <button className="circle-btn">
+        <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '20px' }}>
+          <div className="action-btn-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <button className="circle-btn" style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', marginBottom: '8px' }}>
               <Wind size={24} strokeWidth={1.5} />
             </button>
-            <span className="action-label">Meditar</span>
+            <span className="action-label" style={{ fontSize: '12px', color: '#9ca3af' }}>Meditar</span>
           </div>
         </div>
+
       </div>
 
       {/* RIESGO DE RECAIDA */}
