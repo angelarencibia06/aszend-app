@@ -26,60 +26,62 @@ const Home = () => {
     triggerPanicRoom
   } = useAppContext();
 
-  // Streak logic (Mocked to 365 for demo as requested by user)
-  const [currentStreak, setCurrentStreak] = useState(365);
+  // Streak logic
+  const [currentStreak, setCurrentStreak] = useState(0);
   useEffect(() => {
-    // Keeping logic intact but state defaults to 365
     if (!lastCheckInDate) return;
     const last = new Date(lastCheckInDate);
     const now = new Date();
     const diff = Math.floor((now - last) / (1000 * 60 * 60 * 24));
-    if (diff === 0 || diff === 1) {
-      // setCurrentStreak(1); // disabled to keep 365 demo
-    }
+    if (diff === 0 || diff === 1) setCurrentStreak(1);
   }, [lastCheckInDate]);
 
   let highestUnlockedIndex = 0;
   for (let i = 0; i < RANKS.length; i++) {
     if (currentStreak >= RANKS[i].req) highestUnlockedIndex = i;
   }
+  const activeIndex = highestUnlockedIndex;
+  const rankDef = RANKS[activeIndex];
   
+  let nextRankReq = null;
+  let nextRankName = null;
+  if (activeIndex < RANKS.length - 1) {
+    nextRankReq = RANKS[activeIndex + 1].req;
+    nextRankName = RANKS[activeIndex + 1].name;
+  }
+
+  const daysToNext = nextRankReq ? nextRankReq - currentStreak : 0;
+  const progressPercent = nextRankReq ? Math.min(100, Math.max(0, ((currentStreak - rankDef.req) / (nextRankReq - rankDef.req)) * 100)) : 100;
+
   // Modals
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
   
-  // Solar System selection logic
+  // Carousel logic
   const [viewIndex, setViewIndex] = useState(highestUnlockedIndex);
+  const orbScrollRef = React.useRef(null);
+  
+  // Initialize scroll position on mount
+  useEffect(() => {
+    if (orbScrollRef.current) {
+      orbScrollRef.current.scrollLeft = highestUnlockedIndex * orbScrollRef.current.clientWidth;
+    }
+  }, [highestUnlockedIndex]);
+
+  const handleOrbScroll = (e) => {
+    const container = e.target;
+    const scrollLeft = container.scrollLeft;
+    const width = container.clientWidth;
+    if (width > 0) {
+      const newIndex = Math.round(scrollLeft / width);
+      if (newIndex !== viewIndex && newIndex >= 0 && newIndex < RANKS.length) {
+        setViewIndex(newIndex);
+      }
+    }
+  };
 
   const viewRank = RANKS[viewIndex] || RANKS[0];
   const isViewLocked = viewIndex > highestUnlockedIndex;
-
-  // Smart progress logic
-  let displayNextName = '';
-  let displayDaysLeft = 0;
-  let displayProgress = 0;
-  let showProgress = false;
-
-  if (isViewLocked) {
-    // If they view an orb they haven't unlocked yet
-    displayNextName = viewRank.name;
-    displayDaysLeft = Math.max(0, viewRank.req - currentStreak);
-    const prevReq = viewIndex > 0 ? RANKS[viewIndex - 1].req : 0;
-    const progressRange = viewRank.req - prevReq;
-    const currentProgress = currentStreak - prevReq;
-    displayProgress = Math.min(100, Math.max(0, (currentProgress / progressRange) * 100));
-    showProgress = true;
-  } else if (viewIndex === highestUnlockedIndex && viewIndex < RANKS.length - 1) {
-    // If they view the current active orb, and there is a next orb
-    const nextRank = RANKS[viewIndex + 1];
-    displayNextName = nextRank.name;
-    displayDaysLeft = Math.max(0, nextRank.req - currentStreak);
-    const prevReq = viewRank.req;
-    const progressRange = nextRank.req - prevReq;
-    const currentProgress = currentStreak - prevReq;
-    displayProgress = Math.min(100, Math.max(0, (currentProgress / progressRange) * 100));
-    showProgress = true;
-  }
 
   // Habit Logic
   const todayStr = new Date().toISOString().split('T')[0];
@@ -132,14 +134,43 @@ const Home = () => {
       {/* Orb Section */}
       <div className="orb-section">
         
-        {/* Solar System View */}
-        <div style={{ marginBottom: '20px' }}>
-          <EnergyOrb 
-            size={340} 
-            viewIndex={viewIndex}
-            highestUnlockedIndex={highestUnlockedIndex}
-            onSelectRank={(idx) => setViewIndex(idx)}
-          />
+        {/* Carousel Container */}
+        <div 
+          ref={orbScrollRef}
+          onScroll={handleOrbScroll}
+          style={{ 
+            display: 'flex', 
+            width: '100%', 
+            overflowX: 'auto', 
+            scrollSnapType: 'x mandatory', 
+            scrollbarWidth: 'none', /* Firefox */
+            msOverflowStyle: 'none', /* IE and Edge */
+            marginBottom: '10px'
+          }}
+          className="hide-scrollbar"
+        >
+          {RANKS.map((rank, idx) => {
+            const isLocked = idx > highestUnlockedIndex;
+            return (
+              <div 
+                key={rank.id} 
+                style={{ 
+                  flex: '0 0 100%', 
+                  scrollSnapAlign: 'center', 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <EnergyOrb 
+                  size={260} 
+                  rankIndex={idx} 
+                  locked={isLocked} 
+                  animated={viewIndex === idx} 
+                />
+              </div>
+            );
+          })}
         </div>
         
         <h1 className="rank-title">{viewRank.name}</h1>
@@ -157,32 +188,30 @@ const Home = () => {
           </div>
         )}
 
-        {showProgress && (
+        {nextRankReq && viewIndex === highestUnlockedIndex && (
           <div className="progress-container">
             <div className="progress-labels">
-              <span>Progreso a {displayNextName}</span>
-              <span>{displayDaysLeft} días más</span>
+              <span>Progreso a {nextRankName}</span>
+              <span>{daysToNext} días más</span>
             </div>
             <div className="progress-track">
               <div 
                 className="progress-fill" 
-                style={{ width: `${displayProgress}%`, background: viewRank.core, boxShadow: `0 0 10px ${viewRank.core}` }} 
+                style={{ width: `${progressPercent}%`, background: rankDef.core, boxShadow: `0 0 10px ${rankDef.core}` }} 
               />
             </div>
           </div>
         )}
 
-        
         {/* Action Buttons */}
-        <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: '20px' }}>
-          <div className="action-btn-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <button className="circle-btn" style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', marginBottom: '8px' }}>
+        <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+          <div className="action-btn-wrapper">
+            <button className="circle-btn">
               <Wind size={24} strokeWidth={1.5} />
             </button>
-            <span className="action-label" style={{ fontSize: '12px', color: '#9ca3af' }}>Meditar</span>
+            <span className="action-label">Meditar</span>
           </div>
         </div>
-
       </div>
 
       {/* RIESGO DE RECAIDA */}
@@ -193,11 +222,18 @@ const Home = () => {
             <Info size={14} color="#6b7280" />
           </h2>
         </div>
-        <div className="riesgo-content">
-          <p className="riesgo-text">
+        
+        <div style={{ background: 'rgba(37, 99, 235, 0.1)', border: '1px solid rgba(37, 99, 235, 0.3)', borderRadius: '8px', padding: '10px', marginBottom: '16px' }}>
+          <p style={{ fontSize: '11px', color: '#60A5FA', margin: 0, lineHeight: 1.4 }}>
+            <strong>Nota importante:</strong> Para que la IA pueda recalcular con exactitud tu riesgo de recaída, es vital que pulses el botón de "Check-in" diariamente.
+          </p>
+        </div>
+
+        <div className="riesgo-content" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <p className="riesgo-text" style={{ flex: 1, paddingRight: '20px', margin: 0 }}>
             Estimación basada en hábitos, actividad reciente y patrones registrados.
           </p>
-          <div className="riesgo-circle-wrapper">
+          <div className="riesgo-circle-wrapper" style={{ position: 'relative', width: '70px', height: '70px', flexShrink: 0 }}>
             <svg width="70" height="70" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="40" className="riesgo-circle-bg" />
               <circle 
@@ -211,10 +247,15 @@ const Home = () => {
             <div className="riesgo-percentage">{riskValue}%</div>
           </div>
         </div>
-        <button className="wide-btn" onClick={() => setShowRiskAnalysis(true)}>
-          <LineChart size={16} />
-          Ver análisis detallado
-        </button>
+        
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button className="wide-btn" onClick={() => setShowCheckIn(true)} style={{ flex: 1, background: '#2563EB', color: '#fff', border: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+            <Check size={16} /> Check-in
+          </button>
+          <button className="wide-btn" onClick={() => setShowRiskAnalysis(true)} style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+            <LineChart size={16} /> Ver análisis
+          </button>
+        </div>
       </div>
 
       {/* HÁBITOS DE HOY */}
@@ -224,7 +265,7 @@ const Home = () => {
           <span style={{ fontSize: '18px', fontWeight: '800', color: '#fff' }}>{habitsPercent}%</span>
         </div>
         
-        <div className="habits-list-container">
+        <div>
           {displayHabits.map(habit => (
             <div key={habit.id} className="habit-item" onClick={() => toggleHabit(habit.id)}>
               <div className={`habit-checkbox ${isCompleted(habit.id) ? 'checked' : ''}`}>
