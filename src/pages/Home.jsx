@@ -82,6 +82,9 @@ const Home = () => {
 
   const viewRank = RANKS[viewIndex] || RANKS[0];
   const isViewLocked = viewIndex > highestUnlockedIndex;
+  
+
+
 
   // Habit Logic
   const todayStr = new Date().toISOString().split('T')[0];
@@ -202,13 +205,13 @@ const Home = () => {
         {nextRankReq && viewIndex === highestUnlockedIndex && (
           <div className="progress-container">
             <div className="progress-labels">
-              <span>Progreso a {displayNextName}</span>
-              <span>{displayDaysLeft} días más</span>
+              <span>Progreso a {nextRankName}</span>
+              <span>{daysToNext} días más</span>
             </div>
             <div className="progress-track">
               <div 
                 className="progress-fill" 
-                style={{ width: `${displayProgress}%`, background: viewRank.core, boxShadow: `0 0 10px ${viewRank.core}` }} 
+                style={{ width: `${progressPercent}%`, background: viewRank.core, boxShadow: `0 0 10px ${viewRank.core}` }} 
               />
             </div>
           </div>
