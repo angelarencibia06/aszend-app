@@ -59,14 +59,9 @@ const Control = () => {
     <div className="page-container control-page">
       
       {/* Header */}
-      <div className="control-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h1>CONTROL</h1>
-          <p>Tu entorno protegido</p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.2)', boxShadow: '0 0 20px rgba(37,99,235,0.15)' }}>
-          <Shield size={24} color="#3b82f6" strokeWidth={2.5} />
-        </div>
+      <div className="control-header">
+        <h1>CONTROL</h1>
+        <p>Tu entorno protegido</p>
       </div>
 
       {/* Main Protection Card */}
@@ -187,15 +182,6 @@ const Control = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* PROTOCOLO DE CONTROL */}
-      <div className="protocolo-btn-container" style={{ marginTop: '30px' }}>
-        <div className="protocolo-btn-glow"></div>
-        <button className="protocolo-btn" onClick={triggerPanicRoom}>
-          <Zap size={18} strokeWidth={2.5} />
-          ACTIVAR PROTOCOLO DE CONTROL
-        </button>
-      </div>
       
     </div>
   );
