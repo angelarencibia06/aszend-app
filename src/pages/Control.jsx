@@ -59,9 +59,9 @@ const Control = () => {
     <div className="page-container control-page">
       
       {/* Header */}
-      <div className="control-header">
-        <h1>CONTROL</h1>
-        <p>Tu entorno protegido</p>
+      <div className="control-header" style={{ marginBottom: '24px' }}>
+        <h1 className="page-title">Control</h1>
+        <p className="page-subtitle">Tu entorno protegido</p>
       </div>
 
       {/* Main Protection Card */}

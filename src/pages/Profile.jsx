@@ -200,7 +200,7 @@ const Profile = () => {
       <div style={{ position: 'relative', zIndex: 1 }}>
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-          <h1 style={{ fontSize: '28px', margin: 0, fontFamily: 'Oswald', textTransform: 'uppercase', letterSpacing: '1px' }}>MI PERFIL</h1>
+          <h1 className="page-title">MI PERFIL</h1>
         </div>
 
         {/* User Card - High End Glass */}
