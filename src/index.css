@@ -7,6 +7,7 @@
 
   :root {
     --bg-color: #050505;
+    --bg-card: rgba(20, 20, 25, 0.5);
     --surface-color: rgba(20, 20, 25, 0.7);
     --surface-solid: #15151a;
     

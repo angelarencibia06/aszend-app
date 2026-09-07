@@ -327,3 +327,12 @@
   color: #9ca3af;
   line-height: 1.4;
 }
+
+.protocolo-btn-container {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 10px;
+  border-radius: 20px;
+  background: rgba(5, 5, 5, 0.4);
+}
+
