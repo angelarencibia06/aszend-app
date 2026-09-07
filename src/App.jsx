@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Zap } from 'lucide-react';
 import { AppProvider, useAppContext } from './context/AppContext';
 import BottomNav from './components/BottomNav';
 import MilestoneOverlay from './components/MilestoneOverlay';
@@ -34,10 +35,11 @@ const PageWrapper = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isPanicRoomActive } = useAppContext();
+  const { isPanicRoomActive, triggerPanicRoom } = useAppContext();
   const location = useLocation();
 
   const isPublicRoute = location.pathname === '/auth' || location.pathname === '/onboarding';
+  const showProtocolBtn = ['/', '/habits', '/control'].includes(location.pathname);
 
   // DEV BYPASS: Commented out strict funnel so the user can navigate freely
   /*
@@ -82,6 +84,15 @@ const AppContent = () => {
       {/* Show bottom nav everywhere for dev bypass except onboarding/auth */}
       {!isPublicRoute && (
         <div className="bottom-area">
+          {showProtocolBtn && (
+            <div className="protocolo-btn-container" style={{ margin: '0 auto', width: '100%' }}>
+              <div className="protocolo-btn-glow"></div>
+              <button className="protocolo-btn" onClick={triggerPanicRoom}>
+                <Zap size={18} strokeWidth={2.5} />
+                ACTIVAR PROTOCOLO DE CONTROL
+              </button>
+            </div>
+          )}
           <BottomNav />
         </div>
       )}

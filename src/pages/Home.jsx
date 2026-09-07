@@ -292,15 +292,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* PROTOCOLO DE CONTROL */}
-      <div className="protocolo-btn-container">
-        <div className="protocolo-btn-glow"></div>
-        <button className="protocolo-btn" onClick={triggerPanicRoom}>
-          <Zap size={18} strokeWidth={2.5} />
-          ACTIVAR PROTOCOLO DE CONTROL
-        </button>
-      </div>
-
       {showCheckIn && <DailyCheckIn onClose={() => setShowCheckIn(false)} onComplete={() => setShowCheckIn(false)} />}
       <AnimatePresence>
         {showRiskAnalysis && <RiskAnalysisModal onClose={() => setShowRiskAnalysis(false)} />}
