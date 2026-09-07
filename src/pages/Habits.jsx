@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, Edit2, Trash2, ChevronLeft, X } from 'lucide-react';
+import { Plus, Edit2, Trash2, ChevronLeft, X, Target, Zap } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import '../styles/App.css';
 
 const Habits = () => {
-  const { habits, setHabits, habitLogs, setHabitsLogs } = useAppContext();
+  const { habits, setHabits, habitLogs, setHabitsLogs, triggerPanicRoom } = useAppContext();
   const [activeTab, setActiveTab] = useState('tracker'); // 'tracker' or 'stats'
   const [timeFilter, setTimeFilter] = useState('Semana'); // 'Semana', 'Mes', 'Trimestre', 'Año'
   
@@ -149,9 +149,14 @@ const Habits = () => {
       {activeTab === 'tracker' ? (
         <>
           {/* Header */}
-          <div style={{ marginBottom: '20px' }}>
-            <h1 style={{ fontSize: '28px', margin: '0 0 5px 0', fontWeight: 'bold' }}>Mis Habitos</h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '14px', margin: 0 }}>Pequeñas acciones. Grandes cambios.</p>
+          <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h1 style={{ fontSize: '28px', margin: '0 0 5px 0', fontWeight: 'bold' }}>Mis Habitos</h1>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px', margin: 0 }}>Pequeñas acciones. Grandes cambios.</p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(37,99,235,0.1)', border: '1px solid rgba(37,99,235,0.2)', boxShadow: '0 0 20px rgba(37,99,235,0.15)' }}>
+              <Target size={24} color="#3b82f6" strokeWidth={2.5} />
+            </div>
           </div>
 
           {/* Progress Card */}
@@ -240,6 +245,15 @@ const Habits = () => {
           >
             <Plus size={18} /> Añadir habito
           </button>
+
+          {/* PROTOCOLO DE CONTROL */}
+          <div className="protocolo-btn-container" style={{ marginTop: '30px' }}>
+            <div className="protocolo-btn-glow"></div>
+            <button className="protocolo-btn" onClick={triggerPanicRoom}>
+              <Zap size={18} strokeWidth={2.5} />
+              ACTIVAR PROTOCOLO DE CONTROL
+            </button>
+          </div>
         </>
       ) : (
         /* STATS VIEW (Accessible via the ESTADÍSTICAS button) */
