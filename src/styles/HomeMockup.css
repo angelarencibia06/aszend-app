@@ -185,7 +185,7 @@
 }
 
 .card-title {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;
@@ -292,9 +292,10 @@
 }
 
 .habit-name {
-  font-size: 14px;
-  color: #d1d5db;
+  font-size: 16px;
+  color: #e2e8f0;
   flex: 1;
+  font-weight: 500;
 }
 
 .habit-chevron {
@@ -326,14 +327,15 @@
   color: #ef4444;
   padding: 16px;
   border-radius: 12px;
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
   cursor: pointer;
 }
 

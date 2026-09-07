@@ -35,10 +35,28 @@ body {
   overflow: hidden; /* Prevent body scroll, handle inside app */
 }
 
-h1, h2, h3, h4, h5, h6, .heading-font {
-  font-family: 'Oswald', sans-serif;
-  /* text-transform: uppercase; */
+h1, h2, h3, h4, h5, h6, .heading-font, .card-title {
+  font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important;
   letter-spacing: 0.05em;
+}
+
+.page-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 4px 0;
+  line-height: 1.1;
+  text-shadow: 0 0 24px rgba(255,255,255,0.25);
+}
+.page-subtitle {
+  color: rgba(255,255,255,0.7);
+  font-size: 15px;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
 }
 
 /* App Container */

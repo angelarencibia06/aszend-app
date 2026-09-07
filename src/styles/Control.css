@@ -76,131 +76,129 @@
   100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
 }
 
-.prot-info h3 {
-  margin: 0 0 4px 0;
-  font-size: 18px;
-  font-weight: 700;
-}
-.prot-status {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-}
-.prot-status.active {
-  color: #34d399; /* Green active */
-}
-
-/* Android Switch */
-.android-switch {
-  width: 52px;
-  height: 32px;
-  border-radius: 16px;
-  background: rgba(255,255,255,0.15);
-  position: relative;
-  cursor: pointer;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-tap-highlight-color: transparent;
-}
-.android-switch.on {
-  background: #3b82f6;
-}
-.switch-thumb {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-.android-switch.on .switch-thumb {
-  transform: translateX(20px);
-}
-
-.prot-desc {
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-}
-
-.android-permission-btn {
-  width: 100%;
-  margin-top: 20px;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
-  padding: 14px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-}
-
-/* Sites List */
-.sites-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 20px;
-}
-.sites-header h3 {
-  font-size: 13px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  margin: 0;
-}
-.add-site-btn {
-  background: rgba(37, 99, 235, 0.15);
-  border: 1px solid rgba(37, 99, 235, 0.3);
-  color: #60a5fa;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-.sites-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 40px;
-}
-.site-item {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.site-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.globe-icon {
-  color: #3b82f6;
-  opacity: 0.8;
-}
-.site-item span {
-  font-size: 15px;
-  font-weight: 500;
-  color: #e2e8f0;
-}
+  .prot-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .prot-status {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+  }
+  .prot-status.active {
+    color: #10b981;
+  }
+  
+  .android-switch {
+    width: 52px;
+    height: 32px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.1);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .android-switch.on {
+    background: #3b82f6;
+  }
+  .switch-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .android-switch.on .switch-thumb {
+    transform: translateX(20px);
+  }
+  
+  .prot-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  .android-permission-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 14px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  
+  .sites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+  .sites-header h3 {
+    font-size: 18px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin: 0;
+  }
+  .add-site-btn {
+    background: rgba(37, 99, 235, 0.15);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    color: #60a5fa;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  
+  .sites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .site-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+  }
+  .site-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .globe-icon {
+    color: #3b82f6;
+    opacity: 0.8;
+  }
+  .site-item span {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e2e8f0;
+  }
 .delete-btn {
   background: none;
   border: none;
