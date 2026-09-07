@@ -32,7 +32,7 @@ const OB_FEATURES = [
   { icon: Target, tag: "FOCO", desc: "Recupera tiempo y atención para aquello que realmente importa.", preview: "focus" },
   { icon: CheckCircle, tag: "HÁBITOS", desc: "Construye rutinas que sustituyan los antiguos patrones.", preview: "habits" },
   { icon: Shield, tag: "PROTECCIÓN", desc: "Bloquea los estímulos que has decidido evitar.", preview: "shield" },
-  { icon: Brain, tag: "IA DE RIESGO", desc: "Identifica momentos en los que tus patrones indican mayor vulnerabilidad.", preview: "risk" },
+  
   { icon: Zap, tag: "PROTOCOLO DE CONTROL", desc: "Cuando aparezca el impulso, sabrás exactamente qué hacer.", preview: "protocol" },
   { icon: Swords, tag: "ASCENSIÓN", desc: "Convierte tu progreso en un reto de transformación personal.", preview: "ranks" },
 ];
@@ -87,8 +87,8 @@ function OnboardingScreen({ onDone, onLogin }) {
   const [analyzeStatus, setAnalyzeStatus] = useState("Analizando respuestas...");
   const [lastSel, setLastSel] = useState(-1);
 
-  const SF = { fontFamily: "'Sora', sans-serif" };
-  const RJ = { fontFamily: "'Rajdhani', sans-serif" };
+  const SF = { fontFamily: "'Oswald', sans-serif" };
+  const RJ = { fontFamily: "'Oswald', sans-serif" };
 
   useEffect(() => {
     if (step !== 0) return;
@@ -172,20 +172,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         </div>
       </div>
     ),
-    risk: (
-      <div className="w-full rounded-2xl p-4 border border-[#10B981]/15" style={{ background: "rgba(0,0,0,0.5)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
-        <div className="flex items-center gap-4">
-          <div className="text-3xl font-extrabold text-[#10B981]" style={{ ...RJ, lineHeight: 1, textShadow: "0 0 20px rgba(16,185,129,0.6)" }}>18%</div>
-          <div>
-            <p className="text-[11px] font-bold text-white mb-0.5">Riesgo estimado bajo</p>
-            <p className="text-[9px] text-white/30">Basado en tus hábitos de hoy</p>
-          </div>
-        </div>
-        <div className="mt-3 w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
-          <div className="h-full rounded-full" style={{ width: "18%", background: "linear-gradient(90deg, #10B981, #34D399)", boxShadow: "0 0 8px rgba(16,185,129,0.6)" }} />
-        </div>
-      </div>
-    ),
+    
     protocol: (
       <div className="w-full rounded-2xl p-4 border border-[#2563EB]/15" style={{ background: "rgba(0,0,0,0.5)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
         <p className="text-[9px] text-white/25 mb-2 tracking-wider">Protocolo activo · Nivel 2</p>
@@ -391,13 +378,13 @@ function OnboardingScreen({ onDone, onLogin }) {
           <div className="flex flex-col items-center gap-4 py-4 ob-d0">
             <EnergyOrb size={88} intensity={orbIntensity} />
             <div className="px-6 py-2.5 rounded-full font-bold text-[11px] tracking-[0.16em] uppercase whitespace-nowrap flex-shrink-0 text-center w-fit"
-              style={{ color: riskColor, background: `${riskColor}12`, border: `1px solid ${riskColor}40`, boxShadow: `0 0 20px ${riskColor}25`, animation: "ob-glow-pulse 2s ease-in-out infinite" }}>
-              NIVEL DE RIESGO: {riskLevel}
-            </div>
+                style={{ color: "#3b82f6", background: `rgba(59,130,246,0.1)`, border: `1px solid rgba(59,130,246,0.4)`, boxShadow: `0 0 20px rgba(59,130,246,0.25)`, animation: "ob-glow-pulse 2s ease-in-out infinite" }}>
+                EVALUACIÓN COMPLETADA
+              </div>
           </div>
           <div className="shrink-0 ob-d1 rounded-2xl p-4 relative overflow-hidden" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${riskColor}50, transparent)` }} />
-            <h3 className="text-base font-bold text-white mb-2.5 leading-snug uppercase" style={SF}>Tu relación con este hábito presenta señales de riesgo.</h3>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent)` }} />
+            <h3 className="text-base font-bold text-white mb-2.5 leading-snug uppercase" style={SF}>Tus respuestas han sido analizadas.</h3>
             <p className="text-sm text-white/40 leading-relaxed">Tus respuestas muestran patrones que podrían estar afectando a tu control, tus hábitos y tus objetivos. Esto no es un diagnóstico, es información para ayudarte.</p>
           </div>
           <div className="shrink-0 ob-d2 rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}>
@@ -551,7 +538,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             {[
               { label: "Nombre", value: obName || "No indicado", color: "" },
               { label: "Edad", value: obAge || "No indicado", color: "" },
-              { label: "Nivel de riesgo", value: riskLevel, color: riskColor },
+              
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] last:border-0">
                 <span className="text-sm text-white/32">{row.label}</span>
@@ -654,7 +641,7 @@ function OnboardingScreen({ onDone, onLogin }) {
             </div>
             <div className="w-full h-px mb-5" style={{ background: "rgba(255,255,255,0.05)" }} />
             <div className="flex flex-col gap-3">
-              {["IA de análisis de riesgo", "Tracker de hábitos", "Bloqueador de sitios", "Protocolo de control", "Centro de mando", "Rangos de Ascensión", "Estadísticas avanzadas"].map((f, fi) => (
+              {["Tracker de hábitos", "Bloqueador de sitios", "Protocolo de control", "Centro de mando", "Rangos de Ascensión", "Estadísticas avanzadas"].map((f, fi) => (
                 <div key={f} className={`flex items-center gap-3 ob-d${Math.min(fi + 1, 7)}`}>
                   <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 8px rgba(37,99,235,0.2)" }}>
                     <Check size={10} className="text-[#60A5FA]" strokeWidth={3} />
