@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Globe, Trash2, Plus, X, Lock, AlertTriangle, Zap } from 'lucide-react';
+import { Shield, Ban, Trash2, Plus, X, Lock, AlertTriangle, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppContext } from '../context/AppContext';
 import '../styles/Control.css';
@@ -114,22 +114,35 @@ const Control = () => {
       <div className="sites-list">
         <AnimatePresence>
           {sites.map((site) => (
-            <motion.div 
-              key={site} 
-              layout
-              initial={{ opacity: 0, height: 0, scale: 0.9 }}
-              animate={{ opacity: 1, height: 'auto', scale: 1 }}
-              exit={{ opacity: 0, height: 0, scale: 0.9, marginLeft: -100 }}
-              transition={{ duration: 0.25 }}
-              className="site-item"
-            >
-              <div className="site-left">
-                <div className="globe-icon"><Globe size={18} /></div>
-                <span>{site}</span>
-              </div>
-              <button className="delete-btn" onClick={() => removeSite(site)}>
-                <Trash2 size={18} />
-              </button>
+              <motion.div 
+                key={site} 
+                layout
+                initial={{ opacity: 0, height: 0, scale: 0.9 }}
+                animate={{ opacity: 1, height: 'auto', scale: 1 }}
+                exit={{ opacity: 0, height: 0, scale: 0.9, marginLeft: -100 }}
+                transition={{ duration: 0.25 }}
+                className="site-item"
+              >
+                <div className="site-left">
+                  <div className="globe-icon" style={{ color: '#ef4444' }}><Ban size={18} strokeWidth={2.5} /></div>
+                  <span style={{ fontSize: '15px' }}>{site}</span>
+                </div>
+                <button 
+                  className="delete-btn" 
+                  onClick={() => removeSite(site)}
+                  style={{
+                    background: 'none',
+                    border: '1px solid rgba(239, 68, 68, 0.4)',
+                    color: '#ef4444',
+                    fontSize: '10px',
+                    fontWeight: '800',
+                    padding: '4px 8px',
+                    borderRadius: '6px',
+                    letterSpacing: '0.5px'
+                  }}
+                >
+                  BLOQUEADO
+                </button>
             </motion.div>
           ))}
           {sites.length === 0 && (
