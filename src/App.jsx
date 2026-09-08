@@ -1,3 +1,4 @@
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Zap } from 'lucide-react';
@@ -6,15 +7,15 @@ import BottomNav from './components/BottomNav';
 import MilestoneOverlay from './components/MilestoneOverlay';
 import PanicRoom from './components/PanicRoom';
 
-import Home from './pages/Home';
-import Habits from './pages/Habits';
-import Profile from './pages/Profile';
-import Onboarding from './pages/Onboarding';
-import Auth from './pages/Auth';
-import Control from './pages/Control';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import SubscriptionTerms from './pages/SubscriptionTerms';
+const Home = lazy(() => import('./pages/Home'));
+const Habits = lazy(() => import('./pages/Habits'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Onboarding = lazy(() => import('./pages/Onboarding'));
+const Auth = lazy(() => import('./pages/Auth'));
+const Control = lazy(() => import('./pages/Control'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const SubscriptionTerms = lazy(() => import('./pages/SubscriptionTerms'));
 
 import './index.css';
 import './styles/App.css';
@@ -66,19 +67,25 @@ const AppContent = () => {
       
       <main className={`main-content ${!isPublicRoute ? 'with-nav' : ''}`}>
         <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Onboarding />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/home" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
-            <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
-            <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
-            <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
-            <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
-            <Route path="/sub-terms" element={<PageWrapper><SubscriptionTerms /></PageWrapper>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={
+            <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+              <div className="w-8 h-8 rounded-full border-2 border-[#2563EB] border-t-transparent animate-spin" />
+            </div>
+          }>
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Onboarding />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/home" element={<PageWrapper><Home /></PageWrapper>} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
+              <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
+              <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+              <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+              <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+              <Route path="/sub-terms" element={<PageWrapper><SubscriptionTerms /></PageWrapper>} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </AnimatePresence>
       </main>
       
