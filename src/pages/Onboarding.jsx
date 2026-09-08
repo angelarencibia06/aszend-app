@@ -119,11 +119,11 @@ function OnboardingScreen({ onDone, onLogin }) {
   const qIdx = step - 3;
   const isEduStep = step >= 16 && step <= 20;
   const eduIdx = step - 16;
-  const isFeatStep = step >= 21 && step <= 26;
+  const isFeatStep = step >= 21 && step <= 25;
   const featIdx = step - 21;
   const showBack = step >= 2 && step !== 14;
 
-  function next() { setStep((s) => Math.min(s + 1, 31)); }
+  function next() { setStep((s) => Math.min(s + 1, 30)); }
 
   function answerQ(qi, ai) {
     setLastSel(ai);
@@ -467,7 +467,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     }
 
     /* 27 — GOALS */
-    if (step === 27) return (
+    if (step === 26) return (
       <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
         <div className="flex-1 flex flex-col justify-center gap-4">
           <div className="shrink-0 ob-d0">
@@ -500,7 +500,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     );
 
     /* 28 — NOTIFICATIONS */
-    if (step === 28) return (
+    if (step === 27) return (
       <div className="flex flex-col min-h-full px-8 pb-8 pt-6">
         <div className="flex-1 flex flex-col items-center justify-center gap-7 text-center">
           <div className="relative ob-d0">
@@ -526,7 +526,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     );
 
     /* 29 — SUMMARY */
-    if (step === 29) return (
+    if (step === 28) return (
       <div className="flex flex-col min-h-full px-5 pb-8 pt-2">
         <div className="flex-1 flex flex-col gap-5 pb-3">
           <div className="flex flex-col items-center gap-3 pt-3 ob-d0">
@@ -578,7 +578,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     );
 
     /* 30 — 7-DAY ROADMAP */
-    if (step === 30) return (
+    if (step === 29) return (
       <div className="flex flex-col min-h-full px-5 pb-8 pt-4">
         <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="shrink-0 ob-d0">
@@ -617,7 +617,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     );
 
     /* 31 — PRICING */
-    if (step === 31) return (
+    if (step === 30) return (
       <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
         <div className="flex-1 flex flex-col gap-4 pb-3">
           <div className="flex flex-col items-center gap-3 pt-2 ob-d0">
