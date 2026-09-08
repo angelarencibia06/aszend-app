@@ -87,8 +87,8 @@ function OnboardingScreen({ onDone, onLogin }) {
   const [analyzeStatus, setAnalyzeStatus] = useState("Analizando respuestas...");
   const [lastSel, setLastSel] = useState(-1);
 
-  const SF = { fontFamily: "'Oswald', sans-serif" };
-  const RJ = { fontFamily: "'Oswald', sans-serif" };
+  const SF = { fontFamily: "'Sora', sans-serif" };
+  const RJ = { fontFamily: "'Sora', sans-serif" };
 
   useEffect(() => {
     if (step !== 0) return;

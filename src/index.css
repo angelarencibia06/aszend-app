@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6, .heading-font, .card-title {
   display: flex;
   flex-direction: column;
   position: relative;
-  max-width: 480px; 
+  max-width: 480px;
   margin: 0 auto;
   background-color: var(--bg-color);
   box-shadow: 0 0 50px rgba(0,229,255,0.05); /* Slight blue ambient */

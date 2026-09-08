@@ -9,9 +9,13 @@
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 0 0 160px 0; /* Increased bottom padding for sticky button */
+  padding: 0;
   display: flex;
   flex-direction: column;
+}
+
+.main-content.with-nav {
+  padding: 0 0 160px 0; /* Increased bottom padding for sticky button */
 }
 
 /* Hide scrollbar for clean app look */

@@ -38,8 +38,8 @@ const AppContent = () => {
   const { isPanicRoomActive, triggerPanicRoom } = useAppContext();
   const location = useLocation();
 
-  const isPublicRoute = location.pathname === '/auth' || location.pathname === '/onboarding';
-  const showProtocolBtn = ['/', '/habits', '/control'].includes(location.pathname);
+  const isPublicRoute = location.pathname === '/' || location.pathname === '/auth' || location.pathname === '/onboarding';
+  const showProtocolBtn = ['/home', '/habits', '/control'].includes(location.pathname);
 
   // DEV BYPASS: Commented out strict funnel so the user can navigate freely
   /*
@@ -64,11 +64,12 @@ const AppContent = () => {
       
       <MilestoneOverlay />
       
-      <main className="main-content">
+      <main className={`main-content ${!isPublicRoute ? 'with-nav' : ''}`}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="/" element={<Onboarding />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/home" element={<PageWrapper><Home /></PageWrapper>} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/habits" element={<PageWrapper><Habits /></PageWrapper>} />
             <Route path="/control" element={<PageWrapper><Control /></PageWrapper>} />
