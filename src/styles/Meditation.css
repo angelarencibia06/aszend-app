@@ -1,0 +1,70 @@
+
+.fade-in-modal {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pop-in {
+  animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.phase-text {
+  animation: phaseTextPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes phaseTextPop {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Pure CSS Breathing Circle */
+.breath-circle, .breath-circle-inner {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0.8);
+  transition: transform 4s ease-in-out;
+}
+
+.breath-circle {
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(37,99,235,0.4) 0%, rgba(29,78,216,0) 70%);
+  box-shadow: 0 0 60px rgba(37,99,235,0.4);
+}
+
+.breath-circle-inner {
+  width: 128px;
+  height: 128px;
+  background: radial-gradient(circle, rgba(37,99,235,0.8) 0%, rgba(29,78,216,0) 70%);
+  box-shadow: 0 0 40px rgba(37,99,235,0.6);
+}
+
+@keyframes breathCycle {
+  0%, 100% { transform: scale(0.8); }
+  25% { transform: scale(1.6); }
+  50% { transform: scale(1.6); }
+  75% { transform: scale(0.8); }
+}
+
+.breath-circle.animating, 
+.breath-circle-inner.animating {
+  animation: breathCycle 16s ease-in-out infinite;
+}
