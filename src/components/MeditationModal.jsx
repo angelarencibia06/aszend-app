@@ -22,17 +22,16 @@ const MeditationModal = ({ onClose }) => {
 
   useEffect(() => {
     let cycleInterval;
-    if (isActive && timeLeft > 0) {
+    let t1, t2, t3;
+
+    if (isActive) {
       const runCycle = () => {
         setPhase('INHALA');
-        setTimeout(() => {
-          if(!isActive) return;
+        t1 = setTimeout(() => {
           setPhase('MANTÉN');
-          setTimeout(() => {
-            if(!isActive) return;
+          t2 = setTimeout(() => {
             setPhase('EXHALA');
-            setTimeout(() => {
-              if(!isActive) return;
+            t3 = setTimeout(() => {
               setPhase('MANTÉN');
             }, 4000);
           }, 4000);
@@ -42,8 +41,14 @@ const MeditationModal = ({ onClose }) => {
       runCycle();
       cycleInterval = setInterval(runCycle, 16000);
     }
-    return () => clearInterval(cycleInterval);
-  }, [isActive, timeLeft]);
+    
+    return () => {
+      clearInterval(cycleInterval);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [isActive]);
 
   const toggleMeditation = (mins) => {
     setTimeLeft(mins * 60);
