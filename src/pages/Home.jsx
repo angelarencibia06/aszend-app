@@ -5,6 +5,7 @@ import { useAppContext } from '../context/AppContext';
 import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
+import MeditationModal from '../components/MeditationModal';
 import '../styles/HomeMockup.css';
 
 const RANKS = [
@@ -56,6 +57,7 @@ const Home = () => {
   // Modals
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showRiskAnalysis, setShowRiskAnalysis] = useState(false);
+  const [showMeditation, setShowMeditation] = useState(false);
   
   // Carousel logic
   const [viewIndex, setViewIndex] = useState(highestUnlockedIndex);
@@ -220,7 +222,7 @@ const Home = () => {
         {/* Action Buttons */}
         <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
             <div className="action-btn-wrapper">
-              <button className="circle-btn" onClick={() => alert("🧘‍♂️ La sala de meditación y respiración (Breathwork) está en desarrollo y llegará en la próxima actualización.")}>
+              <button className="circle-btn" onClick={() => setShowMeditation(true)}>
                 <Wind size={24} strokeWidth={1.5} />
               </button>
               <span className="action-label">Meditar</span>
@@ -295,6 +297,7 @@ const Home = () => {
       {showCheckIn && <DailyCheckIn onClose={() => setShowCheckIn(false)} onComplete={() => setShowCheckIn(false)} />}
       <AnimatePresence>
         {showRiskAnalysis && <RiskAnalysisModal onClose={() => setShowRiskAnalysis(false)} />}
+        {showMeditation && <MeditationModal onClose={() => setShowMeditation(false)} />}
       </AnimatePresence>
 
     </div>
