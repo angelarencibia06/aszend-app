@@ -5,7 +5,7 @@ import '../styles/BottomNav.css';
 const BottomNav = () => {
   return (
     <nav className="bottom-nav glass-panel">
-      <NavLink to="/" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
+      <NavLink to="/home" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>
         <Home size={22} />
         <span>Mando</span>
       </NavLink>

@@ -219,12 +219,12 @@ const Home = () => {
 
         {/* Action Buttons */}
         <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-          <div className="action-btn-wrapper">
-            <button className="circle-btn">
-              <Wind size={24} strokeWidth={1.5} />
-            </button>
-            <span className="action-label">Meditar</span>
-          </div>
+            <div className="action-btn-wrapper">
+              <button className="circle-btn" onClick={() => alert("🧘‍♂️ La sala de meditación y respiración (Breathwork) está en desarrollo y llegará en la próxima actualización.")}>
+                <Wind size={24} strokeWidth={1.5} />
+              </button>
+              <span className="action-label">Meditar</span>
+            </div>
         </div>
       </div>
 
