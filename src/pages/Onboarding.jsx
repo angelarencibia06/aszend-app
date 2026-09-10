@@ -612,50 +612,83 @@ function OnboardingScreen({ onDone, onLogin }) {
     );
 
     /* 31 🔹 PRICING / FINAL EMPOWERMENT */
-    if (step === 30) return (
-      <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
-        <div className="flex-1 flex flex-col gap-4 pb-3 justify-center">
-          <div className="flex flex-col items-center gap-6 pt-2 ob-d0">
-            <EnergyOrb size={100} intensity={1} animated />
-            <div className="text-center">
-              <h2 className="text-[24px] font-extrabold text-white uppercase leading-tight tracking-tight mb-2" style={SF}>
-                ESTÁS AL MANDO
+        if (step === 30) return (
+        <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
+          <div className="flex-1 flex flex-col gap-4 pb-3 justify-center">
+            <div className="flex flex-col items-center gap-3 pt-2 ob-d0">
+              <EnergyOrb size={80} intensity={1} floating />
+              <h2 className="text-[20px] font-extrabold text-white uppercase text-center leading-tight tracking-tight mb-2" style={SF}>
+                ELIGE TU PLAN
               </h2>
-              <p className="text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">
-                Se acabaron las recaídas. Tienes el sistema, las herramientas y la voluntad. Aszend es el vehículo para tu transformación.
-              </p>
             </div>
-          </div>
-          
-          <div className="shrink-0 ob-d1 rounded-2xl p-6 relative overflow-hidden mt-6"
-            style={{ background: "linear-gradient(145deg, rgba(37,99,235,0.08) 0%, rgba(0,0,0,0.6) 100%)", animation: "ob-border-glow 3s ease-in-out infinite" }}>
-            <div style={{ position: "absolute", top: 0, left: "15%", right: "15%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.8), transparent)" }} />
             
-            <div className="flex flex-col gap-4">
-              {[
-                { icon: Shield, text: "Bloqueo impenetrable" },
-                { icon: Wind, text: "Respiración táctica guiada" },
-                { icon: Target, text: "Micro-victorias diarias" }
-              ].map((f, fi) => (
-                <div key={f.text} className={`flex items-center gap-4 ob-d${Math.min(fi + 1, 7)}`}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 12px rgba(37,99,235,0.2)" }}>
-                    <f.icon size={18} className="text-[#60A5FA]" strokeWidth={2} />
+            <div className="flex flex-col gap-3 mt-2">
+              {/* Semanal */}
+              <div className="shrink-0 ob-d1 rounded-2xl p-4 relative overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] tracking-[0.1em] text-blue-400 font-bold uppercase mb-1">Semana</p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-2xl font-extrabold text-white">3,99€</span>
+                      <span className="text-xs text-white/50 mb-1">/sem.</span>
+                    </div>
                   </div>
-                  <span className="text-sm font-semibold text-white/90 tracking-wide">{f.text}</span>
+                  <div className="text-right">
+                    <p className="text-xs text-white/40">≈ 0,57 €/día</p>
+                  </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Mensual */}
+              <div className="shrink-0 ob-d2 rounded-2xl p-4 relative overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] tracking-[0.1em] text-blue-400 font-bold uppercase mb-1">Mes</p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-2xl font-extrabold text-white">9,99€</span>
+                      <span className="text-xs text-white/50 mb-1">/mes</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-white/40">≈ 0,33 €/día</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Anual */}
+              <div className="shrink-0 ob-d3 rounded-2xl p-4 relative overflow-hidden"
+                style={{ background: "linear-gradient(145deg, rgba(37,99,235,0.15) 0%, rgba(0,0,0,0.8) 100%)", border: "1px solid rgba(37,99,235,0.5)", boxShadow: "0 0 20px rgba(37,99,235,0.2)" }}>
+                <div style={{ position: "absolute", top: 0, left: "10%", right: "10%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.8), transparent)" }} />
+                <div style={{ position: "absolute", top: 0, right: 0, background: "#2563EB", padding: "4px 8px", borderBottomLeftRadius: "12px", fontSize: "9px", fontWeight: "bold", textTransform: "uppercase", letterSpacing: "1px" }}>Más popular</div>
+                
+                <div className="flex items-center justify-between mt-1">
+                  <div>
+                    <p className="text-[10px] tracking-[0.1em] text-blue-400 font-bold uppercase mb-1">Año</p>
+                    <div className="flex items-end gap-1">
+                      <span className="text-2xl font-extrabold text-white">59,99€</span>
+                      <span className="text-xs text-white/50 mb-1">/año</span>
+                    </div>
+                  </div>
+                  <div className="text-right mt-3">
+                    <p className="text-xs text-white/70">≈ 0,16 €/día</p>
+                  </div>
+                </div>
+              </div>
             </div>
+            
+            <p className="text-[10px] text-center text-white/30 mt-2 px-4 ob-d4">Cancela cuando quieras. Al continuar aceptas los Términos de Suscripción.</p>
+          </div>
+          <div className="flex flex-col gap-3 ob-d4 mt-auto">
+            <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
+              style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
+              CONTINUAR
+            </button>
+            <button onClick={onLogin} className="text-sm text-white/40 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
           </div>
         </div>
-        <div className="flex flex-col gap-3 ob-d2 mt-auto">
-          <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
-            style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
-            INICIAR ASCENSIÓN
-          </button>
-          <button onClick={onLogin} className="text-sm text-white/40 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
-        </div>
-      </div>
-    );
+      );
 
     return null;
   }
