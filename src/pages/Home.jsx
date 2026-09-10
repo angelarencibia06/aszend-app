@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap, Lock, ChevronLeft } from 'lucide-react';
-import { useAppContext } from '../context/AppContext';
-import { EnergyOrb } from '../components/EnergyOrb';
+import { Headphones, AnimatePresence } from 'framer-motion';
+import { Headphones, Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap, Lock, ChevronLeft } from 'lucide-react';
+import { Headphones, useAppContext } from '../context/AppContext';
+import { Headphones, EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
 import MeditationModal from '../components/MeditationModal';
@@ -220,12 +220,18 @@ const Home = () => {
         )}
 
         {/* Action Buttons */}
-        <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <div className="action-buttons-row" style={{ display: 'flex', justifyContent: 'center', gap: '20px', width: '100%' }}>
             <div className="action-btn-wrapper">
               <button className="circle-btn" onClick={() => setShowMeditation(true)}>
                 <Wind size={24} strokeWidth={1.5} />
               </button>
               <span className="action-label">Meditar</span>
+            </div>
+            <div className="action-btn-wrapper">
+              <button className="circle-btn" onClick={() => alert("🎧 Los Sonidos Relajantes llegarán en la próxima actualización.")}>
+                <Headphones size={24} strokeWidth={1.5} />
+              </button>
+              <span className="action-label">Sonidos</span>
             </div>
         </div>
       </div>

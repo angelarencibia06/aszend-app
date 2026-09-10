@@ -616,48 +616,48 @@ function OnboardingScreen({ onDone, onLogin }) {
       </div>
     );
 
-    /* 31 — PRICING */
+    /* 31 🔹 PRICING / FINAL EMPOWERMENT */
     if (step === 30) return (
       <div className="flex flex-col min-h-full px-5 pb-6 pt-4">
-        <div className="flex-1 flex flex-col gap-4 pb-3">
-          <div className="flex flex-col items-center gap-3 pt-2 ob-d0">
-            <EnergyOrb size={80} intensity={1} floating />
-            <h2 className="text-[20px] font-extrabold text-white uppercase text-center leading-tight" style={SF}>Tu ascensión comienza ahora.</h2>
+        <div className="flex-1 flex flex-col gap-4 pb-3 justify-center">
+          <div className="flex flex-col items-center gap-6 pt-2 ob-d0">
+            <EnergyOrb size={100} intensity={1} animated />
+            <div className="text-center">
+              <h2 className="text-[24px] font-extrabold text-white uppercase leading-tight tracking-tight mb-2" style={SF}>
+                ESTÁS AL MANDO
+              </h2>
+              <p className="text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">
+                Se acabaron las recaídas. Tienes el sistema, las herramientas y la voluntad. Aszend es el vehículo para tu transformación.
+              </p>
+            </div>
           </div>
-          <div className="shrink-0 ob-d1 rounded-2xl p-5 relative overflow-hidden"
+          
+          <div className="shrink-0 ob-d1 rounded-2xl p-6 relative overflow-hidden mt-6"
             style={{ background: "linear-gradient(145deg, rgba(37,99,235,0.08) 0%, rgba(0,0,0,0.6) 100%)", animation: "ob-border-glow 3s ease-in-out infinite" }}>
             <div style={{ position: "absolute", top: 0, left: "15%", right: "15%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.8), transparent)" }} />
-            <div className="flex items-start justify-between mb-5">
-              <div>
-                <p className="text-[9px] tracking-[0.22em] text-[#2563EB] font-bold uppercase mb-1">Plan Premium</p>
-                <h3 className="text-xl font-extrabold text-white tracking-wide"><span className="normal-case">Aszend</span> PRO</h3>
-              </div>
-              <div className="text-right">
-                <p className="text-4xl font-extrabold leading-none" style={{ ...RJ, color: "#fff", textShadow: "0 0 20px rgba(255,255,255,0.1)" }}>
-                  10<span className="text-2xl text-[#60A5FA]">€</span>
-                </p>
-                <p className="text-[10px] text-white/28 mt-0.5">por mes</p>
-              </div>
-            </div>
-            <div className="w-full h-px mb-5" style={{ background: "rgba(255,255,255,0.05)" }} />
-            <div className="flex flex-col gap-3">
-              {["Tracker de hábitos", "Bloqueador de sitios", "Protocolo de control", "Centro de mando", "Rangos de Ascensión", "Estadísticas avanzadas"].map((f, fi) => (
-                <div key={f} className={`flex items-center gap-3 ob-d${Math.min(fi + 1, 7)}`}>
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 8px rgba(37,99,235,0.2)" }}>
-                    <Check size={10} className="text-[#60A5FA]" strokeWidth={3} />
+            
+            <div className="flex flex-col gap-4">
+              {[
+                { icon: Shield, text: "Bloqueo impenetrable" },
+                { icon: Wind, text: "Respiración táctica guiada" },
+                { icon: Target, text: "Micro-victorias diarias" }
+              ].map((f, fi) => (
+                <div key={f.text} className={`flex items-center gap-4 ob-d${Math.min(fi + 1, 7)}`}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)", boxShadow: "0 0 12px rgba(37,99,235,0.2)" }}>
+                    <f.icon size={18} className="text-[#60A5FA]" strokeWidth={2} />
                   </div>
-                  <span className="text-sm text-white/55">{f}</span>
+                  <span className="text-sm font-semibold text-white/90 tracking-wide">{f.text}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-3 ob-d2">
+        <div className="flex flex-col gap-3 ob-d2 mt-auto">
           <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
-            EMPEZAR CON <span className="normal-case">Aszend</span>
+            INICIAR ASCENSIÓN
           </button>
-          <button onClick={onLogin} className="text-sm text-white/28 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
+          <button onClick={onLogin} className="text-sm text-white/40 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
         </div>
       </div>
     );
@@ -709,5 +709,5 @@ function OnboardingScreen({ onDone, onLogin }) {
 
 export default function Onboarding() {
   const navigate = useNavigate();
-  return <OnboardingScreen onDone={() => navigate('/home')} onLogin={() => navigate('/auth')} />;
+  return <OnboardingScreen onDone={() => navigate('/auth')} onLogin={() => navigate('/auth')} />;
 }
