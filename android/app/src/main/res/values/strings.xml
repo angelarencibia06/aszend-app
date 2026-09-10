@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Aszend</string>
+    <string name="title_activity_main">Aszend</string>
+    <string name="package_name">com.aszend.app</string>
+    <string name="custom_url_scheme">com.aszend.app</string>
+</resources>

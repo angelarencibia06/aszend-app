@@ -28,7 +28,7 @@ const Auth = () => {
     }
     setIsAuthenticated(true);
     setHasCompletedOnboarding(true); // they are done with all setup
-    navigate('/');
+    navigate('/home');
   };
 
   return (
