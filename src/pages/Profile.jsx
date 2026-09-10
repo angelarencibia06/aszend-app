@@ -10,7 +10,7 @@ const RANKS = [
   { id: 2, name: 'AURA', number: '02', color1: '#c084fc', color2: '#7e22ce', shadow: 'rgba(168, 85, 247, 0.5)', req: 7, level: 2 },
   { id: 3, name: 'NÚCLEO', number: '03', color1: '#34d399', color2: '#059669', shadow: 'rgba(16, 185, 129, 0.5)', req: 30, level: 3 },
   { id: 4, name: 'ÉTER', number: '04', color1: '#fb923c', color2: '#ea580c', shadow: 'rgba(249, 115, 22, 0.5)', req: 90, level: 4 },
-  { id: 5, name: 'ASCENSIÓN', number: '05', color1: '#fcd34d', color2: '#d97706', shadow: 'rgba(252, 211, 77, 0.5)', req: 365, level: 5 },
+  { id: 5, name: 'DOMINIO', number: '05', color1: '#fcd34d', color2: '#d97706', shadow: 'rgba(252, 211, 77, 0.5)', req: 365, level: 5 },
 ];
 
 const BADGES = [
@@ -73,7 +73,7 @@ const Profile = () => {
             <button onClick={() => setActiveMenu(null)} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', padding: '10px', borderRadius: '50%', cursor: 'pointer' }}>
               <ChevronLeft size={24} />
             </button>
-            <h2 style={{ fontSize: '22px', margin: 0, fontFamily: 'Oswald', letterSpacing: '1px' }}>RANGOS DE ASCENSIÓN</h2>
+            <h2 style={{ fontSize: '22px', margin: 0, fontFamily: 'Oswald', letterSpacing: '1px' }}>RANGOS DE DOMINIO</h2>
           </div>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -265,7 +265,7 @@ const Profile = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <div style={{ width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", transform: "scale(0.5)", transformOrigin: "center" }}><EnergyOrb size={56} rankIndex={activeRankDef.level - 1} animated={false} /></div>
               <div>
-                <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Rangos de Ascensión</p>
+                <p style={{ margin: '0 0 3px 0', fontWeight: '600', fontSize: '14px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>Rangos de Dominio</p>
                 <p style={{ margin: 0, fontSize: '11px', color: '#9ca3af' }}>{unlockedRanksCount}/5 Desbloqueados</p>
               </div>
             </div>

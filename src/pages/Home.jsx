@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Headphones, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { Headphones, Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap, Lock, ChevronLeft } from 'lucide-react';
-import { Headphones, useAppContext } from '../context/AppContext';
-import { Headphones, EnergyOrb } from '../components/EnergyOrb';
+import { useAppContext } from '../context/AppContext';
+import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
 import MeditationModal from '../components/MeditationModal';
@@ -13,7 +13,7 @@ const RANKS = [
   { id: 2, name: 'AURA', number: '02', core: '#8b5cf6', mid: '#7c3aed', outer: '#5b21b6', req: 7, level: 2 },
   { id: 3, name: 'NÚCLEO', number: '03', core: '#10b981', mid: '#059669', outer: '#047857', req: 30, level: 3 },
   { id: 4, name: 'ÉTER', number: '04', core: '#f59e0b', mid: '#d97706', outer: '#b45309', req: 90, level: 4 },
-  { id: 5, name: 'ASCENSIÓN', number: '05', core: '#f59e0b', mid: '#ea580c', outer: '#9a3412', req: 365, level: 5 },
+  { id: 5, name: 'DOMINIO', number: '05', core: '#f59e0b', mid: '#ea580c', outer: '#9a3412', req: 365, level: 5 },
 ];
 
 const Home = () => {

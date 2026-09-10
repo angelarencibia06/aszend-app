@@ -78,7 +78,7 @@ const PanicRoom = () => {
             <Activity size={64} color="#3b82f6" style={{ margin: '0 auto 30px' }} />
             <h2 style={{ textAlign: 'center', fontSize: '24px', marginBottom: '15px' }}>EVALUACIÓN DE ESTADO</h2>
             <p style={{ textAlign: 'center', color: '#9ca3af', marginBottom: '50px', fontSize: '16px', lineHeight: '1.5' }}>
-              Has quemado la energía inicial de la ansiedad.<br/>Sé completamente honesto contigo mismo:<br/><br/>
+              Has quemado la enfoque inicial de la ansiedad.<br/>Sé completamente honesto contigo mismo:<br/><br/>
               <strong style={{ color: '#fff' }}>¿Sigues sintiendo una fuerte tentación de recaer?</strong>
             </p>
 

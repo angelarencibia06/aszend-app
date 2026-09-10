@@ -16,14 +16,14 @@ const OB_QUESTIONS = [
   { q: "Has sentido que lo consumes aunque realmente no quieras?", opts: ["Nunca", "Alguna vez", "Con frecuencia", "Sí, muy a menudo"] },
   { q: "¿Cuánto tiempo llevas con este hábito?", opts: ["Menos de 1 año", "1 a 3 años", "3 a 5 años", "Más de 5 años"] },
   { q: "¿Cómo te sientes justo después?", opts: ["Neutro", "Un poco culpable", "Bastante mal", "Muy mal, arrepentido"] },
-  { q: "¿Afecta a tu concentración o energía durante el día?", opts: ["No noto diferencia", "Ligeramente", "Bastante", "Mucho, es notable"] },
+  { q: "¿Afecta a tu concentración o enfoque durante el día?", opts: ["No noto diferencia", "Ligeramente", "Bastante", "Mucho, es notable"] },
   { q: "¿Qué te motivó a descargar esta app?", opts: ["Curiosidad", "Quiero mejorar", "Siento que tengo un problema", "Necesito ayuda urgente"] },
 ];
 
 const OB_EDU = [
   { icon: RefreshCw, title: "NO ES SOLO\nUNA COSTUMBRE.", body: "Los comportamientos repetidos activan circuitos de recompensa que con el tiempo pueden volverse difíciles de controlar sin las herramientas adecuadas." },
   { icon: Brain, title: "LOS HÁBITOS REPETIDOS\nCREAN PATRONES.", body: "Cada vez que repites un comportamiento, el cerebro lo automatiza. El primer paso para cambiar es ser consciente de esos patrones." },
-  { icon: Shuffle, title: "SIEMPRE PUEDES\nCAMBIAR EL CICLO.", body: "El cambio no es instantáneo. Con las estrategias correctas y constancia, puedes redirigir tu energía hacia lo que realmente quieres." },
+  { icon: Shuffle, title: "SIEMPRE PUEDES\nCAMBIAR EL CICLO.", body: "El cambio no es instantáneo. Con las estrategias correctas y constancia, puedes redirigir tu enfoque hacia lo que realmente quieres." },
   { icon: Target, title: "NO SE TRATA DE CULPA.\nSE TRATA DE CONTROL.", body: "Aszend no te juzga. Te da herramientas para entender tus patrones y tomar decisiones conscientes." },
   { icon: Zap, title: "Y AHORA TIENES UN\nSISTEMA PARA EMPEZAR.", body: "Has dado el primer paso. A partir de hoy, Aszend te acompañará en cada etapa de tu transformación." },
 ];
@@ -34,7 +34,7 @@ const OB_FEATURES = [
   { icon: Shield, tag: "PROTECCIÓN", desc: "Bloquea los estímulos que has decidido evitar.", preview: "shield" },
   
   { icon: Zap, tag: "PROTOCOLO DE CONTROL", desc: "Cuando aparezca el impulso, sabrás exactamente qué hacer.", preview: "protocol" },
-  { icon: Swords, tag: "ASCENSIÓN", desc: "Convierte tu progreso en un reto de transformación personal.", preview: "ranks" },
+  { icon: Swords, tag: "DOMINIO", desc: "Convierte tu progreso en un reto de transformación personal.", preview: "ranks" },
 ];
 
 const OB_SYMPTOMS = [
@@ -51,7 +51,7 @@ const OB_GOALS = [
 const OB_DAYS7 = [
   { day: 1, title: "ROMPER EL AUTOMÁTICO", desc: "Toma conciencia de tus patrones actuales." },
   { day: 2, title: "RECUPERAR EL CONTROL", desc: "Aprende a gestionar el impulso en el momento." },
-  { day: 3, title: "CONSTRUIR FOCO", desc: "Redirige tu energía hacia objetivos claros." },
+  { day: 3, title: "CONSTRUIR FOCO", desc: "Redirige tu enfoque hacia objetivos claros." },
   { day: 4, title: "FORTALECER HÁBITOS", desc: "Establece rutinas que sustituyan los patrones anteriores." },
   { day: 5, title: "REDUCIR DISTRACCIONES", desc: "Configura tu entorno para proteger tu progreso." },
   { day: 6, title: "CONSOLIDAR DISCIPLINA", desc: "Refuerza lo construido y prepárate para el largo plazo." },
@@ -216,7 +216,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         <div className="text-center mt-10 relative z-10">
           <h1 style={{ ...SF, animation: "ob-wordmark 0.9s cubic-bezier(0.22,1,0.36,1) 0.3s both", fontSize: 38, fontWeight: 800, letterSpacing: "0.22em", color: "#fff" }}>Aszend</h1>
           <p style={{ animation: "ob-slide-up 0.7s cubic-bezier(0.22,1,0.36,1) 0.9s both", fontSize: 11, letterSpacing: "0.3em", color: "#2563EB", fontWeight: 600, textTransform: "uppercase", marginTop: 10 }}>
-            TRANSMUTA TU ENERGÍA.
+            FORJA TU DISCIPLINA.
           </p>
         </div>
       </div>
@@ -572,7 +572,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         </div>
         <button onClick={next} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
           style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 4px 20px rgba(37,99,235,0.5)" }}>
-          COMENZAR MI ASCENSIÓN
+          COMENZAR MI DOMINIO
         </button>
       </div>
     );
@@ -655,7 +655,7 @@ function OnboardingScreen({ onDone, onLogin }) {
         <div className="flex flex-col gap-3 ob-d2 mt-auto">
           <button onClick={() => onDone(obName)} className="w-full py-5 rounded-full text-base font-extrabold text-white uppercase tracking-widest"
             style={{ background: "linear-gradient(135deg,#2563EB,#1D4ED8)", boxShadow: "0 6px 28px rgba(37,99,235,0.6), 0 1px 0 rgba(255,255,255,0.1) inset" }}>
-            INICIAR ASCENSIÓN
+            INICIAR DOMINIO
           </button>
           <button onClick={onLogin} className="text-sm text-white/40 text-center py-2.5 active:opacity-70 transition-opacity">Ya tengo una cuenta</button>
         </div>

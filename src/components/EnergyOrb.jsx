@@ -5,7 +5,7 @@ const RANKS = [
   { id: 2, name: 'AURA', number: '02', core: '#a855f7', mid: '#9333ea', outer: '#7e22ce', req: 7, level: 2 },
   { id: 3, name: 'NÚCLEO', number: '03', core: '#10b981', mid: '#059669', outer: '#047857', req: 30, level: 3 },
   { id: 4, name: 'ÉTER', number: '04', core: '#f97316', mid: '#ea580c', outer: '#c2410c', req: 90, level: 4 },
-  { id: 5, name: 'ASCENSIÓN', number: '05', core: '#facc15', mid: '#eab308', outer: '#ca8a04', req: 365, level: 5 },
+  { id: 5, name: 'DOMINIO', number: '05', core: '#facc15', mid: '#eab308', outer: '#ca8a04', req: 365, level: 5 },
 ];
 
 export function EnergyOrb({
@@ -57,7 +57,7 @@ export function EnergyOrb({
           </>
         )}
         
-        {/* ASCENSIÓN (4) */}
+        {/* DOMINIO (4) */}
         {rankIndex === 4 && (
           <>
             <ellipse cx={center} cy={center} rx={size * 0.35} ry={size * 0.08} transform={`rotate(0 ${center} ${center})`} />
