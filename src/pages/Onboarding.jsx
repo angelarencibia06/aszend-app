@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Check, ChevronLeft, Zap, Shield, Brain, 
+  Check, ChevronLeft, Zap, Shield, Brain, Wind, 
   Target, RefreshCw, Shuffle, CheckCircle, Swords, Bell
 } from 'lucide-react';
 import '../styles/App.css';
