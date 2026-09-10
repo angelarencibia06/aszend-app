@@ -162,9 +162,7 @@ function OnboardingScreen({ onDone, onLogin }) {
     ),
     shield: (
       <div className="w-full rounded-2xl p-4 border border-[#10B981]/20 flex items-center gap-4" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(0,0,0,0.6) 100%)", boxShadow: "0 4px 24px rgba(16,185,129,0.08)" }}>
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.25)", boxShadow: "0 0 20px rgba(16,185,129,0.2)" }}>
-          <Shield size={22} className="text-[#10B981]" />
-        </div>
+        <div className="flex-shrink-0"><Shield size={28} className="text-[#10B981]" strokeWidth={1.5} /></div>
         <div>
           <p className="text-[11px] font-bold text-[#10B981] tracking-wider mb-0.5">PROTECCIÓN ACTIVA</p>
           <p className="text-[10px] text-white/40">12 sitios bloqueados</p>
@@ -423,10 +421,7 @@ function OnboardingScreen({ onDone, onLogin }) {
           style={{ background: "radial-gradient(ellipse at 50% 35%, rgba(37,99,235,0.08) 0%, transparent 60%)" }}>
           <div style={{ position: "absolute", top: 0, left: "25%", right: "25%", height: 1, background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.4), transparent)" }} />
           <div className="flex-1 flex flex-col items-center justify-center gap-7 text-center">
-            <div className="shrink-0 ob-d0 w-20 h-20 rounded-2xl flex items-center justify-center text-4xl"
-              style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.2)", boxShadow: "0 0 30px rgba(37,99,235,0.15), inset 0 1px 0 rgba(255,255,255,0.06)" }}>
-              <IconComponent size={36} className="text-[#3B82F6]" />
-            </div>
+            <div className="shrink-0 ob-d0 mb-2"><IconComponent size={48} className="text-[#3B82F6]" strokeWidth={1.5} style={{ filter: "drop-shadow(0 0 12px rgba(37,99,235,0.4))" }} /></div>
             <div className="shrink-0 ob-d1">
               <h2 className="text-[20px] font-extrabold text-white leading-tight mb-4 uppercase whitespace-pre-line" style={SF}>{slide.title}</h2>
               <p className="text-base text-white/38 leading-relaxed">{slide.body}</p>

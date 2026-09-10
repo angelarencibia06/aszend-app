@@ -1,0 +1,50 @@
+143:             <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, background: h >= 88 ? "linear-gradient(180deg,#60A5FA,#2563EB)" : "rgba(37,99,235,0.45)" }} />
+144:           ))}
+145:         </div>
+146:         <div className="flex justify-between mt-2">{["L","M","X","J","V","S","D"].map((d) => <span key={d} className="text-[8px] text-white/20">{d}</span>)}</div>
+147:       </div>
+148:     ),
+149:     habits: (
+150:       <div className="w-full rounded-2xl p-4 border border-white/[0.06]" style={{ background: "rgba(0,0,0,0.5)", boxShadow: "0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+151:         {[{ h: "Dormir 7 horas", done: true }, { h: "Entrenar", done: true }, { h: "Deep Work 4h", done: false }].map(({ h, done }) => (
+152:           <div key={h} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
+153:             <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0" style={{ background: done ? "#2563EB" : "transparent", border: done ? "none" : "1px solid rgba(255,255,255,0.15)", boxShadow: done ? "0 0 10px rgba(37,99,235,0.5)" : "none" }}>
+154:               {done && <Check size={10} className="text-white" strokeWidth={3} />}
+155:             </div>
+156:             <span className={`text-sm font-medium ${done ? "text-white" : "text-white/35"}`}>{h}</span>
+157:             {done && <span className="ml-auto text-[9px] text-[#10B981] font-bold">✓</span>}
+158:           </div>
+159:         ))}
+160:       </div>
+161:     ),
+162:     shield: (
+163:       <div className="w-full rounded-2xl p-4 border border-[#10B981]/20 flex items-center gap-4" style={{ background: "linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(0,0,0,0.6) 100%)", boxShadow: "0 4px 24px rgba(16,185,129,0.08)" }}>
+164:         <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.25)", boxShadow: "0 0 20px rgba(16,185,129,0.2)" }}>
+165:           <Shield size={22} className="text-[#10B981]" />
+166:         </div>
+167:         <div>
+168:           <p className="text-[11px] font-bold text-[#10B981] tracking-wider mb-0.5">PROTECCIÓN ACTIVA</p>
+169:           <p className="text-[10px] text-white/40">12 sitios bloqueados</p>
+170:           <div className="flex gap-1 mt-1.5">{[1,2,3,4,5].map((i) => <div key={i} className="w-4 h-1 rounded-full bg-[#10B981]/40" />)}</div>
+171:         </div>
+172:       </div>
+173:     ),
+174:     
+175:     protocol: (
+176:       <div className="w-full rounded-2xl p-4 border border-[#2563EB]/15" style={{ background: "rgba(0,0,0,0.5)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>
+177:         <p className="text-[9px] text-white/25 mb-2 tracking-wider">Protocolo activo · Nivel 2</p>
+178:         <div className="text-3xl font-bold text-white mb-3" style={{ ...RJ, textShadow: "0 0 20px rgba(255,255,255,0.15)" }}>09:42</div>
+179:         <div className="w-full h-1 bg-white/[0.06] rounded-full overflow-hidden">
+180:           <div className="h-full rounded-full ob-shimmer-bar" style={{ width: "33%" }} />
+181:         </div>
+182:         <p className="text-[9px] text-white/25 mt-2">Respira. Aguanta 10 minutos.</p>
+183:       </div>
+184:     ),
+185:     ranks: (
+186:       <div className="w-full rounded-2xl p-4 border border-[#2563EB]/20 flex items-center gap-4" style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(0,0,0,0.6) 100%)", boxShadow: "0 4px 24px rgba(37,99,235,0.1)" }}>
+187:         <div className="text-3xl" style={{ filter: "drop-shadow(0 0 12px rgba(37,99,235,0.7))" }}>
+188:           <Swords size={32} className="text-[#3B82F6]" />
+189:         </div>
+190:         <div>
+191:           <p className="text-[11px] font-bold text-[#2563EB] uppercase tracking-widest mb-0.5">Guerrero</p>
+192:           <p className="text-[10px] text-white/40">23 días de racha activa</p>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Headphones, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { Headphones, Trophy, Check, Info, LineChart, ChevronRight, Wind, Zap, Lock, ChevronLeft } from 'lucide-react';
-import { Headphones, useAppContext } from '../context/AppContext';
-import { Headphones, EnergyOrb } from '../components/EnergyOrb';
+import { useAppContext } from '../context/AppContext';
+import { EnergyOrb } from '../components/EnergyOrb';
 import DailyCheckIn from '../components/DailyCheckIn';
 import RiskAnalysisModal from '../components/RiskAnalysisModal';
 import MeditationModal from '../components/MeditationModal';
