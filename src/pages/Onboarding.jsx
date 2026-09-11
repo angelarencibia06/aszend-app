@@ -444,10 +444,9 @@ function OnboardingScreen({ onDone, onLogin }) {
           <div className="flex-1 flex flex-col justify-center gap-6">
             <div className="text-center ob-d0">
               <p className="text-[9px] tracking-[0.22em] font-bold uppercase mb-5" style={{ color: "#2563EB" }}>AHORA CONSTRUYAMOS TU NUEVA REALIDAD.</p>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)", boxShadow: "0 0 28px rgba(37,99,235,0.2)" }}>
-                <IconComp size={30} className="text-[#3B82F6]" />
-              </div>
+              <div className="flex items-center justify-center mx-auto mb-4">
+                  <IconComp size={32} className="text-[#3B82F6]" />
+                </div>
               <p className="text-[9px] font-bold tracking-[0.18em] uppercase mb-2" style={{ color: "rgba(255,255,255,0.3)" }}>{feat.tag}</p>
               <h2 className="text-[16px] font-bold text-white leading-snug" style={SF}>{feat.desc}</h2>
             </div>
@@ -634,9 +633,7 @@ function OnboardingScreen({ onDone, onLogin }) {
                       <span className="text-xs text-white/50 mb-1">/sem.</span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-white/40">≈ 0,57 €/día</p>
-                  </div>
+                  
                 </div>
               </div>
 
@@ -651,9 +648,7 @@ function OnboardingScreen({ onDone, onLogin }) {
                       <span className="text-xs text-white/50 mb-1">/mes</span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-white/40">≈ 0,33 €/día</p>
-                  </div>
+                  
                 </div>
               </div>
 
@@ -671,9 +666,7 @@ function OnboardingScreen({ onDone, onLogin }) {
                       <span className="text-xs text-white/50 mb-1">/año</span>
                     </div>
                   </div>
-                  <div className="text-right mt-3">
-                    <p className="text-xs text-white/70">≈ 0,16 €/día</p>
-                  </div>
+                  
                 </div>
               </div>
             </div>

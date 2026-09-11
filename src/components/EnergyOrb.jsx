@@ -67,7 +67,7 @@ export function EnergyOrb({
             {/* Outer dashed circle */}
             <circle cx={center} cy={center} r={size * 0.45} strokeDasharray="6 6" strokeWidth="2" strokeOpacity="0.5" />
             {/* Intense glow ray for sun */}
-            {!locked && <circle cx={center} cy={center} r={size * 0.3} fill={`url(#${id}_beam)`} opacity="0.5" stroke="none" filter="url(#glowFilter)" />}
+            {!locked && <circle cx={center} cy={center} r={size * 0.3} fill={`url(#${id}_beam)`} opacity="0.5" stroke="none"  />}
           </>
         )}
       </g>
@@ -102,14 +102,7 @@ export function EnergyOrb({
             <stop offset="100%" stopColor={c.core} stopOpacity="0" />
           </radialGradient>
 
-          {/* Glow filter */}
-          <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
+          
         </defs>
 
         {/* Ambient background glow */}
@@ -124,7 +117,7 @@ export function EnergyOrb({
           cy={center} 
           r={orbRadius} 
           fill={`url(#${id}_core)`} 
-          filter={!locked && animated ? `drop-shadow(0 0 20px ${c.core}80)` : "none"}
+          
           style={{
             transformBox: 'fill-box', 
             transformOrigin: 'center',
